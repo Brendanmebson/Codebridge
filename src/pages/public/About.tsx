@@ -139,7 +139,7 @@ const About: React.FC = () => {
         background: heroGradient,
 
         overflow: 'hidden',
-                paddingTop: { xs: 7, md: 8 },
+        paddingTop: { xs: 7, md: 8 },
         paddingBottom: { xs: 12, md: 20 },
       }}>
         {/* Blobs */}
@@ -155,7 +155,7 @@ const About: React.FC = () => {
           }} />
         ))}
 
-                {/* Shapes */}
+        {/* Shapes */}
         <Box sx={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' }}>
           <Box sx={{
             position: 'absolute', top: '-100px', right: '-100px',
@@ -218,25 +218,7 @@ const About: React.FC = () => {
         <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
           {/* Overline badge */}
           <Box sx={{ display: 'flex', justifyContent: 'center', mb: 5 }}>
-            <Box sx={{
-              display: 'inline-flex', alignItems: 'center', gap: 1,
-              px: 2.5, py: 1,
-              border: '1px solid rgba(255,255,255,0.25)',
-              borderRadius: '100px',
-              backdropFilter: 'blur(12px)',
-              background: 'rgba(255,255,255,0.08)',
-            }}>
-              <Box sx={{
-                width: 7, height: 7, borderRadius: '50%',
-                background: palette.secondary.light,
-                boxShadow: `0 0 8px ${palette.secondary.light}`,
-                animation: 'blink 2.5s ease infinite',
-                '@keyframes blink': { '0%,100%': { opacity: 1 }, '50%': { opacity: 0.3 } },
-              }} />
-              <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.88)', letterSpacing: '0.06em', fontWeight: 500 }}>
-                Registered Cooperative Society · Est. 2016
-              </Typography>
-            </Box>
+
           </Box>
 
           {/* Centered headline */}

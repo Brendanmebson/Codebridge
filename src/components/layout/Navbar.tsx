@@ -22,7 +22,9 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
 import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
 import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
+import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import BusinessIcon from '@mui/icons-material/Business';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
@@ -37,7 +39,7 @@ const Navbar: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, logout } = useAuth();
+  const { user, member, logout } = useAuth();
 
   const isDashboard = location.pathname.startsWith('/dashboard');
 
@@ -204,8 +206,8 @@ const Navbar: React.FC = () => {
                 <GroupsIcon sx={{ fontSize: 18, color: '#fff' }} />
               </Box>
               <Box sx={{ minWidth: 0 }}>
-                <Typography variant="body2" sx={{ fontWeight: 600, color: palette.text.primary, lineHeight: 1.2, noWrap: true }}>
-                  {user.email?.split('@')[0] ?? 'Member'}
+                <Typography variant="body2" noWrap sx={{ fontWeight: 600, color: palette.text.primary, lineHeight: 1.2 }}>
+                  {member?.email?.split('@')[0] ?? 'Member'}
                 </Typography>
                 <Typography variant="caption" sx={{ color: palette.text.secondary }}>Active Member</Typography>
               </Box>
@@ -443,7 +445,7 @@ const Navbar: React.FC = () => {
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                     }}>
                       <Typography sx={{ fontSize: '0.7rem', fontWeight: 700, color: '#fff', fontFamily: theme.typography.fontFamily }}>
-                        {(user.email?.[0] ?? 'M').toUpperCase()}
+                        {(member?.email?.[0] ?? 'M').toUpperCase()}
                       </Typography>
                     </Box>
                     <Typography variant="caption" sx={{
@@ -451,7 +453,7 @@ const Navbar: React.FC = () => {
                       fontWeight: 500, color: palette.text.primary,
                       maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                     }}>
-                      {user.email?.split('@')[0] ?? 'Member'}
+                      {member?.email?.split('@')[0] ?? 'Member'}
                     </Typography>
                   </Box>
 

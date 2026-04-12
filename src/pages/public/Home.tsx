@@ -7,7 +7,6 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import StarIcon from '@mui/icons-material/Star';
@@ -175,7 +174,7 @@ const Home: React.FC = () => {
         paddingBottom: { xs: 12, md: 14 },
       }}>
 
-                 <Box sx={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+        <Box sx={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
           <Box sx={{
             position: 'absolute', top: '-120px', right: '-120px',
             width: { xs: 340, md: 560 }, height: { xs: 340, md: 560 },
@@ -215,7 +214,7 @@ const Home: React.FC = () => {
             }} />
           ))}
         </Box>
-                {/* Soft blobs */}
+        {/* Soft blobs */}
         {[
           { size: 700, top: -200, right: -200, opacity: 0.14 },
           { size: 500, bottom: -150, left: -150, opacity: 0.12 },
@@ -275,25 +274,7 @@ const Home: React.FC = () => {
                 to: { opacity: 1, transform: 'translateY(0)' },
               },
             }}>
-              <Box sx={{
-                display: 'inline-flex', alignItems: 'center', gap: 1,
-                px: 2.5, py: 1,
-                border: '1px solid rgba(255,255,255,0.25)',
-                borderRadius: '100px', mb: 4,
-                backdropFilter: 'blur(12px)',
-                background: 'rgba(255,255,255,0.08)',
-              }}>
-                <Box sx={{
-                  width: 7, height: 7, borderRadius: '50%',
-                  background: palette.secondary.light,
-                  boxShadow: `0 0 8px ${palette.secondary.light}`,
-                  animation: 'blink 2.5s ease infinite',
-                  '@keyframes blink': { '0%,100%': { opacity: 1 }, '50%': { opacity: 0.3 } },
-                }} />
-                <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.88)', letterSpacing: '0.06em', fontWeight: 500 }}>
-                  Trusted by 1,200+ Members across Nigeria
-                </Typography>
-              </Box>
+
 
               <Typography variant="h1" sx={{
                 color: '#fff',

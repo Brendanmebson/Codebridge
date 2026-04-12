@@ -40,6 +40,9 @@ import Governance from './pages/public/Governance';
 import PrivacyPolicy from './pages/public/PrivacyPolicy';
 import TermsAndConditions from './pages/public/TermsAndConditions';
 import LoanPolicy from './pages/public/LoanPolicy';
+import Exco from './pages/public/Exco';
+import Gallery from './pages/public/Gallery';
+import Businesses from './pages/public/Businesses';
 
 // Admin Pages
 import AdminDashboard from './pages/Admin/AdminDashboard';
@@ -160,6 +163,9 @@ const AppRoutes: React.FC = () => {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/loan-policy" element={<LoanPolicy />} />
           <Route path="/termsandconditions" element={<TermsAndConditions />} />
+          <Route path="/exco" element={<Exco />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/businesses" element={<Businesses />} />
 
           {/* Auth Routes */}
           <Route path="/login" element={<Login />} />

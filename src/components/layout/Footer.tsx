@@ -21,7 +21,9 @@ const Footer: React.FC = () => {
     { label: 'About Us', to: '/about' },
     { label: 'Our Services', to: '/services' },
     { label: 'Membership', to: '/membership' },
-    { label: 'Loan Calculator', to: '/loan-calculator' },
+    { label: 'Exco', to: '/exco' },
+    { label: 'Gallery', to: '/gallery' },
+    { label: 'Businesses', to: '/businesses' },
     { label: 'Contact Us', to: '/contact' },
   ];
 
