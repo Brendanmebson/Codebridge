@@ -253,26 +253,6 @@ const Navbar: React.FC = () => {
             >
               Login
             </Button>
-            <Button
-              fullWidth
-              component={Link}
-              to="/register"
-              onClick={handleDrawerToggle}
-              variant="contained"
-              endIcon={<ArrowForwardIcon sx={{ fontSize: 16 }} />}
-              sx={{
-                background: `linear-gradient(135deg, ${palette.primary.main}, ${palette.primary.dark})`,
-                boxShadow: `0 6px 20px ${palette.primary.main}35`,
-                borderRadius: `${br}px`,
-                textTransform: 'none',
-                fontFamily: theme.typography.fontFamily,
-                fontWeight: 600,
-                py: 1.25,
-                '&:hover': { boxShadow: `0 10px 28px ${palette.primary.main}45` },
-              }}
-            >
-              Get Started
-            </Button>
           </Box>
         )}
 

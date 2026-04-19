@@ -23,7 +23,7 @@ import {
   CircularProgress,
 } from '@mui/material';
 import { format } from 'date-fns';
-import api from '../../utils/api';
+import { supabase } from '../../config/supabase';
 import type { PendingLoan } from '../../types';
 
 const LoanApprovals: React.FC = () => {
@@ -45,15 +45,16 @@ const LoanApprovals: React.FC = () => {
   const fetchPendingLoans = async () => {
     try {
       setLoading(true);
-      const response = await api.get('/admin/loans/pending');
-      setLoans(response.data.loans);
-    } catch (err: unknown) {
-      if (err && typeof err === 'object' && 'response' in err) {
-        const error = err as { response?: { data?: { error?: string } } };
-        setError(error.response?.data?.error || 'Failed to load pending loans');
-      } else {
-        setError('Failed to load pending loans');
-      }
+      const { data, error: fetchError } = await supabase
+        .from('loans')
+        .select('*, member:members(*)')
+        .eq('status', 'pending');
+        
+      if (fetchError) throw fetchError;
+      setLoans((data as any) || []);
+    } catch (err: any) {
+      console.error('Fetch pending loans error:', err);
+      setError(err.message || 'Failed to load pending loans');
     } finally {
       setLoading(false);
     }
@@ -66,11 +67,21 @@ const LoanApprovals: React.FC = () => {
     setError('');
 
     try {
-      await api.patch(`/admin/loans/${selectedLoan.id}/status`, {
-        action,
-        amountApproved: amountApproved ? parseFloat(amountApproved) : undefined,
-        rejectionReason: rejectionReason || undefined,
-      });
+      let updateData: any = {};
+      if (action === 'approve') {
+        updateData = { status: 'approved', amount_approved: amountApproved ? parseFloat(amountApproved) : selectedLoan.amount_requested, approval_date: new Date().toISOString() };
+      } else if (action === 'reject') {
+        updateData = { status: 'rejected' };
+      } else if (action === 'disburse') {
+        updateData = { status: 'disbursed', disbursement_date: new Date().toISOString(), outstanding_balance: selectedLoan.amount_approved || selectedLoan.amount_requested };
+      }
+
+      const { error: updateError } = await supabase
+        .from('loans')
+        .update(updateData)
+        .eq('id', selectedLoan.id);
+
+      if (updateError) throw updateError;
 
       setSuccess(`Loan ${action}d successfully`);
       setActionDialogOpen(false);
@@ -79,13 +90,9 @@ const LoanApprovals: React.FC = () => {
       setAmountApproved('');
       setRejectionReason('');
       fetchPendingLoans();
-    } catch (err: unknown) {
-      if (err && typeof err === 'object' && 'response' in err) {
-        const error = err as { response?: { data?: { error?: string } } };
-        setError(error.response?.data?.error || `Failed to ${action} loan`);
-      } else {
-        setError(`Failed to ${action} loan`);
-      }
+    } catch (err: any) {
+      console.error(`Loan ${action} error:`, err);
+      setError(err.message || `Failed to ${action} loan`);
     } finally {
       setSubmitting(false);
     }

@@ -263,9 +263,10 @@ const Home: React.FC = () => {
           <Box sx={{
             display: 'grid',
             gridTemplateColumns: { xs: '1fr', md: '55fr 45fr' },
-            gap: { xs: 6, md: 10 },
+            gap: { xs: 6, md: 8 },
             alignItems: 'center',
             py: { xs: 12, md: 8 },
+            px: { xs: 0, md: 8, lg: 12 },
           }}>
             <Box sx={{
               animation: 'fadeUp 1s cubic-bezier(0.22,1,0.36,1) forwards',
@@ -299,7 +300,7 @@ const Home: React.FC = () => {
 
               <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mb: 5 }}>
                 <Button
-                  component={Link} to="/login" variant="contained" size="large"
+                  component={Link} to="/apply" variant="contained" size="large"
                   endIcon={<ArrowForwardIcon sx={{ fontSize: 18 }} />}
                   sx={{
                     background: '#fff', color: palette.primary.dark,
@@ -640,7 +641,7 @@ const Home: React.FC = () => {
             </Box>
             <Stack direction="row" spacing={2}>
               <Button
-                component={Link} to="/login" variant="contained"
+                component={Link} to="/apply" variant="contained"
                 endIcon={<ArrowForwardIcon />}
                 sx={{
                   background: `linear-gradient(135deg, ${palette.primary.main}, ${palette.primary.dark})`,

@@ -5,7 +5,7 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
-import api from '../../utils/api';
+import { supabase } from '../../config/supabase';
 import type { Loan } from '../../types';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import AddIcon from '@mui/icons-material/Add';
@@ -37,10 +37,16 @@ const Loans: React.FC = () => {
   const fetchLoans = async () => {
     setLoading(true);
     try {
-      const response = await api.get('/loans');
-      setLoans(response.data.loans || []);
-    } catch {
-      setError('Failed to load loans');
+      const { data, error } = await supabase
+        .from('loans')
+        .select('*')
+        .order('application_date', { ascending: false });
+
+      if (error) throw error;
+      setLoans(data || []);
+    } catch (err: any) {
+      console.error('Fetch loans error:', err);
+      setError(err.message || 'Failed to load loans');
     } finally {
       setLoading(false);
     }

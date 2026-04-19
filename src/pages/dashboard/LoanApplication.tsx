@@ -4,7 +4,8 @@ import {
   MenuItem, useTheme, InputAdornment,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import api from '../../utils/api';
+import { useAuth } from '../../contexts/AuthContext';
+import { supabase } from '../../config/supabase';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CalculateOutlinedIcon from '@mui/icons-material/CalculateOutlined';
@@ -24,6 +25,7 @@ const LoanApplication: React.FC = () => {
   const { palette, typography, shape } = theme;
   const br = shape.borderRadius as number;
   const navigate = useNavigate();
+  const { member } = useAuth();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -93,24 +95,28 @@ const LoanApplication: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!member) {
+      setError('Member profile not loaded.');
+      return;
+    }
     setError('');
     setLoading(true);
     try {
-      await api.post('/loans/apply', {
-        loanType: formData.loanType,
-        amountRequested: parseFloat(formData.amountRequested),
-        durationMonths: parseInt(formData.durationMonths),
+      const { error: insertError } = await supabase.from('loans').insert({
+        member_id: member.id,
+        loan_type: formData.loanType,
+        amount_requested: parseFloat(formData.amountRequested),
+        interest_rate: selectedLoan?.rate || 12,
+        duration_months: parseInt(formData.durationMonths),
         purpose: formData.purpose,
       });
+      if (insertError) throw insertError;
+
       setSuccess(true);
       setTimeout(() => navigate('/dashboard/loans'), 2500);
-    } catch (err: unknown) {
-      if (err && typeof err === 'object' && 'response' in err) {
-        const e = err as { response?: { data?: { error?: string } } };
-        setError(e.response?.data?.error || 'Loan application failed');
-      } else {
-        setError('Loan application failed');
-      }
+    } catch (err: any) {
+      console.error('Loan apply error:', err);
+      setError(err.message || 'Loan application failed');
     } finally {
       setLoading(false);
     }

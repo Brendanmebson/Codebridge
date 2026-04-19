@@ -25,6 +25,7 @@ import About from './pages/public/About';
 import Services from './pages/public/Services';
 import Contact from './pages/public/Contact';
 import Membership from './pages/public/Membership';
+import Apply from './pages/public/Apply';
 import LoanCalculator from './pages/public/LoanCalculator';
 
 // Auth Pages
@@ -157,6 +158,7 @@ const AppRoutes: React.FC = () => {
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
           <Route path="/membership" element={<Membership />} />
+          <Route path="/apply" element={<Apply />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/loan-calculator" element={<LoanCalculator />} />
           <Route path="/governance" element={<Governance />} />

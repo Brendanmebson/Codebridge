@@ -16,7 +16,7 @@ import {
   TrendingUp as TrendingUpIcon,
   PendingActions as PendingActionsIcon,
 } from '@mui/icons-material';
-import api from '../../utils/api';
+import { supabase } from '../../config/supabase';
 import type { AdminStats } from '../../types';
 
 const StatCard = ({
@@ -78,15 +78,36 @@ const AdminDashboard: React.FC = () => {
 
   const fetchStats = async () => {
     try {
-      const response = await api.get('/admin/stats');
-      setStats(response.data);
-    } catch (err: unknown) {
-      if (err && typeof err === 'object' && 'response' in err) {
-        const error = err as { response?: { data?: { error?: string } } };
-        setError(error.response?.data?.error || 'Failed to load stats');
-      } else {
-        setError('Failed to load stats');
-      }
+      const [
+        { count: totalMembers },
+        { count: activeMembers },
+        { count: pendingMembers },
+        { data: savingsData, count: savingsAccounts },
+        { count: pendingLoans },
+        { count: activeLoans },
+        { data: loansData }
+      ] = await Promise.all([
+        supabase.from('members').select('*', { count: 'exact', head: true }),
+        supabase.from('members').select('*', { count: 'exact', head: true }).eq('status', 'active'),
+        supabase.from('members').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
+        supabase.from('savings_accounts').select('balance', { count: 'exact' }),
+        supabase.from('loans').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
+        supabase.from('loans').select('*', { count: 'exact', head: true }).in('status', ['approved', 'disbursed']),
+        supabase.from('loans').select('amount_approved, outstanding_balance').in('status', ['approved', 'disbursed'])
+      ]);
+
+      const totalSavings = savingsData?.reduce((sum, acc) => sum + Number(acc.balance || 0), 0) || 0;
+      const totalDisbursed = loansData?.reduce((sum, l) => sum + Number(l.amount_approved || 0), 0) || 0;
+      const totalOutstanding = loansData?.reduce((sum, l) => sum + Number(l.outstanding_balance ?? l.amount_approved ?? 0), 0) || 0;
+
+      setStats({
+        members: { total: totalMembers || 0, active: activeMembers || 0, pending: pendingMembers || 0 },
+        savings: { total: totalSavings, accounts: savingsAccounts || 0 },
+        loans: { pending: pendingLoans || 0, active: activeLoans || 0, totalDisbursed, totalOutstanding }
+      });
+    } catch (err: any) {
+      console.error('Fetch stats error:', err);
+      setError(err.message || 'Failed to load stats');
     } finally {
       setLoading(false);
     }

@@ -23,7 +23,7 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import SpeedIcon from '@mui/icons-material/Speed';
 import SchoolIcon from '@mui/icons-material/School';
-import api from '../../utils/api';
+import { supabase } from '../../config/supabase';
 import type { Loan, LoanRepayment } from '../../types';
 
 const LoanDetails: React.FC = () => {
@@ -50,11 +50,27 @@ const LoanDetails: React.FC = () => {
   const fetchLoanDetails = async () => {
     setLoading(true);
     try {
-      const response = await api.get(`/loans/${loanId}`);
-      setLoan(response.data.loan);
-      setRepayments(response.data.repayments || []);
-    } catch {
-      setError('Failed to load loan details');
+      const { data: loanData, error: loanError } = await supabase
+        .from('loans')
+        .select('*')
+        .eq('id', loanId)
+        .single();
+      
+      if (loanError) throw loanError;
+
+      const { data: repData, error: repError } = await supabase
+        .from('loan_repayments')
+        .select('*')
+        .eq('loan_id', loanId)
+        .order('payment_date', { ascending: false });
+
+      if (repError) throw repError;
+
+      setLoan(loanData);
+      setRepayments(repData || []);
+    } catch (err: any) {
+      console.error('Fetch loan details error:', err);
+      setError(err.message || 'Failed to load loan details');
     } finally {
       setLoading(false);
     }
@@ -66,25 +82,24 @@ const LoanDetails: React.FC = () => {
     setError('');
     setSuccess('');
     try {
-      await api.post('/loans/repayment', {
-        loanId: loan.id,
-        amount: parseFloat(repaymentAmount),
-        paymentMethod,
-        referenceNumber: referenceNumber || 'N/A',
+      const { error: rpcError } = await supabase.rpc('make_loan_repayment', {
+        p_loan_id: loan.id,
+        p_amount: parseFloat(repaymentAmount),
+        p_payment_method: paymentMethod,
+        p_reference_number: referenceNumber || 'N/A',
       });
+
+      if (rpcError) throw rpcError;
+
       setSuccess('Repayment recorded successfully!');
       setDialogOpen(false);
       setRepaymentAmount('');
       setPaymentMethod('');
       setReferenceNumber('');
       await fetchLoanDetails();
-    } catch (err: unknown) {
-      if (err && typeof err === 'object' && 'response' in err) {
-        const e = err as { response?: { data?: { error?: string } } };
-        setError(e.response?.data?.error || 'Repayment failed');
-      } else {
-        setError('Repayment failed');
-      }
+    } catch (err: any) {
+      console.error('Repayment error:', err);
+      setError(err.message || 'Repayment failed');
     } finally {
       setSubmitting(false);
     }

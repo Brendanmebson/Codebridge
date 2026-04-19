@@ -5,7 +5,7 @@ import {
   Alert, CircularProgress, useTheme, InputAdornment,
 } from '@mui/material';
 import { format } from 'date-fns';
-import api from '../../utils/api';
+import { supabase } from '../../config/supabase';
 import type { SavingsAccount, SavingsTransaction } from '../../types';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -43,14 +43,21 @@ const Savings: React.FC = () => {
   const fetchSavingsAccounts = async () => {
     setPageLoading(true);
     try {
-      const response = await api.get('/savings');
-      const accs = response.data.savingsAccounts || [];
+      const { data, error } = await supabase
+        .from('savings_accounts')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      
+      const accs = data || [];
       setSavingsAccounts(accs);
       if (accs.length > 0 && !selectedAccount) {
         setSelectedAccount(accs[0]);
         fetchTransactionHistory(accs[0].id);
       }
-    } catch {
+    } catch (err) {
+      console.error('Fetch savings error:', err);
       setError('Failed to load savings accounts');
     } finally {
       setPageLoading(false);
@@ -60,9 +67,16 @@ const Savings: React.FC = () => {
   const fetchTransactionHistory = async (accountId: string) => {
     setTxLoading(true);
     try {
-      const response = await api.get(`/savings/${accountId}/history`);
-      setTransactions(response.data.transactions || []);
-    } catch {
+      const { data, error } = await supabase
+        .from('savings_transactions')
+        .select('*')
+        .eq('savings_account_id', accountId)
+        .order('transaction_date', { ascending: false });
+
+      if (error) throw error;
+      setTransactions(data || []);
+    } catch (err) {
+      console.error('Fetch history error:', err);
       setTransactions([]);
     } finally {
       setTxLoading(false);
@@ -80,24 +94,23 @@ const Savings: React.FC = () => {
     setError('');
     setSuccess('');
     try {
-      await api.post('/savings/deposit', {
-        savingsAccountId: selectedAccount.id,
-        amount: parseFloat(amount),
-        description: description || 'Deposit',
+      const { data, error: rpcError } = await supabase.rpc('deposit_savings', {
+        p_account_id: selectedAccount.id,
+        p_amount: parseFloat(amount),
+        p_description: description || 'Deposit',
       });
+
+      if (rpcError) throw rpcError;
+
       setSuccess('Deposit recorded successfully!');
       setAmount('');
       setDescription('');
       setDepositDialogOpen(false);
       await fetchSavingsAccounts();
       if (selectedAccount) await fetchTransactionHistory(selectedAccount.id);
-    } catch (err: unknown) {
-      if (err && typeof err === 'object' && 'response' in err) {
-        const e = err as { response?: { data?: { error?: string } } };
-        setError(e.response?.data?.error || 'Deposit failed');
-      } else {
-        setError('Deposit failed');
-      }
+    } catch (err: any) {
+      console.error('Deposit error:', err);
+      setError(err.message || 'Deposit failed');
     } finally {
       setLoading(false);
     }

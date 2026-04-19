@@ -18,7 +18,7 @@ import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
-import api from '../../utils/api';
+import { supabase } from '../../config/supabase';
 import type { SavingsAccount, Loan } from '../../types';
 
 const Dashboard: React.FC = () => {
@@ -48,24 +48,19 @@ const Dashboard: React.FC = () => {
     setError('');
     try {
       const [savingsResponse, loansResponse] = await Promise.all([
-        api.get('/savings'),
-        api.get('/loans'),
+        supabase.from('savings_accounts').select('*'),
+        supabase.from('loans').select('*').order('application_date', { ascending: false }),
       ]);
-      setSavingsAccounts(savingsResponse.data.savingsAccounts || []);
-      setLoans(loansResponse.data.loans || []);
+
+      if (savingsResponse.error) throw savingsResponse.error;
+      if (loansResponse.error) throw loansResponse.error;
+
+      setSavingsAccounts(savingsResponse.data || []);
+      setLoans(loansResponse.data || []);
       hasLoadedRef.current = true;
-    } catch (err) {
-      if (err && typeof err === 'object' && 'response' in err) {
-        const e = err as { response?: { data?: { error?: string }; status?: number } };
-        if (e.response?.status === 401) {
-          setError('Session expired. Please login again.');
-          setTimeout(() => navigate('/login'), 2000);
-        } else {
-          setError(e.response?.data?.error || 'Failed to load dashboard data');
-        }
-      } else {
-        setError('Failed to load dashboard data');
-      }
+    } catch (err: any) {
+      console.error('Dashboard fetch error:', err);
+      setError(err.message || 'Failed to load dashboard data');
     } finally {
       setLoading(false);
       isFetchingRef.current = false;
@@ -293,6 +288,36 @@ const Dashboard: React.FC = () => {
 
 
       {/* ── MAIN CONTENT ──────────────────────────────────── */}
+      {member?.status === 'inactive' ? (
+        <Container maxWidth="md" sx={{ pb: 8, mt: 4 }}>
+          <Box sx={{
+            p: { xs: 4, md: 6 }, borderRadius: `${br * 2}px`,
+            background: palette.background.paper, textAlign: 'center',
+            border: `1px solid ${palette.divider}`,
+            boxShadow: '0 24px 60px rgba(0,0,0,0.08)'
+          }}>
+            <Box sx={{ width: 80, height: 80, borderRadius: '50%', background: `${palette.error.main}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', mx: 'auto', mb: 4 }}>
+              <PaymentIcon sx={{ fontSize: 40, color: palette.error.main }} />
+            </Box>
+            <Typography variant="h3" sx={{ fontWeight: 800, mb: 2 }}>Account Activation Required</Typography>
+            <Typography variant="body1" sx={{ color: palette.text.secondary, mb: 4, maxWidth: 500, mx: 'auto', fontSize: '1.1rem' }}>
+              Congratulations on being approved! To fully activate your CodeBridge Cooperative account and access your dashboard, you must make a mandatory initial savings deposit.
+            </Typography>
+            
+            <Box sx={{ p: 3, background: `${palette.background.default}`, borderRadius: `${br}px`, display: 'inline-block', mb: 5, border: `1px dashed ${palette.divider}` }}>
+              <Typography variant="overline" color="text.secondary">Minimum Initial Deposit</Typography>
+              <Typography variant="h2" sx={{ fontWeight: 800, color: palette.text.primary, mt: 0.5 }}>₦5,000.00</Typography>
+            </Box>
+            
+            <Box>
+              <Button variant="contained" size="large" onClick={() => alert('Payment gateway integration placeholder...')}
+                sx={{ background: `linear-gradient(135deg, ${palette.primary.main}, ${palette.primary.dark})`, px: 8, py: 2, borderRadius: 100, fontWeight: 700, fontSize: '1.1rem', boxShadow: `0 8px 24px ${palette.primary.main}40`, '&:hover': { transform: 'translateY(-2px)' } }}>
+                Make Deposit Now
+              </Button>
+            </Box>
+          </Box>
+        </Container>
+      ) : (
       <Container maxWidth="lg" sx={{ pb: 8 }}>
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '1fr 380px' }, gap: 4 }}>
 
@@ -609,6 +634,7 @@ const Dashboard: React.FC = () => {
           </Box>
         </Box>
       </Container>
+      )}
     </Box>
   );
 };

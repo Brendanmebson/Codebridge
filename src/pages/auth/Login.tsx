@@ -20,7 +20,7 @@ const Login: React.FC = () => {
   const br = shape.borderRadius as number;
 
   const navigate = useNavigate();
-  const { login, loading: authLoading, user } = useAuth();
+  const { login, loading: authLoading, user, userRole } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -30,9 +30,13 @@ const Login: React.FC = () => {
   // Redirect to dashboard if already authenticated
   useEffect(() => {
     if (!authLoading && user) {
-      navigate('/dashboard', { replace: true });
+      if (userRole === 'admin') {
+        navigate('/admin', { replace: true });
+      } else {
+        navigate('/dashboard', { replace: true });
+      }
     }
-  }, [user, authLoading, navigate]);
+  }, [user, authLoading, navigate, userRole]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -44,7 +48,7 @@ const Login: React.FC = () => {
     setLoading(true);
     try {
       await login(formData.email, formData.password);
-      navigate('/dashboard', { replace: true });
+      // The useEffect will handle the redirect since useAuth state will update
     } catch (err: unknown) {
       if (err && typeof err === 'object' && 'message' in err) {
         setError((err as { message: string }).message || 'Login failed. Check your credentials.');
@@ -337,9 +341,9 @@ const Login: React.FC = () => {
           <Box sx={{ mt: 2, textAlign: 'center' }}>
             <Typography variant="caption" sx={{ color: palette.text.secondary, fontSize: '0.78rem' }}>
               Not a member yet?{' '}
-              <Button component={Link} to="/membership"
+              <Button component={Link} to="/apply"
                 sx={{ fontFamily: typography.fontFamily, textTransform: 'none', fontSize: '0.78rem', color: palette.primary.main, p: 0, minWidth: 0, fontWeight: 600, '&:hover': { background: 'transparent', textDecoration: 'underline' } }}>
-                Learn about membership
+                Apply for membership
               </Button>
             </Typography>
           </Box>

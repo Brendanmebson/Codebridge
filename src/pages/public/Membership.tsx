@@ -204,7 +204,7 @@ const Membership: React.FC = () => {
               </Typography>
               <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                 <Button
-                  component={Link} to="/login" variant="contained" size="large"
+                  component={Link} to="/apply" variant="contained" size="large"
                   endIcon={<ArrowForwardIcon sx={{ fontSize: 18 }} />}
                   sx={{
                     background: '#fff', color: palette.primary.dark,

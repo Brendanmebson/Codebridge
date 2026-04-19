@@ -12,6 +12,7 @@ export interface Member {
   date_of_birth: string;
   status: 'pending' | 'active' | 'suspended';
   registration_date: string;
+  created_at: string;
 }
 
 export interface SavingsAccount {

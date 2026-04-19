@@ -10,19 +10,6 @@ interface AuthContextType {
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
-  register: (data: RegisterData) => Promise<void>;
-}
-
-interface RegisterData {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  phone: string;
-  dateOfBirth: string;
-  address: string;
-  idType: string;
-  idNumber: string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -165,8 +152,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         applyMemberState(memberData);
       }
     } catch (error: unknown) {
+      console.error('Raw Login Error:', error);
       if (isAbortError(error)) {
-        throw new Error('Login was interrupted. Please try again.');
+        const rawMsg = error instanceof Error ? error.message : JSON.stringify(error);
+        throw new Error(`Login was interrupted (${rawMsg}). Please try again.`);
       }
       throw error;
     } finally {
@@ -189,43 +178,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  const register = async (data: RegisterData) => {
-    try {
-      setLoading(true);
-
-      const response = await fetch('http://localhost:5000/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: data.email,
-          password: data.password,
-          firstName: data.firstName,
-          lastName: data.lastName,
-          phone: data.phone,
-          dateOfBirth: data.dateOfBirth,
-          address: data.address,
-          idType: data.idType,
-          idNumber: data.idNumber,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Registration failed');
-      }
-
-      const { member } = await response.json();
-      if (member) applyMemberState(member);
-    } catch (error) {
-      console.error('Registration error:', error);
-      throw error;
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
-    <AuthContext.Provider value={{ user, member, userRole, loading, login, logout, register }}>
+    <AuthContext.Provider value={{ user, member, userRole, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
