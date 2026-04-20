@@ -89,7 +89,7 @@ const AdminDashboard: React.FC = () => {
       ] = await Promise.all([
         supabase.from('members').select('*', { count: 'exact', head: true }),
         supabase.from('members').select('*', { count: 'exact', head: true }).eq('status', 'active'),
-        supabase.from('members').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
+        supabase.from('membership_applications').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
         supabase.from('savings_accounts').select('balance', { count: 'exact' }),
         supabase.from('loans').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
         supabase.from('loans').select('*', { count: 'exact', head: true }).in('status', ['approved', 'disbursed']),

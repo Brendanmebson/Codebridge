@@ -1,0 +1,215 @@
+import React, { useState } from 'react';
+import {
+  Box, Typography, IconButton, Drawer, useTheme,
+  useMediaQuery, Divider, Tooltip,
+} from '@mui/material';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
+import logo from '../../assets/logo.jpg';
+
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import SavingsIcon from '@mui/icons-material/Savings';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import LogoutIcon from '@mui/icons-material/Logout';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
+
+const SIDEBAR_WIDTH = 240;
+
+const navItems = [
+  { label: 'Dashboard', path: '/dashboard', icon: <DashboardIcon sx={{ fontSize: 20 }} /> },
+  { label: 'Savings', path: '/dashboard/savings', icon: <SavingsIcon sx={{ fontSize: 20 }} /> },
+  { label: 'Loans', path: '/dashboard/loans', icon: <AccountBalanceIcon sx={{ fontSize: 20 }} /> },
+];
+
+const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const theme = useTheme();
+  const { palette, shape } = theme;
+  const br = shape.borderRadius as number;
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { member, logout } = useAuth();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');
+  };
+
+  const isActive = (path: string) =>
+    path === '/dashboard' ? location.pathname === '/dashboard' : location.pathname.startsWith(path);
+
+  const sidebarContent = (
+    <Box sx={{
+      width: SIDEBAR_WIDTH,
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      background: palette.background.paper,
+      borderRight: `1px solid ${palette.primary.main}12`,
+    }}>
+      {/* Logo */}
+      <Box sx={{ px: 2.5, pt: 2.5, pb: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Box component={Link} to="/dashboard" sx={{ display: 'flex', alignItems: 'center', gap: 1.5, textDecoration: 'none' }}>
+          <Box component="img" src={logo} alt="CodeBridge"
+            sx={{ height: 36, width: 36, borderRadius: `${br - 6}px`, objectFit: 'cover' }} />
+          <Typography sx={{ fontWeight: 700, fontSize: '0.9rem', color: palette.primary.dark, lineHeight: 1.2 }}>
+            CodeBridge
+          </Typography>
+        </Box>
+        {isMobile && (
+          <IconButton size="small" onClick={() => setMobileOpen(false)}>
+            <CloseIcon sx={{ fontSize: 18 }} />
+          </IconButton>
+        )}
+      </Box>
+
+      <Divider sx={{ borderColor: `${palette.primary.main}12` }} />
+
+      {/* Member info */}
+      <Box sx={{ px: 2.5, py: 2 }}>
+        <Box sx={{
+          display: 'flex', alignItems: 'center', gap: 1.5,
+          px: 2, py: 1.5,
+          background: `${palette.primary.main}08`,
+          borderRadius: `${br}px`,
+          border: `1px solid ${palette.primary.main}15`,
+        }}>
+          <Box sx={{
+            width: 32, height: 32, borderRadius: '50%',
+            background: `linear-gradient(135deg, ${palette.primary.main}, ${palette.primary.dark})`,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+          }}>
+            <Typography sx={{ fontSize: '0.75rem', fontWeight: 700, color: '#fff' }}>
+              {(member?.first_name?.[0] ?? 'M').toUpperCase()}
+            </Typography>
+          </Box>
+          <Box sx={{ minWidth: 0 }}>
+            <Typography variant="body2" noWrap sx={{ fontWeight: 600, color: palette.text.primary, lineHeight: 1.2, fontSize: '0.8rem' }}>
+              {member?.first_name} {member?.last_name}
+            </Typography>
+            <Typography variant="caption" sx={{ color: palette.text.secondary, fontSize: '0.7rem' }}>
+              #{member?.member_number ?? '—'}
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
+
+      {/* Nav links */}
+      <Box sx={{ px: 2, flex: 1 }}>
+        <Typography variant="overline" sx={{ px: 1.5, mb: 1, display: 'block', color: palette.text.secondary, fontSize: '0.65rem' }}>
+          Navigation
+        </Typography>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+          {navItems.map((item) => {
+            const active = isActive(item.path);
+            return (
+              <Box
+                key={item.path}
+                component={Link}
+                to={item.path}
+                onClick={() => setMobileOpen(false)}
+                sx={{
+                  display: 'flex', alignItems: 'center', gap: 1.5,
+                  px: 2, py: 1.25, borderRadius: `${br - 4}px`,
+                  textDecoration: 'none',
+                  background: active
+                    ? `linear-gradient(135deg, ${palette.primary.main}18, ${palette.primary.dark}10)`
+                    : 'transparent',
+                  border: `1px solid ${active ? palette.primary.main + '22' : 'transparent'}`,
+                  color: active ? palette.primary.main : palette.text.secondary,
+                  transition: 'all 0.25s cubic-bezier(0.22,1,0.36,1)',
+                  '&:hover': {
+                    background: `${palette.primary.main}0c`,
+                    color: palette.primary.main,
+                  },
+                }}
+              >
+                {item.icon}
+                <Typography sx={{ fontSize: '0.87rem', fontWeight: active ? 600 : 400, color: 'inherit' }}>
+                  {item.label}
+                </Typography>
+                {active && (
+                  <Box sx={{ ml: 'auto', width: 6, height: 6, borderRadius: '50%', background: palette.primary.main }} />
+                )}
+              </Box>
+            );
+          })}
+        </Box>
+      </Box>
+
+      {/* Logout */}
+      <Box sx={{ px: 2.5, pb: 3, pt: 2 }}>
+        <Divider sx={{ mb: 2, borderColor: `${palette.primary.main}12` }} />
+        <Box
+          onClick={handleLogout}
+          sx={{
+            display: 'flex', alignItems: 'center', gap: 1.5,
+            px: 2, py: 1.25, borderRadius: `${br - 4}px`,
+            cursor: 'pointer',
+            color: palette.error.main,
+            background: `${palette.error.main}08`,
+            border: `1px solid ${palette.error.main}18`,
+            transition: 'all 0.25s',
+            '&:hover': { background: `${palette.error.main}14` },
+          }}
+        >
+          <LogoutIcon sx={{ fontSize: 18 }} />
+          <Typography sx={{ fontSize: '0.87rem', fontWeight: 500, color: 'inherit' }}>Logout</Typography>
+        </Box>
+      </Box>
+    </Box>
+  );
+
+  return (
+    <Box sx={{ display: 'flex', minHeight: '100vh', background: palette.background.default }}>
+      {/* Desktop sidebar */}
+      {!isMobile && (
+        <Box sx={{ width: SIDEBAR_WIDTH, flexShrink: 0, position: 'sticky', top: 0, height: '100vh', overflowY: 'auto' }}>
+          {sidebarContent}
+        </Box>
+      )}
+
+      {/* Mobile drawer */}
+      {isMobile && (
+        <Drawer
+          anchor="left"
+          open={mobileOpen}
+          onClose={() => setMobileOpen(false)}
+          ModalProps={{ keepMounted: true }}
+          sx={{ '& .MuiDrawer-paper': { width: SIDEBAR_WIDTH, border: 'none' } }}
+        >
+          {sidebarContent}
+        </Drawer>
+      )}
+
+      {/* Main content */}
+      <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+        {/* Mobile top bar */}
+        {isMobile && (
+          <Box sx={{
+            display: 'flex', alignItems: 'center', gap: 2,
+            px: 2, py: 1.5,
+            background: palette.background.paper,
+            borderBottom: `1px solid ${palette.primary.main}12`,
+            position: 'sticky', top: 0, zIndex: 100,
+          }}>
+            <IconButton size="small" onClick={() => setMobileOpen(true)}>
+              <MenuIcon />
+            </IconButton>
+            <Box component={Link} to="/dashboard" sx={{ display: 'flex', alignItems: 'center', gap: 1, textDecoration: 'none' }}>
+              <Box component="img" src={logo} alt="CodeBridge" sx={{ height: 28, width: 28, borderRadius: `${br - 6}px` }} />
+              <Typography sx={{ fontWeight: 700, fontSize: '0.9rem', color: palette.primary.dark }}>CodeBridge</Typography>
+            </Box>
+          </Box>
+        )}
+        <Box sx={{ flex: 1 }}>
+          {children}
+        </Box>
+      </Box>
+    </Box>
+  );
+};
+
+export default DashboardLayout;

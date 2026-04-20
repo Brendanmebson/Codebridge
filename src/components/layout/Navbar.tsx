@@ -39,7 +39,7 @@ const Navbar: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, member, logout } = useAuth();
+  const { user, member, userRole, logout } = useAuth();
 
   const isDashboard = location.pathname.startsWith('/dashboard');
 
@@ -65,13 +65,15 @@ const Navbar: React.FC = () => {
     { label: 'Contact', path: '/contact', icon: <ContactMailOutlinedIcon sx={{ fontSize: 18 }} /> },
   ];
 
-  const dashboardNavItems = [
-    { label: 'Dashboard', path: '/dashboard', icon: <DashboardIcon sx={{ fontSize: 18 }} /> },
-    { label: 'Savings', path: '/dashboard/savings', icon: <SavingsIcon sx={{ fontSize: 18 }} /> },
-    { label: 'Loans', path: '/dashboard/loans', icon: <AccountBalanceIcon sx={{ fontSize: 18 }} /> },
+  const adminNavItems = [
+    { label: 'Overview', path: '/admin', icon: <DashboardIcon sx={{ fontSize: 18 }} /> },
+    { label: 'Members', path: '/admin/members', icon: <GroupsIcon sx={{ fontSize: 18 }} /> },
+    { label: 'Loans', path: '/admin/loans', icon: <AccountBalanceIcon sx={{ fontSize: 18 }} /> },
   ];
 
-  const navItems = user ? dashboardNavItems : publicNavItems;
+  const navItems = user 
+    ? (userRole === 'admin' ? adminNavItems : dashboardNavItems)
+    : publicNavItems;
 
   const isActive = (path: string) =>
     path === '/' ? location.pathname === '/' : location.pathname.startsWith(path);
@@ -105,7 +107,7 @@ const Navbar: React.FC = () => {
         px: 3, pt: 3, pb: 2.5,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
-        <Box component={Link} to={isDashboard ? '/dashboard' : '/'} onClick={handleDrawerToggle}
+        <Box component={Link} to={userRole === 'admin' ? '/admin' : (isDashboard ? '/dashboard' : '/')} onClick={handleDrawerToggle}
           sx={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
           <Box component="img" src={logo} alt="CodeBridge Logo"
             sx={{ height: 34, width: 'auto', borderRadius: `${br - 4}px` }} />
@@ -310,7 +312,7 @@ const Navbar: React.FC = () => {
           {/* ── LOGO ── */}
           <Box
             component={Link}
-            to={isDashboard ? '/dashboard' : '/'}
+            to={userRole === 'admin' ? '/admin' : (isDashboard ? '/dashboard' : '/')}
             sx={{
               display: 'flex', alignItems: 'center',
               gap: 1.5, textDecoration: 'none',

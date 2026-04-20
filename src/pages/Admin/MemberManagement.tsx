@@ -159,7 +159,16 @@ const MemberManagement: React.FC = () => {
       const { data: authData, error: authError } = await tempClient.auth.signUp({
         email: selectedApp.email,
         password: generatedPassword,
-        options: { data: { firstName: selectedApp.first_name, lastName: selectedApp.last_name } }
+        options: { 
+          data: { 
+            firstName: selectedApp.first_name, 
+            lastName: selectedApp.last_name,
+            phone: selectedApp.phone,
+            address: selectedApp.address,
+            dateOfBirth: selectedApp.date_of_birth,
+            role: 'member'
+          } 
+        }
       });
       if (authError) throw authError;
 
@@ -244,6 +253,7 @@ const MemberManagement: React.FC = () => {
                 <TableCell>Member Number</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Email</TableCell>
+                <TableCell>Role</TableCell>
                 <TableCell>Status</TableCell>
                 <TableCell align="center">Actions</TableCell>
               </TableRow>
@@ -254,6 +264,14 @@ const MemberManagement: React.FC = () => {
                   <TableCell sx={{ fontWeight: 600 }}>{member.member_number}</TableCell>
                   <TableCell>{member.first_name} {member.last_name}</TableCell>
                   <TableCell>{member.email}</TableCell>
+                  <TableCell>
+                    <Chip
+                      label={(member.role || 'member').toUpperCase()}
+                      color={member.role === 'admin' ? 'primary' : 'default'}
+                      size="small"
+                      variant="outlined"
+                    />
+                  </TableCell>
                   <TableCell><Chip label={member.status.toUpperCase()} color={getStatusColor(member.status)} size="small" /></TableCell>
                   <TableCell align="center">
                     <IconButton size="small" color="success" onClick={() => { setSelectedMember(member); setNewStatus('active'); setStatusDialogOpen(true); }} disabled={member.status === 'active'}><CheckCircleIcon /></IconButton>

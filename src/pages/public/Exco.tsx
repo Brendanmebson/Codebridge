@@ -6,7 +6,6 @@ import {
   Card,
   CardContent,
   CardMedia,
-  Avatar,
   useTheme,
   Stack,
   IconButton,
@@ -59,23 +58,23 @@ const Exco: React.FC = () => {
       email: 'fatima@codebridge.coop',
     },
     {
-        name: 'Oluwaseun Balogun',
-        role: 'Public Relations Officer',
-        img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80',
-        bio: 'A communications expert passionate about community building. Seun manages our external relations and ensures that our members stay informed about all activities.',
-        linkedin: '#',
-        twitter: '#',
-        email: 'seun@codebridge.coop',
-      },
-      {
-        name: 'Amaka Okoro',
-        role: 'Welfare Officer',
-        img: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80',
-        bio: 'Dedicated to the well-being of all members. Amaka oversees our welfare programs and emergency support systems, ensuring no member is left behind.',
-        linkedin: '#',
-        twitter: '#',
-        email: 'amaka@codebridge.coop',
-      },
+      name: 'Oluwaseun Balogun',
+      role: 'Public Relations Officer',
+      img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80',
+      bio: 'A communications expert passionate about community building. Seun manages our external relations and ensures that our members stay informed about all activities.',
+      linkedin: '#',
+      twitter: '#',
+      email: 'seun@codebridge.coop',
+    },
+    {
+      name: 'Amaka Okoro',
+      role: 'Welfare Officer',
+      img: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80',
+      bio: 'Dedicated to the well-being of all members. Amaka oversees our welfare programs and emergency support systems, ensuring no member is left behind.',
+      linkedin: '#',
+      twitter: '#',
+      email: 'amaka@codebridge.coop',
+    },
   ];
 
   return (
@@ -247,7 +246,7 @@ const Exco: React.FC = () => {
             Dedicated to Your Growth
           </Typography>
           <Typography variant="body1" sx={{ mb: 4, color: 'text.secondary' }}>
-            Our leadership team is committed to ensuring that Codebridge remains a trusted partner for all our members. 
+            Our leadership team is committed to ensuring that Codebridge remains a trusted partner for all our members.
             We are here to support your financial journey.
           </Typography>
         </Container>

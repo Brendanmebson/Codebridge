@@ -14,7 +14,6 @@ import {
 } from '@mui/material';
 import LaunchIcon from '@mui/icons-material/Launch';
 import BusinessIcon from '@mui/icons-material/Business';
-import PersonIcon from '@mui/icons-material/Person';
 
 const Businesses: React.FC = () => {
   const theme = useTheme();
@@ -42,41 +41,41 @@ const Businesses: React.FC = () => {
       category: 'Logistics',
     },
     {
-        name: 'Amadi Accounting Services',
-        description: 'Comprehensive accounting and tax consultancy services for small businesses and individuals.',
-        owner: 'Chidi Amadi',
-        img: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=80',
-        ownerImg: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&q=80',
-        website: '#',
-        category: 'Finance',
-      },
-      {
-        name: 'Bello Agri-Hub',
-        description: 'Providing sustainable agricultural solutions and high-quality farm produce to the local community.',
-        owner: 'Fatima Bello',
-        img: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=600&q=80',
-        ownerImg: 'https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=100&q=80',
-        website: '#',
-        category: 'Agriculture',
-      },
-      {
-        name: 'Balogun Creative Agency',
-        description: 'A full-service creative agency offering branding, digital marketing, and web development.',
-        owner: 'Oluwaseun Balogun',
-        img: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=600&q=80',
-        ownerImg: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80',
-        website: '#',
-        category: 'Marketing',
-      },
-      {
-        name: 'Okoro Healthcare Clinic',
-        description: 'Providing accessible and compassionate healthcare services to families and individuals in our community.',
-        owner: 'Amaka Okoro',
-        img: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600&q=80',
-        ownerImg: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&q=80',
-        website: '#',
-        category: 'Healthcare',
-      },
+      name: 'Amadi Accounting Services',
+      description: 'Comprehensive accounting and tax consultancy services for small businesses and individuals.',
+      owner: 'Chidi Amadi',
+      img: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=80',
+      ownerImg: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&q=80',
+      website: '#',
+      category: 'Finance',
+    },
+    {
+      name: 'Bello Agri-Hub',
+      description: 'Providing sustainable agricultural solutions and high-quality farm produce to the local community.',
+      owner: 'Fatima Bello',
+      img: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=600&q=80',
+      ownerImg: 'https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=100&q=80',
+      website: '#',
+      category: 'Agriculture',
+    },
+    {
+      name: 'Balogun Creative Agency',
+      description: 'A full-service creative agency offering branding, digital marketing, and web development.',
+      owner: 'Oluwaseun Balogun',
+      img: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=600&q=80',
+      ownerImg: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80',
+      website: '#',
+      category: 'Marketing',
+    },
+    {
+      name: 'Okoro Healthcare Clinic',
+      description: 'Providing accessible and compassionate healthcare services to families and individuals in our community.',
+      owner: 'Amaka Okoro',
+      img: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600&q=80',
+      ownerImg: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&q=80',
+      website: '#',
+      category: 'Healthcare',
+    },
   ];
 
   return (
@@ -218,7 +217,7 @@ const Businesses: React.FC = () => {
                         {biz.category}
                       </Box>
                     </Stack>
-                    
+
                     <Typography variant="body2" color="text.secondary" sx={{ mb: 3, lineHeight: 1.6 }}>
                       {biz.description}
                     </Typography>

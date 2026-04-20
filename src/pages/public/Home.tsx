@@ -16,7 +16,7 @@ import HandshakeIcon from '@mui/icons-material/Handshake';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 
 // --- Animated counter hook ---
-function useCounter(end: number, duration = 2000, start = false) {
+function useCounter(end: number, duration = 2000, start = false, decimals = 0) {
   const [count, setCount] = useState(0);
   useEffect(() => {
     if (!start) return;
@@ -25,20 +25,21 @@ function useCounter(end: number, duration = 2000, start = false) {
       if (!startTime) startTime = timestamp;
       const progress = Math.min((timestamp - startTime) / duration, 1);
       const ease = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.floor(ease * end));
+      const current = ease * end;
+      setCount(Number(current.toFixed(decimals)));
       if (progress < 1) requestAnimationFrame(step);
     };
     requestAnimationFrame(step);
-  }, [end, duration, start]);
+  }, [end, duration, start, decimals]);
   return count;
 }
 
-function StatCounter({ value, label, prefix = '', suffix = '' }: {
-  value: number; label: string; prefix?: string; suffix?: string;
+function StatCounter({ value, label, prefix = '', suffix = '', decimals = 0, color = '#fff', variant = 'h2', sx = {} }: {
+  value: number; label?: string; prefix?: string; suffix?: string; decimals?: number; color?: string; variant?: any; sx?: any;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
-  const count = useCounter(value, 2000, visible);
+  const count = useCounter(value, 2000, visible, decimals);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -50,18 +51,21 @@ function StatCounter({ value, label, prefix = '', suffix = '' }: {
   }, []);
 
   return (
-    <Box ref={ref} sx={{ textAlign: 'center', p: { xs: 2, md: 3 } }}>
-      <Typography variant="h2" sx={{
-        color: '#fff',
-        fontSize: { xs: '2.8rem', md: '3.6rem' },
+    <Box ref={ref} sx={{ textAlign: 'center', ...sx }}>
+      <Typography variant={variant} sx={{
+        color: color,
+        fontSize: variant === 'h2' ? { xs: '2.8rem', md: '3.6rem' } : undefined,
         lineHeight: 1,
-        mb: 0.5,
+        mb: label ? 0.5 : 0,
+        ...sx.typography
       }}>
-        {prefix}{count.toLocaleString()}{suffix}
+        {prefix}{decimals > 0 ? count.toFixed(decimals) : count.toLocaleString()}{suffix}
       </Typography>
-      <Typography variant="overline" sx={{ color: 'rgba(255,255,255,0.6)' }}>
-        {label}
-      </Typography>
+      {label && (
+        <Typography variant="overline" sx={{ color: 'rgba(255,255,255,0.6)' }}>
+          {label}
+        </Typography>
+      )}
     </Box>
   );
 }
@@ -153,11 +157,9 @@ const Home: React.FC = () => {
     'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=500&q=80',
     'https://images.unsplash.com/photo-1565945887714-d5139f4eb0ce?w=500&q=80',
     'https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=500&q=80',
-    'https://images.unsplash.com/photo-1560264280-88b68371db39?w=500&q=80',
   ];
 
   const heroGradient = `linear-gradient(150deg, ${palette.primary.dark} 0%, ${palette.primary.main} 50%, ${palette.secondary.dark} 100%)`;
-  const statsGradient = `linear-gradient(135deg, ${palette.primary.dark} 0%, ${palette.primary.main} 55%, ${palette.secondary.dark} 100%)`;
   const gold = palette.warning.dark;
 
   return (
@@ -259,14 +261,13 @@ const Home: React.FC = () => {
           }} />
         ))}
 
-        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
+        <Container maxWidth={false} sx={{ position: 'relative', zIndex: 2, px: { xs: 3, md: 13 } }}>
           <Box sx={{
             display: 'grid',
             gridTemplateColumns: { xs: '1fr', md: '55fr 45fr' },
-            gap: { xs: 6, md: 8 },
+            gap: { xs: 6, md: 1 },
             alignItems: 'center',
             py: { xs: 12, md: 8 },
-            px: { xs: 0, md: 8, lg: 12 },
           }}>
             <Box sx={{
               animation: 'fadeUp 1s cubic-bezier(0.22,1,0.36,1) forwards',
@@ -504,10 +505,10 @@ const Home: React.FC = () => {
             {/* Left: impact metric cards */}
             <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 3 }}>
               {[
-                { value: '₦1.2B+', label: 'Total Disbursed', sub: 'Across all loan categories', color: palette.primary.main, bg: '#E8F5E9' },
-                { value: '1,240', label: 'Active Members', sub: 'And growing every month', color: palette.info.main, bg: '#E0F2F1' },
-                { value: '98%', label: 'Approval Rate', sub: 'Fastest in the sector', color: palette.secondary.dark, bg: '#F1F8E9' },
-                { value: '₦150K', label: 'Avg. Loan Size', sub: 'Accessible to all members', color: palette.primary.dark, bg: '#F9FBE7' },
+                { num: 1.2, prefix: '₦', suffix: 'B+', label: 'Total Disbursed', sub: 'Across all loan categories', color: palette.primary.main, bg: '#E8F5E9', decimals: 1 },
+                { num: 1240, label: 'Active Members', sub: 'And growing every month', color: palette.info.main, bg: '#E0F2F1' },
+                { num: 98, suffix: '%', label: 'Approval Rate', sub: 'Fastest in the sector', color: palette.secondary.dark, bg: '#F1F8E9' },
+                { num: 150, prefix: '₦', suffix: 'K', label: 'Avg. Loan Size', sub: 'Accessible to all members', color: palette.primary.dark, bg: '#F9FBE7' },
               ].map((m, i) => (
                 <Box key={i} sx={{
                   p: 3, borderRadius: `${br * 2}px`,
@@ -526,14 +527,22 @@ const Home: React.FC = () => {
                     background: m.color, mb: 2,
                     boxShadow: `0 0 0 4px ${m.color}20`,
                   }} />
-                  <Typography variant="h3" sx={{
-                    color: palette.text.primary,
-                    fontSize: { xs: '1.7rem', md: '2rem' },
-                    lineHeight: 1, mb: 0.75,
-                  }}>
-                    {m.value}
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: palette.text.primary, fontWeight: 600, mb: 0.5 }}>
+                  <StatCounter
+                    value={m.num}
+                    prefix={m.prefix}
+                    suffix={m.suffix}
+                    decimals={m.decimals}
+                    color={palette.text.primary}
+                    variant="h3"
+                    sx={{
+                      textAlign: 'left',
+                      typography: {
+                        fontSize: { xs: '1.7rem', md: '2rem' },
+                        fontWeight: 700,
+                      }
+                    }}
+                  />
+                  <Typography variant="body2" sx={{ color: palette.text.primary, fontWeight: 600, mb: 0.5, mt: 0.75 }}>
                     {m.label}
                   </Typography>
                   <Typography variant="caption" sx={{ color: palette.text.secondary, display: 'block' }}>

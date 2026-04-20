@@ -50,6 +50,10 @@ import AdminDashboard from './pages/Admin/AdminDashboard';
 import MemberManagement from './pages/Admin/MemberManagement';
 import LoanApprovals from './pages/Admin/LoanApprovals';
 
+// Layout wrappers
+import DashboardLayout from './components/layout/DashboardLayout';
+import AdminLayout from './components/layout/AdminLayout';
+
 
 // =============================
 // Scroll To Top Component
@@ -135,6 +139,7 @@ const AdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 // =============================
 const AppRoutes: React.FC = () => {
   const location = useLocation();
+  const { userRole } = useAuth();
 
   const hideLayout =
   location.pathname.startsWith('/dashboard') ||
@@ -177,7 +182,9 @@ const AppRoutes: React.FC = () => {
             path="/dashboard"
             element={
               <ProtectedRoute>
-                <Dashboard />
+                <DashboardLayout>
+                  {userRole === 'admin' ? <Navigate to="/admin" replace /> : <Dashboard />}
+                </DashboardLayout>
               </ProtectedRoute>
             }
           />
@@ -185,7 +192,7 @@ const AppRoutes: React.FC = () => {
             path="/dashboard/savings"
             element={
               <ProtectedRoute>
-                <Savings />
+                <DashboardLayout><Savings /></DashboardLayout>
               </ProtectedRoute>
             }
           />
@@ -193,7 +200,7 @@ const AppRoutes: React.FC = () => {
             path="/dashboard/loans"
             element={
               <ProtectedRoute>
-                <Loans />
+                <DashboardLayout><Loans /></DashboardLayout>
               </ProtectedRoute>
             }
           />
@@ -201,7 +208,7 @@ const AppRoutes: React.FC = () => {
             path="/dashboard/loans/apply"
             element={
               <ProtectedRoute>
-                <LoanApplication />
+                <DashboardLayout><LoanApplication /></DashboardLayout>
               </ProtectedRoute>
             }
           />
@@ -209,7 +216,7 @@ const AppRoutes: React.FC = () => {
             path="/dashboard/loans/:loanId"
             element={
               <ProtectedRoute>
-                <LoanDetails />
+                <DashboardLayout><LoanDetails /></DashboardLayout>
               </ProtectedRoute>
             }
           />
@@ -219,7 +226,7 @@ const AppRoutes: React.FC = () => {
             path="/admin"
             element={
               <AdminRoute>
-                <AdminDashboard />
+                <AdminLayout><AdminDashboard /></AdminLayout>
               </AdminRoute>
             }
           />
@@ -227,7 +234,7 @@ const AppRoutes: React.FC = () => {
             path="/admin/members"
             element={
               <AdminRoute>
-                <MemberManagement />
+                <AdminLayout><MemberManagement /></AdminLayout>
               </AdminRoute>
             }
           />
@@ -235,7 +242,7 @@ const AppRoutes: React.FC = () => {
             path="/admin/loans"
             element={
               <AdminRoute>
-                <LoanApprovals />
+                <AdminLayout><LoanApprovals /></AdminLayout>
               </AdminRoute>
             }
           />

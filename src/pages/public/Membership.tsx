@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Box, Container, Typography, Button, useTheme, Stack } from '@mui/material';
 import { Link } from 'react-router-dom';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import BadgeIcon from '@mui/icons-material/Badge';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
@@ -114,7 +113,7 @@ const Membership: React.FC = () => {
       <Box sx={{
         position: 'relative',
         background: heroGradient,
-       pt: { xs: 8, md: 8 },
+        pt: { xs: 8, md: 8 },
         pb: { xs: 14, md: 22 },
         overflow: 'hidden',
       }}>
