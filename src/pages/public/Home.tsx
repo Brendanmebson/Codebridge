@@ -311,7 +311,7 @@ const Home: React.FC = () => {
                   Get Started Today
                 </Button>
                 <Button
-                  component={Link} to="/loans" variant="outlined" size="large"
+                  component={Link} to="/apply" variant="outlined" size="large"
                   sx={{
                     borderColor: 'rgba(255,255,255,0.35)', color: '#fff',
                     backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.06)',

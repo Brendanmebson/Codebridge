@@ -28,7 +28,7 @@ interface Application {
   status: string;
   id_url?: string;
   photo_url?: string;
-  address_url?: string;
+  address_proof_url?: string;
   rejection_reason?: string;
   created_at: string;
 }
@@ -353,7 +353,7 @@ const MemberManagement: React.FC = () => {
             </Box>
             <Box>
               <Typography variant="subtitle2" color="text.secondary">Proof of Address</Typography>
-              {selectedApp?.address_url ? <MuiLink href={selectedApp.address_url} target="_blank" rel="noopener">Open Document</MuiLink> : <Typography variant="caption">Not provided</Typography>}
+              {selectedApp?.address_proof_url ? <MuiLink href={selectedApp.address_proof_url} target="_blank" rel="noopener">Open Document</MuiLink> : <Typography variant="caption">Not provided</Typography>}
             </Box>
             {selectedApp?.rejection_reason && (
               <Box mt={2}>

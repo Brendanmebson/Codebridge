@@ -89,7 +89,7 @@ const Apply: React.FC = () => {
           date_of_birth: formData.dateOfBirth,
           id_url: idUrl,
           photo_url: photoUrl,
-          address_url: addressUrl
+          address_proof_url: addressUrl
         });
 
       if (insertError) throw insertError;
