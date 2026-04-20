@@ -160,12 +160,9 @@ const Login: React.FC = () => {
 
         {/* Middle: content */}
         <Box sx={{ position: 'relative', zIndex: 2 }}>
-          <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 1, px: 2, py: 0.6, mb: 3, background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '100px', width: 'fit-content' }}>
-            <Box sx={{ width: 6, height: 6, borderRadius: '50%', background: palette.secondary.light, boxShadow: `0 0 8px ${palette.secondary.light}`, animation: 'blink 2.5s ease infinite', '@keyframes blink': { '0%,100%': { opacity: 1 }, '50%': { opacity: 0.3 } } }} />
-            <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.88)', letterSpacing: '0.06em', fontWeight: 500 }}>Secure Member Portal</Typography>
-          </Box>
 
-          <Typography sx={{ fontFamily: typography.fontFamily, fontSize: '2.8rem', fontWeight: 700, color: '#fff', lineHeight: 1.1, mb: 1.5 }}>
+
+          <Typography sx={{ fontFamily: typography.fontFamily, fontSize: '2.8rem', fontWeight: 700, color: '#fff', lineHeight: 1.1, mb: 1.5, mt: 6 }}>
             Welcome<br />
             <Box component="span" sx={{ fontStyle: 'italic', fontWeight: 300, background: `linear-gradient(90deg, ${palette.secondary.light}, #E8F5E9)`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               Back

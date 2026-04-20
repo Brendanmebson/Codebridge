@@ -8,14 +8,11 @@ import {
 import {
   CheckCircle as CheckCircleIcon,
   Block as BlockIcon,
-  Visibility as VisibilityIcon,
   Cancel as CancelIcon,
   DescriptionOutlined as DocIcon
 } from '@mui/icons-material';
-import { format } from 'date-fns';
-import { supabase, supabaseUrl, supabaseAnonKey } from '../../config/supabase';
+import { supabase, adminSupabase } from '../../config/supabase';
 import type { Member } from '../../types';
-import { createClient } from '@supabase/supabase-js';
 
 interface Application {
   id: string;
@@ -56,7 +53,6 @@ const MemberManagement: React.FC = () => {
   
   // Approval
   const [approvalDialogOpen, setApprovalDialogOpen] = useState(false);
-  const [generatedPassword, setGeneratedPassword] = useState('');
   const [isProcessingApp, setIsProcessingApp] = useState(false);
 
   // Rejection
@@ -122,12 +118,6 @@ const MemberManagement: React.FC = () => {
     }
   };
 
-  const generateRandomPassword = () => {
-    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
-    let pass = '';
-    for (let i = 0; i < 12; i++) pass += chars.charAt(Math.floor(Math.random() * chars.length));
-    return pass;
-  };
 
   /* ----- APPLICATION ACTIONS ----- */
   
@@ -138,7 +128,6 @@ const MemberManagement: React.FC = () => {
 
   const openApproveDialog = (app: Application) => {
     setSelectedApp(app);
-    setGeneratedPassword(generateRandomPassword());
     setApprovalDialogOpen(true);
   };
 
@@ -154,12 +143,9 @@ const MemberManagement: React.FC = () => {
       setIsProcessingApp(true);
       setError('');
       
-      const tempClient = createClient(supabaseUrl, supabaseAnonKey, { auth: { persistSession: false } });
-
-      const { data: authData, error: authError } = await tempClient.auth.signUp({
-        email: selectedApp.email,
-        password: generatedPassword,
-        options: { 
+      const { error: authError } = await adminSupabase.auth.admin.inviteUserByEmail(
+        selectedApp.email,
+        { 
           data: { 
             firstName: selectedApp.first_name, 
             lastName: selectedApp.last_name,
@@ -169,7 +155,7 @@ const MemberManagement: React.FC = () => {
             role: 'member'
           } 
         }
-      });
+      );
       if (authError) throw authError;
 
       // Force member status to 'inactive' to require an initial deposit on login
@@ -177,7 +163,7 @@ const MemberManagement: React.FC = () => {
 
       await supabase.from('membership_applications').update({ status: 'approved' }).eq('id', selectedApp.id);
 
-      setSuccess(`Application approved! Password generated for ${selectedApp.email}.`);
+      setSuccess(`Invitation sent to ${selectedApp.email}. They will set their own password via the link.`);
       setApprovalDialogOpen(false);
       fetchApplications();
     } catch (err: any) {
@@ -217,7 +203,7 @@ const MemberManagement: React.FC = () => {
       <Typography variant="h4" sx={{ marginBottom: 4, fontWeight: 700 }}>Member Management</Typography>
 
       <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 4 }}>
-        <Tabs value={activeTab} onChange={(e, v) => { setActiveTab(v); setPage(1); }}>
+        <Tabs value={activeTab} onChange={(_, v) => { setActiveTab(v); setPage(1); }}>
           <Tab label="Existing Members" />
           <Tab label="Pending Applications" />
         </Tabs>
@@ -328,14 +314,11 @@ const MemberManagement: React.FC = () => {
         <DialogTitle>Approve Application</DialogTitle>
         <DialogContent>
           <Typography mb={2}>You are approving <strong>{selectedApp?.first_name} {selectedApp?.last_name}</strong>.</Typography>
-          <Alert severity="warning" sx={{ mb: 2 }}>This will create a new user account with an INITIAL DEPOSIT REQUIRED lock. Please email them this password.</Alert>
-          <Box sx={{ p: 2, background: 'rgba(0,0,0,0.05)', borderRadius: 1, fontFamily: 'monospace', textAlign: 'center', fontSize: '1.2rem', letterSpacing: 2 }}>
-            {generatedPassword}
-          </Box>
+          <Alert severity="info" sx={{ mb: 2 }}>This will send a professional invitation email to the applicant. They will click a link and set their own password to activate their account.</Alert>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setApprovalDialogOpen(false)} disabled={isProcessingApp}>Cancel</Button>
-          <Button onClick={approveApplication} variant="contained" disabled={isProcessingApp}>{isProcessingApp ? 'Processing...' : 'Create Locked Account'}</Button>
+          <Button onClick={approveApplication} variant="contained" disabled={isProcessingApp}>{isProcessingApp ? 'Sending Invite...' : 'Send Invitation'}</Button>
         </DialogActions>
       </Dialog>
 
