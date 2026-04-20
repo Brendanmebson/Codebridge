@@ -1,74 +1,90 @@
-# React + TypeScript + Vite
+# CodeBridge - Financial Empowerment Cooperative
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![CodeBridge Logo](src/assets/logo.jpg)
 
-Currently, two official plugins are available:
+CodeBridge is a professional, member-owned cooperative platform designed to promote financial security through disciplined savings, affordable credit facilities, and mutual community support. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Built with a focus on transparency and accessibility, the platform provides members with powerful tools to manage their financial growth and administrators with robust management capabilities.
 
-## React Compiler
+## 🚀 Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### **Public Presence**
+-   **Dynamic Landing Page**: Modern, high-impact design featuring animated impact metrics and service overviews.
+-   **Loan Calculator**: Interactive tool for prospective and current members to estimate loan repayments.
+-   **Comprehensive Documentation**: Clear access to loan policies, membership terms, and governance information.
+-   **Membership Application**: Secure, document-backed application flow for prospective members.
 
-## Expanding the ESLint configuration
+### **Member Dashboard**
+-   **Savings Tracking**: Real-time visualization of accumulated savings and dividends.
+-   **Loan Management**: Apply for loans, track approval status, and view detailed repayment schedules.
+-   **Secure Portal**: Personalized experience with secure authentication and account management.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### **Administrative Portal**
+-   **Application Review**: Streamlined interface for reviewing member applications and documents.
+-   **Native Email Invitations**: Automated onboarding flow that sends secure invitations to approved members.
+-   **Member Management**: Full oversight of the cooperative's membership base, including status updates and role management.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🛠 Tech Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+-   **Frontend**: React (Vite), TypeScript
+-   **UI/UX**: Material UI (MUI), Emotion, MUI Icons
+-   **Backend & Auth**: Supabase (PostgreSQL, GoTrue, Edge Functions)
+-   **Utilities**: Axios, React Hook Form, Date-fns
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🏗 Project Structure
+
+```text
+src/
+├── assets/          # Static assets (images, logos)
+├── components/      # Shared reusable UI components
+├── config/          # Service configurations (Supabase, etc.)
+├── contexts/        # React Contexts (Auth, UI state)
+├── hooks/           # Custom React hooks (useCounter, etc.)
+├── pages/
+│   ├── Admin/       # Administrative management pages
+│   ├── auth/        # Authentication pages (Login, SignUp)
+│   ├── dashboard/   # Member-specific dashboard pages
+│   └── public/      # Landing page and information pages
+├── theme/           # Material UI theme customizations
+└── types/           # TypeScript interfaces and types
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## ⚙️ Getting Started
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### **Prerequisites**
+-   Node.js (v18+)
+-   npm or yarn
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-# Codebridge-frontend
+### **Installation**
+
+1.  **Clone the repository**:
+    ```bash
+    git clone [repository-url]
+    cd codebridge-frontend
+    ```
+
+2.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
+
+3.  **Environment Setup**:
+    Create a `.env` file in the root directory and add your Supabase credentials:
+    ```env
+    VITE_SUPABASE_URL=your_supabase_url
+    VITE_SUPABASE_ANON_KEY=your_anon_key
+    VITE_SUPABASE_SERVICE_ROLE_KEY=your_service_role_key (optional, for admin features)
+    ```
+
+4.  **Start the development server**:
+    ```bash
+    npm run dev
+    ```
+
+## 🔒 Security
+-   **Authentication**: Secured by Supabase Auth with PKCE and Email verification.
+-   **Administrative Actions**: Protected by Service Role validation and secure invitation flows.
+-   **Environment Protection**: `.env` files are ignored by version control to protect sensitive keys.
+
+---
+*Built with ❤️ by the CodeBridge Team.*
