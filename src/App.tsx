@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -20,35 +20,38 @@ import NotFound from './components/layout/NotFound';
 
 
 // Public Pages
-import Home from './pages/public/Home';
-import About from './pages/public/About';
-import Services from './pages/public/Services';
-import Contact from './pages/public/Contact';
-import Membership from './pages/public/Membership';
-import Apply from './pages/public/Apply';
-import LoanCalculator from './pages/public/LoanCalculator';
+const Home = lazy(() => import('./pages/public/Home'));
+const About = lazy(() => import('./pages/public/About'));
+const Services = lazy(() => import('./pages/public/Services'));
+const Contact = lazy(() => import('./pages/public/Contact'));
+const Membership = lazy(() => import('./pages/public/Membership'));
+const Apply = lazy(() => import('./pages/public/Apply'));
+const LoanCalculator = lazy(() => import('./pages/public/LoanCalculator'));
+const Downloads = lazy(() => import('./pages/public/Downloads'));
+const Newsletter = lazy(() => import('./pages/public/Newsletter'));
 
 // Auth Pages
-import Login from './pages/auth/Login';
+const Login = lazy(() => import('./pages/auth/Login'));
 
 // Dashboard Pages
-import Dashboard from './pages/dashboard/Dashboard';
-import Savings from './pages/dashboard/Savings';
-import Loans from './pages/dashboard/Loans';
-import LoanApplication from './pages/dashboard/LoanApplication';
-import LoanDetails from './pages/dashboard/LoanDetails';
-import Governance from './pages/public/Governance';
-import PrivacyPolicy from './pages/public/PrivacyPolicy';
-import TermsAndConditions from './pages/public/TermsAndConditions';
-import LoanPolicy from './pages/public/LoanPolicy';
-import Exco from './pages/public/Exco';
-import Gallery from './pages/public/Gallery';
-import Businesses from './pages/public/Businesses';
+const Dashboard = lazy(() => import('./pages/dashboard/Dashboard'));
+const Savings = lazy(() => import('./pages/dashboard/Savings'));
+const Loans = lazy(() => import('./pages/dashboard/Loans'));
+const LoanApplication = lazy(() => import('./pages/dashboard/LoanApplication'));
+const LoanDetails = lazy(() => import('./pages/dashboard/LoanDetails'));
+const Statements = lazy(() => import('./pages/dashboard/Statements'));
+const Governance = lazy(() => import('./pages/public/Governance'));
+const PrivacyPolicy = lazy(() => import('./pages/public/PrivacyPolicy'));
+const TermsAndConditions = lazy(() => import('./pages/public/TermsAndConditions'));
+const LoanPolicy = lazy(() => import('./pages/public/LoanPolicy'));
+const Exco = lazy(() => import('./pages/public/Exco'));
+const Gallery = lazy(() => import('./pages/public/Gallery'));
+const Businesses = lazy(() => import('./pages/public/Businesses'));
 
 // Admin Pages
-import AdminDashboard from './pages/Admin/AdminDashboard';
-import MemberManagement from './pages/Admin/MemberManagement';
-import LoanApprovals from './pages/Admin/LoanApprovals';
+const AdminDashboard = lazy(() => import('./pages/Admin/AdminDashboard'));
+const MemberManagement = lazy(() => import('./pages/Admin/MemberManagement'));
+const LoanApprovals = lazy(() => import('./pages/Admin/LoanApprovals'));
 
 // Layout wrappers
 import DashboardLayout from './components/layout/DashboardLayout';
@@ -146,6 +149,19 @@ const AppRoutes: React.FC = () => {
   location.pathname.startsWith('/admin') ||
   location.pathname === '/login';
 
+  const renderSuspenseFallback = () => (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '60vh',
+      }}
+    >
+      <CircularProgress />
+    </Box>
+  );
+
   return (
     <Box
       sx={{
@@ -157,7 +173,8 @@ const AppRoutes: React.FC = () => {
   {!hideLayout && <Navbar />}
 
       <Box sx={{ flex: 1 }}>
-        <Routes>
+        <Suspense fallback={renderSuspenseFallback()}>
+          <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -166,6 +183,8 @@ const AppRoutes: React.FC = () => {
           <Route path="/apply" element={<Apply />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/loan-calculator" element={<LoanCalculator />} />
+          <Route path="/downloads" element={<Downloads />} />
+          <Route path="/newsletter" element={<Newsletter />} />
           <Route path="/governance" element={<Governance />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/loan-policy" element={<LoanPolicy />} />
@@ -220,6 +239,14 @@ const AppRoutes: React.FC = () => {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/dashboard/statements"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout><Statements /></DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
 
           {/* Admin Routes */}
           <Route
@@ -250,6 +277,7 @@ const AppRoutes: React.FC = () => {
           {/* Catch All */}
 <Route path="*" element={<NotFound />} />
         </Routes>
+        </Suspense>
       </Box>
 
       {/* Hide footer on dashboard, admin & login */}

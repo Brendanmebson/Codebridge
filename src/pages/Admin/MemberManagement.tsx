@@ -11,7 +11,7 @@ import {
   Cancel as CancelIcon,
   DescriptionOutlined as DocIcon
 } from '@mui/icons-material';
-import { supabase, adminSupabase } from '../../config/supabase';
+import { supabase } from '../../config/supabase';
 import type { Member } from '../../types';
 
 interface Application {
@@ -142,28 +142,30 @@ const MemberManagement: React.FC = () => {
     try {
       setIsProcessingApp(true);
       setError('');
-      
-      const { error: authError } = await adminSupabase.auth.admin.inviteUserByEmail(
-        selectedApp.email,
-        { 
-          data: { 
-            firstName: selectedApp.first_name, 
-            lastName: selectedApp.last_name,
-            phone: selectedApp.phone,
-            address: selectedApp.address,
-            dateOfBirth: selectedApp.date_of_birth,
-            role: 'member'
-          } 
-        }
-      );
-      if (authError) throw authError;
 
-      // Force member status to 'inactive' to require an initial deposit on login
-      await supabase.from('members').update({ status: 'inactive' }).eq('email', selectedApp.email);
+      const response = await fetch('/api/approve-application', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: selectedApp.id,
+          email: selectedApp.email,
+          first_name: selectedApp.first_name,
+          last_name: selectedApp.last_name,
+          phone: selectedApp.phone,
+          address: selectedApp.address,
+          date_of_birth: selectedApp.date_of_birth,
+        }),
+      });
 
-      await supabase.from('membership_applications').update({ status: 'approved' }).eq('id', selectedApp.id);
+      const result = await response.json();
 
-      setSuccess(`Invitation sent to ${selectedApp.email}. They will set their own password via the link.`);
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to approve application');
+      }
+
+      setSuccess(result.message || `Application approved for ${selectedApp.email}.`);
       setApprovalDialogOpen(false);
       fetchApplications();
     } catch (err: any) {

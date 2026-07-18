@@ -2,12 +2,18 @@ import { createClient } from '@supabase/supabase-js';
 
 export const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
 export const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
-export const supabaseServiceRoleKey = import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY || '';
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
-export const adminSupabase = createClient(supabaseUrl, supabaseServiceRoleKey, {
+export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
-    autoRefreshToken: false,
-    persistSession: false
-  }
+    persistSession: true,
+    autoRefreshToken: true,
+  },
 });
+
+if (!isSupabaseConfigured) {
+  console.warn(
+    'Supabase environment variables are missing. Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to your environment before running the app.'
+  );
+}

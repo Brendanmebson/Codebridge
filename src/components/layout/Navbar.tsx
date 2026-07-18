@@ -63,6 +63,7 @@ const Navbar: React.FC = () => {
     { label: 'Services', path: '/services', icon: <MiscellaneousServicesIcon sx={{ fontSize: 18 }} /> },
     { label: 'Membership', path: '/membership', icon: <BadgeOutlinedIcon sx={{ fontSize: 18 }} /> },
     { label: 'Contact', path: '/contact', icon: <ContactMailOutlinedIcon sx={{ fontSize: 18 }} /> },
+    { label: 'Downloads', path: '/downloads', icon: <BadgeOutlinedIcon sx={{ fontSize: 18 }} /> },
   ];
 
   const adminNavItems = [

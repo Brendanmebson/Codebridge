@@ -23,6 +23,8 @@ const Footer: React.FC = () => {
     { label: 'Membership', to: '/membership' },
     { label: 'Membership Application', to: '/apply' },
     { label: 'Loan Calculator', to: '/loan-calculator' },
+    { label: 'Downloads', to: '/downloads' },
+    { label: 'Newsletter', to: '/newsletter' },
     { label: 'Exco', to: '/exco' },
     { label: 'Gallery', to: '/gallery' },
     { label: 'Businesses', to: '/businesses' },
