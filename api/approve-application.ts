@@ -10,6 +10,8 @@ const adminSupabase = createClient(supabaseUrl, supabaseServiceRoleKey, {
   },
 });
 
+const createMemberNumber = () => `CB-${Date.now().toString().slice(-8)}`;
+
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -44,13 +46,35 @@ export default async function handler(req: any, res: any) {
       throw inviteError;
     }
 
-    const { error: memberUpdateError } = await adminSupabase
+    const { data: existingMember, error: existingMemberError } = await adminSupabase
       .from('members')
-      .update({ status: 'inactive' })
-      .eq('email', email);
+      .select('*')
+      .eq('email', email)
+      .maybeSingle();
 
-    if (memberUpdateError) {
-      throw memberUpdateError;
+    if (existingMemberError) {
+      throw existingMemberError;
+    }
+
+    const memberPayload = {
+      email,
+      first_name: (payload.first_name ?? existingMember?.first_name ?? '').toString(),
+      last_name: (payload.last_name ?? existingMember?.last_name ?? '').toString(),
+      phone: (payload.phone ?? existingMember?.phone ?? '').toString(),
+      address: (payload.address ?? existingMember?.address ?? '').toString(),
+      date_of_birth: payload.date_of_birth ?? existingMember?.date_of_birth ?? null,
+      member_number: existingMember?.member_number ?? createMemberNumber(),
+      role: 'member',
+      status: 'inactive',
+      registration_date: existingMember?.registration_date ?? new Date().toISOString(),
+    };
+
+    const { error: memberUpsertError } = await adminSupabase
+      .from('members')
+      .upsert(memberPayload, { onConflict: 'email' });
+
+    if (memberUpsertError) {
+      throw memberUpsertError;
     }
 
     const { error: applicationUpdateError } = await adminSupabase
