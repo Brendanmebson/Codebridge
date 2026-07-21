@@ -88,9 +88,35 @@ const Register: React.FC = () => {
     setLoading(true);
     try {
       if (!sessionReady) {
-        setError('Finishing authentication. Please wait a moment and try again.');
-        setLoading(false);
-        return;
+        // Try to extract session from URL now (user may have opened link earlier)
+        try {
+          const url = window.location.href;
+          if (/([#?](access_token|refresh_token|type)=)/.test(url)) {
+            const { error } = await supabase.auth.getSessionFromUrl({ storeSession: true });
+            if (error) console.warn('getSessionFromUrl returned error:', error);
+          }
+        } catch (e) {
+          console.warn('getSessionFromUrl threw:', e);
+        }
+
+        // Wait up to ~3s for session to appear
+        let waited = 0;
+        while (!sessionReady && waited < 15) {
+          // eslint-disable-next-line no-await-in-loop
+          await new Promise((r) => setTimeout(r, 200));
+          const { data } = await supabase.auth.getSession();
+          if (data?.session) {
+            setSessionReady(true);
+            break;
+          }
+          waited += 1;
+        }
+
+        if (!sessionReady) {
+          setError('Finishing authentication failed — please open the invite link again or refresh the page.');
+          setLoading(false);
+          return;
+        }
       }
 
       // Attempt update; retry once on abort
@@ -116,7 +142,7 @@ const Register: React.FC = () => {
           if (msg && msg.toLowerCase().includes('abort')) {
             attempt += 1;
             if (attempt >= 2) {
-              setError('Request was aborted. Please refresh the page and try again.');
+              setError('Request was aborted. Please refresh the page and open the invite link again.');
             } else {
               // small backoff before retry
               // eslint-disable-next-line no-await-in-loop
