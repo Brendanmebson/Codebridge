@@ -32,6 +32,7 @@ const Newsletter = lazy(() => import('./pages/public/Newsletter'));
 
 // Auth Pages
 const Login = lazy(() => import('./pages/auth/Login'));
+const Register = lazy(() => import('./pages/auth/Register'));
 
 // Dashboard Pages
 const Dashboard = lazy(() => import('./pages/dashboard/Dashboard'));
@@ -148,7 +149,8 @@ const AppRoutes: React.FC = () => {
   const hideLayout =
   location.pathname.startsWith('/dashboard') ||
   location.pathname.startsWith('/admin') ||
-  location.pathname === '/login';
+  location.pathname === '/login' ||
+  location.pathname === '/register';
 
   const renderSuspenseFallback = () => (
     <Box
@@ -197,6 +199,7 @@ const AppRoutes: React.FC = () => {
 
           {/* Auth Routes */}
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
           {/* Dashboard Routes */}
           <Route

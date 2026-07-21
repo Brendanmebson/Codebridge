@@ -86,6 +86,28 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
     }, 3000);
 
+    const handleRedirectSession = async () => {
+      const url = window.location.href;
+      const hasAuthParams = /([#?](access_token|refresh_token|type)=)/.test(url);
+      if (!hasAuthParams) return;
+
+      try {
+        const { error } = await supabase.auth.getSessionFromUrl({ storeSession: true });
+        if (error) {
+          console.error('Auth redirect session error:', error);
+        }
+      } catch (err) {
+        if (!isAbortError(err)) {
+          console.error('Auth redirect session error:', err);
+        }
+      } finally {
+        if (window?.history?.replaceState) {
+          const cleanUrl = window.location.origin + window.location.pathname + window.location.search;
+          window.history.replaceState(null, '', cleanUrl);
+        }
+      }
+    };
+
     const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
       // ── INITIAL_SESSION ──────────────────────────────────────────────
       // Fires once on mount. Restores session silently if one exists.
@@ -108,11 +130,19 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       if (!isMounted) return;
 
       // ── SIGNED_IN ────────────────────────────────────────────────────
-      // Supabase fires this on session restore AND explicit login.
-      // We only care about explicit login — login() handles fetchProfile directly.
-      // All other SIGNED_IN events (token refresh, restore) are ignored because
-      // INITIAL_SESSION already covered the restore case above.
-      if (event === 'SIGNED_IN') return;
+      if (event === 'SIGNED_IN') {
+        if (session?.user && !isLoggingIn.current) {
+          try {
+            const memberData = await fetchProfile(session.user.id);
+            if (memberData) applyMemberState(memberData);
+          } catch (err) {
+            if (!isAbortError(err)) console.error('SIGNED_IN error:', err);
+          }
+        }
+
+        if (isMounted) finalizeInitialSession();
+        return;
+      }
 
       // ── TOKEN_REFRESHED ──────────────────────────────────────────────
       // Background token refresh — no UI action needed.
@@ -124,6 +154,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         finalizeInitialSession();
       }
     });
+
+    handleRedirectSession();
 
     return () => {
       isMounted = false;

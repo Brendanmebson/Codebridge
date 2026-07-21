@@ -4,7 +4,9 @@ const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL ||
 const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 const appUrl = (process.env.APP_URL || process.env.SITE_URL || '').replace(/\/$/, '');
 const vercelUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '';
-const invitedRedirectUrl = `${appUrl || vercelUrl || 'https://codebridgetest.vercel.app/login'}`;
+const invitedRedirectUrlBase = `${appUrl || vercelUrl || 'https://codebridgetest.vercel.app'}/register`;
+
+const getInvitedRedirectUrl = (email: string) => `${invitedRedirectUrlBase}?email=${encodeURIComponent(email)}`;
 
 const adminSupabase = createClient(supabaseUrl, supabaseServiceRoleKey, {
   auth: {
@@ -43,7 +45,7 @@ export default async function handler(req: any, res: any) {
         dateOfBirth: payload.date_of_birth ?? '',
         role: 'member',
       },
-      redirectTo: invitedRedirectUrl,
+      redirectTo: getInvitedRedirectUrl(email),
     });
 
     if (inviteError) {
