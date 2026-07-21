@@ -77,15 +77,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => {
     let isMounted = true;
 
-    // Safety net — if INITIAL_SESSION never fires or is aborted by Strict Mode,
-    // force loading off after 3 seconds so the app never hangs forever
-    const safetyTimer = setTimeout(() => {
-      if (isMounted) {
-        console.warn('Auth safety timer fired — forcing loading off');
-        finalizeInitialSession();
-      }
-    }, 5000);
-
     const handleRedirectSession = async () => {
       const url = window.location.href;
       const hasAuthParams = /([#?](access_token|refresh_token|type)=)/.test(url);
@@ -159,7 +150,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     return () => {
       isMounted = false;
-      clearTimeout(safetyTimer);
       data.subscription.unsubscribe();
     };
   }, []);
@@ -169,65 +159,21 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       setLoading(true);
 
-      const attemptLogin = async () => {
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        return data;
-      };
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
 
-      const restoreFromSession = async () => {
-        const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-        if (!sessionError && sessionData?.session?.user) {
-          const memberData = await fetchProfile(sessionData.session.user.id);
-          if (memberData) {
-            applyMemberState(memberData);
-            return true;
-          }
-
-          await supabase.auth.signOut();
-          throw new Error('Member profile not found. Please contact support.');
-        }
-        return false;
-      };
-
-      let attempt = 0;
-      while (attempt < 2) {
-        try {
-          const data = await attemptLogin();
-
-          if (!data?.user) {
-            throw new Error('Login did not return a valid user session. Please try again.');
-          }
-
-          const memberData = await fetchProfile(data.user.id);
-
-          if (!memberData) {
-            await supabase.auth.signOut();
-            throw new Error('Member profile not found. Please contact support.');
-          }
-
-          applyMemberState(memberData);
-          break; // success
-        } catch (err: unknown) {
-          if (isAbortError(err)) {
-            attempt += 1;
-            console.warn('Login aborted, retrying...', { attempt, err });
-
-            const recovered = await restoreFromSession();
-            if (recovered) break;
-
-            if (attempt >= 2) {
-              throw err;
-            }
-
-            // small backoff
-            // eslint-disable-next-line no-await-in-loop
-            await new Promise((r) => setTimeout(r, 300));
-            continue;
-          }
-          throw err;
-        }
+      if (!data?.user) {
+        throw new Error('Login did not return a valid user session. Please try again.');
       }
+
+      const memberData = await fetchProfile(data.user.id);
+
+      if (!memberData) {
+        await supabase.auth.signOut();
+        throw new Error('Member profile not found. Please contact support.');
+      }
+
+      applyMemberState(memberData);
     } catch (error: unknown) {
       console.error('Raw Login Error:', error);
       if (isAbortError(error)) {
