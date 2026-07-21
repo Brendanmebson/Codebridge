@@ -169,29 +169,57 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       setLoading(true);
 
+      const attemptLogin = async () => {
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        return data;
+      };
+
+      const restoreFromSession = async () => {
+        const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+        if (!sessionError && sessionData?.session?.user) {
+          const memberData = await fetchProfile(sessionData.session.user.id);
+          if (memberData) {
+            applyMemberState(memberData);
+            return true;
+          }
+
+          await supabase.auth.signOut();
+          throw new Error('Member profile not found. Please contact support.');
+        }
+        return false;
+      };
+
       let attempt = 0;
       while (attempt < 2) {
         try {
-          const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-          if (error) throw error;
+          const data = await attemptLogin();
 
-          if (data.user) {
-            const memberData = await fetchProfile(data.user.id);
-
-            if (!memberData) {
-              await supabase.auth.signOut();
-              throw new Error('Member profile not found. Please contact support.');
-            }
-
-            applyMemberState(memberData);
+          if (!data?.user) {
+            throw new Error('Login did not return a valid user session. Please try again.');
           }
 
+          const memberData = await fetchProfile(data.user.id);
+
+          if (!memberData) {
+            await supabase.auth.signOut();
+            throw new Error('Member profile not found. Please contact support.');
+          }
+
+          applyMemberState(memberData);
           break; // success
         } catch (err: unknown) {
           if (isAbortError(err)) {
             attempt += 1;
             console.warn('Login aborted, retrying...', { attempt, err });
-            if (attempt >= 2) throw err;
+
+            const recovered = await restoreFromSession();
+            if (recovered) break;
+
+            if (attempt >= 2) {
+              throw err;
+            }
+
             // small backoff
             // eslint-disable-next-line no-await-in-loop
             await new Promise((r) => setTimeout(r, 300));
