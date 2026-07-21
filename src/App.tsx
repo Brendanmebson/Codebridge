@@ -138,6 +138,31 @@ const AdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return <>{children}</>;
 };
 
+const UnauthenticatedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { user, userRole, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '80vh',
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (user) {
+    return <Navigate to={userRole === 'admin' ? '/admin' : '/dashboard'} replace />;
+  }
+
+  return <>{children}</>;
+};
+
 
 // =============================
 // Routes + Layout Wrapper
@@ -198,8 +223,8 @@ const AppRoutes: React.FC = () => {
           <Route path="/business-submission" element={<BusinessSubmission />} />
 
           {/* Auth Routes */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<UnauthenticatedRoute><Login /></UnauthenticatedRoute>} />
+          <Route path="/register" element={<UnauthenticatedRoute><Register /></UnauthenticatedRoute>} />
 
           {/* Dashboard Routes */}
           <Route
