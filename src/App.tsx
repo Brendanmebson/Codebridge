@@ -47,6 +47,7 @@ const LoanPolicy = lazy(() => import('./pages/public/LoanPolicy'));
 const Exco = lazy(() => import('./pages/public/Exco'));
 const Gallery = lazy(() => import('./pages/public/Gallery'));
 const Businesses = lazy(() => import('./pages/public/Businesses'));
+const BusinessSubmission = lazy(() => import('./pages/public/BusinessSubmission'));
 
 // Admin Pages
 const AdminDashboard = lazy(() => import('./pages/Admin/AdminDashboard'));
@@ -192,6 +193,7 @@ const AppRoutes: React.FC = () => {
           <Route path="/exco" element={<Exco />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/businesses" element={<Businesses />} />
+          <Route path="/business-submission" element={<BusinessSubmission />} />
 
           {/* Auth Routes */}
           <Route path="/login" element={<Login />} />

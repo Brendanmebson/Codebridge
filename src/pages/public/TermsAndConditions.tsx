@@ -668,7 +668,7 @@ const TermsAndConditions: React.FC = () => {
                     { icon: <EmailOutlinedIcon sx={{ fontSize: 18 }} />, label: 'General Enquiries', val: 'hello@codebridgecoop.ng', color: palette.secondary.dark },
                     { icon: <LockOutlinedIcon sx={{ fontSize: 18 }} />, label: 'Data Protection Officer', val: 'dpo@codebridgecoop.ng', color: palette.info.dark },
                     { icon: <GavelIcon sx={{ fontSize: 18 }} />, label: 'Legal / Complaints', val: 'legal@codebridgecoop.ng', color: palette.primary.dark },
-                    { icon: <PhoneOutlinedIcon sx={{ fontSize: 18 }} />, label: 'Phone', val: '+234 901 234 5678', color: palette.secondary.dark },
+                    { icon: <PhoneOutlinedIcon sx={{ fontSize: 18 }} />, label: 'Phone', val: '+234 815 523 0994', color: palette.secondary.dark },
                   ].map((c, i) => (
                     <Box key={i} sx={{
                       display: 'flex', gap: 1.75, p: 2.5,
@@ -798,13 +798,13 @@ const TermsAndConditions: React.FC = () => {
               to these Terms and Conditions.
             </Typography>
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifyContent: 'center', mb: 6 }}>
-              <Button component={Link} to="/login" variant="contained" size="large" endIcon={<ArrowForwardIcon />}
+              <Button component={Link} to="/apply" variant="contained" size="large" endIcon={<ArrowForwardIcon />}
                 sx={{ background: '#fff', color: palette.primary.dark, boxShadow: '0 10px 40px rgba(0,0,0,0.22)', '&:hover': { background: palette.background.default, boxShadow: '0 18px 56px rgba(0,0,0,0.28)' } }}>
-                Login Now
+                Get Started Today
               </Button>
-              <Button component={Link} to="/contact" variant="outlined" size="large"
+              <Button component={Link} to="/apply" variant="outlined" size="large"
                 sx={{ borderColor: 'rgba(255,255,255,0.3)', color: '#fff', backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.07)', '&:hover': { borderColor: 'rgba(255,255,255,0.65)', background: 'rgba(255,255,255,0.14)' } }}>
-                Ask a Question
+                Apply for a Loan
               </Button>
             </Stack>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>

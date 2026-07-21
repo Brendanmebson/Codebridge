@@ -683,14 +683,14 @@ const Services: React.FC = () => {
           }}>
             <Box>
               <Typography variant="h5" sx={{ color: palette.text.primary, mb: 0.5 }}>
-                Ready to apply for a loan?
+                Ready to get started?
               </Typography>
               <Typography variant="body2" sx={{ color: palette.text.secondary, fontWeight: 300 }}>
-                Login to your member dashboard and start your application in minutes.
+                Start your membership application and join the cooperative today.
               </Typography>
             </Box>
             <Button
-              component={Link} to="/login"
+              component={Link} to="/apply"
               variant="contained" size="large"
               endIcon={<ArrowForwardIcon />}
               sx={{
@@ -700,7 +700,7 @@ const Services: React.FC = () => {
                 '&:hover': { boxShadow: `0 14px 36px ${palette.primary.main}50` },
               }}
             >
-              Apply for a Loan
+              Get Started Today
             </Button>
           </Box>
         </Container>
@@ -844,7 +844,7 @@ const Services: React.FC = () => {
             </Typography>
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifyContent: 'center', mb: 6 }}>
               <Button
-                component={Link} to="/login" variant="contained" size="large"
+                component={Link} to="/apply" variant="contained" size="large"
                 endIcon={<ArrowForwardIcon />}
                 sx={{
                   background: '#fff', color: palette.primary.dark,
@@ -852,17 +852,17 @@ const Services: React.FC = () => {
                   '&:hover': { background: palette.background.default, boxShadow: '0 18px 56px rgba(0,0,0,0.28)' },
                 }}
               >
-                Login Now
+                Get Started Today
               </Button>
               <Button
-                component={Link} to="/membership" variant="outlined" size="large"
+                component={Link} to="/apply" variant="outlined" size="large"
                 sx={{
                   borderColor: 'rgba(255,255,255,0.3)', color: '#fff',
                   backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.07)',
                   '&:hover': { borderColor: 'rgba(255,255,255,0.65)', background: 'rgba(255,255,255,0.14)' },
                 }}
               >
-                Learn About Membership
+                Apply for a Loan
               </Button>
             </Stack>
 

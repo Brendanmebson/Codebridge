@@ -1002,14 +1002,7 @@ const Home: React.FC = () => {
         <Container maxWidth="md" sx={{ position: 'relative', zIndex: 2 }}>
           <Box sx={{ textAlign: 'center' }}>
             <Typography variant="h1" sx={{ color: '#fff', mb: 2, fontSize: { xs: '2.6rem', md: '3.8rem' } }}>
-              Ready to Join Our<br />
-              <Box component="span" sx={{
-                fontStyle: 'italic', fontWeight: 300,
-                background: `linear-gradient(90deg, ${palette.secondary.light}, #E8F5E9)`,
-                WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-              }}>
-                Community?
-              </Box>
+              Get Started Today
             </Typography>
             <Typography variant="subtitle1" sx={{ color: 'rgba(255,255,255,0.62)', mb: 6, maxWidth: 520, mx: 'auto', fontWeight: 300 }}>
               Become part of a financially empowered community where members support
@@ -1017,7 +1010,7 @@ const Home: React.FC = () => {
             </Typography>
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifyContent: 'center', mb: 6 }}>
               <Button
-                component={Link} to="/login" variant="contained" size="large"
+                component={Link} to="/apply" variant="contained" size="large"
                 endIcon={<ArrowForwardIcon />}
                 sx={{
                   background: '#fff', color: palette.primary.dark,
@@ -1025,17 +1018,17 @@ const Home: React.FC = () => {
                   '&:hover': { background: palette.background.default, boxShadow: '0 18px 56px rgba(0,0,0,0.28)' },
                 }}
               >
-                Login Now
+                Get Started Today
               </Button>
               <Button
-                component={Link} to="/loans" variant="outlined" size="large"
+                component={Link} to="/apply" variant="outlined" size="large"
                 sx={{
                   borderColor: 'rgba(255,255,255,0.3)', color: '#fff',
                   backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.07)',
                   '&:hover': { borderColor: 'rgba(255,255,255,0.65)', background: 'rgba(255,255,255,0.14)' },
                 }}
               >
-                Apply for a Loan
+                Apply for Loan
               </Button>
             </Stack>
 

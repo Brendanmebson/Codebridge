@@ -33,6 +33,7 @@ const Contact: React.FC = () => {
   const { palette, typography, shape } = theme;
   const br = shape.borderRadius as number;
   const heroGradient = `linear-gradient(150deg, ${palette.primary.dark} 0%, ${palette.primary.main} 55%, ${palette.secondary.dark} 100%)`;
+  const contactRecipientEmail = 'brendanmebson@gmail.com';
 
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
@@ -44,6 +45,21 @@ const Contact: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const trimmedName = formData.name.trim();
+    const trimmedEmail = formData.email.trim();
+    const trimmedSubject = formData.subject.trim();
+    const trimmedMessage = formData.message.trim();
+
+    if (!trimmedName || !trimmedEmail || !trimmedSubject || !trimmedMessage) {
+      return;
+    }
+
+    const mailtoLink = `mailto:${contactRecipientEmail}?subject=${encodeURIComponent(trimmedSubject)}&body=${encodeURIComponent(
+      `Name: ${trimmedName}\nEmail: ${trimmedEmail}\n\n${trimmedMessage}`
+    )}`;
+
+    window.location.href = mailtoLink;
     setSubmitted(true);
     setFormData({ name: '', email: '', subject: '', message: '' });
   };
@@ -62,32 +78,32 @@ const Contact: React.FC = () => {
     {
       icon: <PhoneIcon sx={{ fontSize: 22 }} />,
       label: 'Call Us',
-      value: '+234 901 234 5678',
+      value: '+234 815 523 0994',
       sub: 'Mon–Sat, 9am–5pm',
       color: palette.info.dark,
       accent: palette.info.main,
       bg: '#E0F2F1',
-      action: 'tel:+2349012345678',
+      action: 'tel:+2348155230994',
     },
     {
       icon: <EmailIcon sx={{ fontSize: 22 }} />,
       label: 'Email Us',
-      value: 'hello@codebridgecoop.ng',
+      value: 'brendanmebson@gmail.com',
       sub: 'We reply within 24 hours',
       color: palette.secondary.dark,
       accent: palette.secondary.main,
       bg: '#F1F8E9',
-      action: 'mailto:hello@codebridgecoop.ng',
+      action: `mailto:${contactRecipientEmail}`,
     },
     {
       icon: <WhatsAppIcon sx={{ fontSize: 22 }} />,
       label: 'WhatsApp',
-      value: '+234 901 234 5678',
+      value: '+234 815 523 0994',
       sub: 'Quick replies, Mon–Sat',
       color: palette.info.dark,
       accent: '#00897B',
       bg: '#E0F7FA',
-      action: 'https://wa.me/2349012345678',
+      action: 'https://wa.me/2348155230994',
     },
   ];
 
@@ -624,7 +640,7 @@ const Contact: React.FC = () => {
                     </Typography>
                     <Box
                       component="a"
-                      href="https://wa.me/2349012345678"
+                      href="https://wa.me/2348155230994"
                       target="_blank"
                       rel="noopener noreferrer"
                       sx={{
@@ -686,7 +702,7 @@ const Contact: React.FC = () => {
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 4 }}>
                 {[
                   { icon: <LocationOnIcon sx={{ fontSize: 18 }} />, label: 'Address', val: '14 Cooperative Drive, Victoria Island, Lagos', color: palette.primary.main },
-                  { icon: <PhoneIcon sx={{ fontSize: 18 }} />, label: 'Phone', val: '+234 901 234 5678', color: palette.info.main },
+                  { icon: <PhoneIcon sx={{ fontSize: 18 }} />, label: 'Phone', val: '+234 815 523 0994', color: palette.info.main },
                   { icon: <EmailIcon sx={{ fontSize: 18 }} />, label: 'Email', val: 'hello@codebridgecoop.ng', color: palette.secondary.dark },
                 ].map((d, i) => (
                   <Box key={i} sx={{
@@ -849,7 +865,7 @@ const Contact: React.FC = () => {
             </Typography>
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifyContent: 'center', mb: 6 }}>
               <Button
-                component={Link} to="/login" variant="contained" size="large"
+                component={Link} to="/apply" variant="contained" size="large"
                 endIcon={<ArrowForwardIcon />}
                 sx={{
                   background: '#fff', color: palette.primary.dark,
@@ -857,17 +873,17 @@ const Contact: React.FC = () => {
                   '&:hover': { background: palette.background.default, boxShadow: '0 18px 56px rgba(0,0,0,0.28)' },
                 }}
               >
-                Login Now
+                Get Started Today
               </Button>
               <Button
-                component={Link} to="/membership" variant="outlined" size="large"
+                component={Link} to="/apply" variant="outlined" size="large"
                 sx={{
                   borderColor: 'rgba(255,255,255,0.3)', color: '#fff',
                   backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.07)',
                   '&:hover': { borderColor: 'rgba(255,255,255,0.65)', background: 'rgba(255,255,255,0.14)' },
                 }}
               >
-                Membership Info
+                Apply for a Loan
               </Button>
             </Stack>
 

@@ -428,7 +428,7 @@ const About: React.FC = () => {
               </Stack>
 
               <Button
-                component={Link} to="/login" variant="contained"
+                component={Link} to="/apply" variant="contained"
                 endIcon={<ArrowForwardIcon />}
                 sx={{
                   background: `linear-gradient(135deg, ${palette.primary.main}, ${palette.primary.dark})`,
@@ -439,7 +439,7 @@ const About: React.FC = () => {
                   },
                 }}
               >
-                Join Our Community
+                Get Started Today
               </Button>
             </Box>
           </Box>
@@ -952,7 +952,7 @@ const About: React.FC = () => {
             {[
               { icon: <LocationOnIcon sx={{ fontSize: 22 }} />, label: 'Visit Us', val: '14 Cooperative Drive, Victoria Island, Lagos', color: palette.primary.main },
               { icon: <EmailIcon sx={{ fontSize: 22 }} />, label: 'Email Us', val: 'hello@codebridgecoop.ng', color: palette.info.main },
-              { icon: <PhoneIcon sx={{ fontSize: 22 }} />, label: 'Call Us', val: '+234 901 234 5678', color: palette.secondary.dark },
+              { icon: <PhoneIcon sx={{ fontSize: 22 }} />, label: 'Call Us', val: '+234 815 523 0994', color: palette.secondary.dark },
             ].map((c, i) => (
               <Box key={i} sx={{
                 p: 3.5, background: palette.background.paper,
@@ -1032,7 +1032,7 @@ const About: React.FC = () => {
             </Typography>
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifyContent: 'center', mb: 6 }}>
               <Button
-                component={Link} to="/login" variant="contained" size="large"
+                component={Link} to="/apply" variant="contained" size="large"
                 endIcon={<ArrowForwardIcon />}
                 sx={{
                   background: '#fff', color: palette.primary.dark,
@@ -1040,10 +1040,10 @@ const About: React.FC = () => {
                   '&:hover': { background: palette.background.default, boxShadow: '0 18px 56px rgba(0,0,0,0.28)' },
                 }}
               >
-                Get Started
+                Get Started Today
               </Button>
               <Button
-                component={Link} to="/loans" variant="outlined" size="large"
+                component={Link} to="/apply" variant="outlined" size="large"
                 sx={{
                   borderColor: 'rgba(255,255,255,0.3)', color: '#fff',
                   backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.07)',

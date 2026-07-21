@@ -852,7 +852,7 @@ const Membership: React.FC = () => {
             </Typography>
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifyContent: 'center', mb: 6 }}>
               <Button
-                component={Link} to="/login" variant="contained" size="large"
+                component={Link} to="/apply" variant="contained" size="large"
                 endIcon={<ArrowForwardIcon />}
                 sx={{
                   background: '#fff', color: palette.primary.dark,
@@ -860,17 +860,17 @@ const Membership: React.FC = () => {
                   '&:hover': { background: palette.background.default, boxShadow: '0 18px 56px rgba(0,0,0,0.28)' },
                 }}
               >
-                Login Now
+                Get Started Today
               </Button>
               <Button
-                component={Link} to="/services" variant="outlined" size="large"
+                component={Link} to="/apply" variant="outlined" size="large"
                 sx={{
                   borderColor: 'rgba(255,255,255,0.3)', color: '#fff',
                   backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.07)',
                   '&:hover': { borderColor: 'rgba(255,255,255,0.65)', background: 'rgba(255,255,255,0.14)' },
                 }}
               >
-                View Services
+                Apply for a Loan
               </Button>
             </Stack>
 

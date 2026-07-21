@@ -415,7 +415,7 @@ const PrivacyPolicy: React.FC = () => {
             {[
               { label: 'DPO Name', val: 'Dr Amaka Eze', icon: <VerifiedUserOutlinedIcon sx={{ fontSize: 18 }} /> },
               { label: 'Email', val: 'dpo@codebridgecoop.ng', icon: <ContactMailOutlinedIcon sx={{ fontSize: 18 }} /> },
-              { label: 'Phone', val: '+234 901 234 5678', icon: <ContactMailOutlinedIcon sx={{ fontSize: 18 }} /> },
+              { label: 'Phone', val: '+234 815 523 0994', icon: <ContactMailOutlinedIcon sx={{ fontSize: 18 }} /> },
               { label: 'Response SLA', val: '72 hours maximum', icon: <UpdateOutlinedIcon sx={{ fontSize: 18 }} /> },
             ].map((c, i) => (
               <Box key={i} sx={{ p: 2.5, borderRadius: `${br * 1.5}px`, background: palette.background.default, border: `1px solid ${palette.background.default}`, display: 'flex', gap: 2, alignItems: 'center', transition: 'all 0.3s', '&:hover': { borderColor: `${palette.primary.main}15` } }}>

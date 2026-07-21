@@ -348,7 +348,7 @@ const Footer: React.FC = () => {
                 {
                   icon: <PhoneIcon sx={{ fontSize: 16 }} />,
                   label: 'Call Us',
-                  val: '+234 901 234 5678',
+                  val: '+234 815 523 0994',
                 },
               ].map((c, i) => (
                 <Box key={i} sx={{ display: 'flex', gap: 1.75, alignItems: 'flex-start' }}>

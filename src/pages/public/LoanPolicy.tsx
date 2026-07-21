@@ -212,8 +212,8 @@ const LoanPolicy: React.FC = () => {
                 repayment, and your rights as a borrowing member. Clear, plain language, no surprises.
               </Typography>
               <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                <Button component={Link} to="/loans" variant="contained" size="large" endIcon={<ArrowForwardIcon sx={{ fontSize: 18 }} />} sx={{ background: '#fff', color: palette.primary.dark, boxShadow: '0 12px 40px rgba(0,0,0,0.22)', '&:hover': { background: palette.background.default, boxShadow: '0 20px 50px rgba(0,0,0,0.28)' } }}>
-                  Apply for a Loan
+                <Button component={Link} to="/apply" variant="contained" size="large" endIcon={<ArrowForwardIcon sx={{ fontSize: 18 }} />} sx={{ background: '#fff', color: palette.primary.dark, boxShadow: '0 12px 40px rgba(0,0,0,0.22)', '&:hover': { background: palette.background.default, boxShadow: '0 20px 50px rgba(0,0,0,0.28)' } }}>
+                  Get Started Today
                 </Button>
                 <Button component={Link} to="/governance" variant="outlined" size="large" sx={{ borderColor: 'rgba(255,255,255,0.35)', color: '#fff', backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.06)', '&:hover': { borderColor: 'rgba(255,255,255,0.7)', background: 'rgba(255,255,255,0.12)' } }}>
                   Governance
@@ -813,13 +813,13 @@ const LoanPolicy: React.FC = () => {
               and a Loans Committee that genuinely works for members.
             </Typography>
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifyContent: 'center', mb: 6 }}>
-              <Button component={Link} to="/loans" variant="contained" size="large" endIcon={<ArrowForwardIcon />}
+              <Button component={Link} to="/apply" variant="contained" size="large" endIcon={<ArrowForwardIcon />}
                 sx={{ background: '#fff', color: palette.primary.dark, boxShadow: '0 10px 40px rgba(0,0,0,0.22)', '&:hover': { background: palette.background.default, boxShadow: '0 18px 56px rgba(0,0,0,0.28)' } }}>
-                Loan Calculator
+                Get Started Today
               </Button>
-              <Button component={Link} to="/login" variant="outlined" size="large"
+              <Button component={Link} to="/apply" variant="outlined" size="large"
                 sx={{ borderColor: 'rgba(255,255,255,0.3)', color: '#fff', backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.07)', '&:hover': { borderColor: 'rgba(255,255,255,0.65)', background: 'rgba(255,255,255,0.14)' } }}>
-                Login & Apply
+                Apply for a Loan
               </Button>
             </Stack>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>

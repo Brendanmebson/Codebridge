@@ -191,7 +191,7 @@ const Governance: React.FC = () => {
               </Typography>
               <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                 <Button
-                  component={Link} to="/login" variant="contained" size="large"
+                  component={Link} to="/apply" variant="contained" size="large"
                   endIcon={<ArrowForwardIcon sx={{ fontSize: 18 }} />}
                   sx={{
                     background: '#fff', color: palette.primary.dark,
@@ -199,7 +199,7 @@ const Governance: React.FC = () => {
                     '&:hover': { background: palette.background.default, boxShadow: '0 20px 50px rgba(0,0,0,0.28)' },
                   }}
                 >
-                  Member Portal
+                  Get Started Today
                 </Button>
                 <Button
                   component={Link} to="/about" variant="outlined" size="large"
@@ -940,13 +940,13 @@ const Governance: React.FC = () => {
               part of a democratic institution that puts members first.
             </Typography>
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifyContent: 'center', mb: 6 }}>
-              <Button component={Link} to="/login" variant="contained" size="large" endIcon={<ArrowForwardIcon />}
+              <Button component={Link} to="/apply" variant="contained" size="large" endIcon={<ArrowForwardIcon />}
                 sx={{ background: '#fff', color: palette.primary.dark, boxShadow: '0 10px 40px rgba(0,0,0,0.22)', '&:hover': { background: palette.background.default, boxShadow: '0 18px 56px rgba(0,0,0,0.28)' } }}>
-                Login & Participate
+                Get Started Today
               </Button>
-              <Button component={Link} to="/membership" variant="outlined" size="large"
+              <Button component={Link} to="/apply" variant="outlined" size="large"
                 sx={{ borderColor: 'rgba(255,255,255,0.3)', color: '#fff', backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.07)', '&:hover': { borderColor: 'rgba(255,255,255,0.65)', background: 'rgba(255,255,255,0.14)' } }}>
-                Become a Member
+                Apply for a Loan
               </Button>
             </Stack>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>

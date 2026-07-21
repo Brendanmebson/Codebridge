@@ -510,7 +510,7 @@ const LoanCalculator: React.FC = () => {
 
               {/* Apply CTA */}
               <Button
-                component={Link} to="/login"
+                component={Link} to="/apply"
                 variant="contained" size="large"
                 endIcon={<ArrowForwardIcon />}
                 sx={{
@@ -522,7 +522,7 @@ const LoanCalculator: React.FC = () => {
                   transition: 'all 0.3s cubic-bezier(0.22,1,0.36,1)',
                 }}
               >
-                Apply for This Loan
+                Get Started Today
               </Button>
             </Box>
           </Box>
@@ -870,13 +870,13 @@ const LoanCalculator: React.FC = () => {
               and submit your application in minutes.
             </Typography>
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifyContent: 'center', mb: 6 }}>
-              <Button component={Link} to="/login" variant="contained" size="large" endIcon={<ArrowForwardIcon />}
+              <Button component={Link} to="/apply" variant="contained" size="large" endIcon={<ArrowForwardIcon />}
                 sx={{ background: '#fff', color: palette.primary.dark, boxShadow: '0 10px 40px rgba(0,0,0,0.22)', '&:hover': { background: palette.background.default, boxShadow: '0 18px 56px rgba(0,0,0,0.28)' } }}>
-                Login & Apply Now
+                Get Started Today
               </Button>
-              <Button component={Link} to="/membership" variant="outlined" size="large"
+              <Button component={Link} to="/apply" variant="outlined" size="large"
                 sx={{ borderColor: 'rgba(255,255,255,0.3)', color: '#fff', backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.07)', '&:hover': { borderColor: 'rgba(255,255,255,0.65)', background: 'rgba(255,255,255,0.14)' } }}>
-                Membership Info
+                Apply for a Loan
               </Button>
             </Stack>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>

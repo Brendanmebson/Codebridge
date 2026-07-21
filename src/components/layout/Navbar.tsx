@@ -13,8 +13,6 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import SavingsIcon from '@mui/icons-material/Savings';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import GroupsIcon from '@mui/icons-material/Groups';
@@ -22,9 +20,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
 import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
 import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
-import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import BusinessIcon from '@mui/icons-material/Business';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
@@ -72,7 +68,14 @@ const Navbar: React.FC = () => {
     { label: 'Loans', path: '/admin/loans', icon: <AccountBalanceIcon sx={{ fontSize: 18 }} /> },
   ];
 
-  const navItems = user 
+  const dashboardNavItems = [
+    { label: 'Dashboard', path: '/dashboard', icon: <DashboardIcon sx={{ fontSize: 18 }} /> },
+    { label: 'Savings', path: '/dashboard/savings', icon: <AccountBalanceIcon sx={{ fontSize: 18 }} /> },
+    { label: 'Loans', path: '/dashboard/loans', icon: <AccountBalanceIcon sx={{ fontSize: 18 }} /> },
+    { label: 'Profile', path: '/dashboard/profile', icon: <GroupsIcon sx={{ fontSize: 18 }} /> },
+  ];
+
+  const navItems: Array<{ label: string; path: string; icon: React.ReactNode }> = user
     ? (userRole === 'admin' ? adminNavItems : dashboardNavItems)
     : publicNavItems;
 

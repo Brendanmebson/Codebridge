@@ -12,6 +12,7 @@ import {
   Stack,
   Divider,
 } from '@mui/material';
+import { Link } from 'react-router-dom';
 import LaunchIcon from '@mui/icons-material/Launch';
 import BusinessIcon from '@mui/icons-material/Business';
 
@@ -270,6 +271,8 @@ const Businesses: React.FC = () => {
             Join our directory and let fellow members discover your services. Together, we grow stronger.
           </Typography>
           <Button
+            component={Link}
+            to="/business-submission"
             variant="contained"
             size="large"
             sx={{
