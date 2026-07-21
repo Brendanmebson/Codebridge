@@ -86,7 +86,7 @@ const Register: React.FC = () => {
     }
 
     setLoading(true);
-
+    try {
       if (!sessionReady) {
         setError('Finishing authentication. Please wait a moment and try again.');
         setLoading(false);
@@ -128,7 +128,7 @@ const Register: React.FC = () => {
             break;
           }
         }
-      }
+    }
     } catch (err: unknown) {
       const message = err && typeof err === 'object' && 'message' in err ? (err as any).message : 'Registration failed.';
       setError(message as string);
