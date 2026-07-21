@@ -84,7 +84,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         console.warn('Auth safety timer fired — forcing loading off');
         finalizeInitialSession();
       }
-    }, 3000);
+    }, 5000);
 
     const handleRedirectSession = async () => {
       const url = window.location.href;
@@ -169,19 +169,36 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       setLoading(true);
 
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      let attempt = 0;
+      while (attempt < 2) {
+        try {
+          const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+          if (error) throw error;
 
-      if (error) throw error;
+          if (data.user) {
+            const memberData = await fetchProfile(data.user.id);
 
-      if (data.user) {
-        const memberData = await fetchProfile(data.user.id);
+            if (!memberData) {
+              await supabase.auth.signOut();
+              throw new Error('Member profile not found. Please contact support.');
+            }
 
-        if (!memberData) {
-          await supabase.auth.signOut();
-          throw new Error('Member profile not found. Please contact support.');
+            applyMemberState(memberData);
+          }
+
+          break; // success
+        } catch (err: unknown) {
+          if (isAbortError(err)) {
+            attempt += 1;
+            console.warn('Login aborted, retrying...', { attempt, err });
+            if (attempt >= 2) throw err;
+            // small backoff
+            // eslint-disable-next-line no-await-in-loop
+            await new Promise((r) => setTimeout(r, 300));
+            continue;
+          }
+          throw err;
         }
-
-        applyMemberState(memberData);
       }
     } catch (error: unknown) {
       console.error('Raw Login Error:', error);

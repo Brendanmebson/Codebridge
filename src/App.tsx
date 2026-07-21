@@ -11,7 +11,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { Box, CircularProgress } from '@mui/material';
 import { theme } from './theme/theme';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { InactivityProvider } from './contexts/InactivityContext';
 
 // Layout
 import Navbar from './components/layout/Navbar';
@@ -327,9 +326,7 @@ const App: React.FC = () => {
       <AuthProvider>
         <Router>
           <ScrollToTop />
-          <InactivityProvider>
-            <AppRoutes />
-          </InactivityProvider>
+          <AppRoutes />
         </Router>
       </AuthProvider>
     </ThemeProvider>
