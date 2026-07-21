@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box, Typography, IconButton, Drawer, useTheme,
   useMediaQuery, Divider,
@@ -37,6 +37,10 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     await logout();
     navigate('/');
   };
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
 
   const isActive = (path: string) =>
     path === '/admin' ? location.pathname === '/admin' : location.pathname.startsWith(path);
@@ -178,7 +182,6 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           anchor="left"
           open={mobileOpen}
           onClose={() => setMobileOpen(false)}
-          ModalProps={{ keepMounted: true }}
           sx={{ '& .MuiDrawer-paper': { width: SIDEBAR_WIDTH, border: 'none' } }}
         >
           {sidebarContent}
