@@ -112,7 +112,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         } catch (err) {
           if (!isAbortError(err)) console.error('INITIAL_SESSION error:', err);
         } finally {
-          clearTimeout(safetyTimer);
           if (isMounted) finalizeInitialSession();
         }
         return;
