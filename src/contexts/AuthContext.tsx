@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { supabase } from '../config/supabase';
 import type { Member } from '../types';
@@ -14,31 +14,11 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const isAbortError = (error: unknown): boolean => {
-  if (!error) return false;
-  if (error instanceof Error && error.name === 'AbortError') return true;
-  if (typeof error === 'object' && 'message' in error) {
-    const msg = (error as any).message ?? '';
-    return msg.includes('AbortError') || msg.includes('signal is aborted');
-  }
-  return false;
-};
-
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<string | null>(null);
   const [member, setMember] = useState<Member | null>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-
-  const isLoggingIn = useRef(false);
-  const initialSessionHandled = useRef(false);
-
-  const finalizeInitialSession = () => {
-    if (!initialSessionHandled.current) {
-      initialSessionHandled.current = true;
-      setLoading(false);
-    }
-  };
 
   const fetchProfile = async (authId: string): Promise<Member | null> => {
     try {
@@ -49,14 +29,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         .maybeSingle();
 
       if (error) {
-        if (error.message?.includes('AbortError') || error.code === '') return null;
         console.error('Profile fetch error:', error);
         return null;
       }
 
       return data ?? null;
     } catch (error: unknown) {
-      if (isAbortError(error)) return null;
       console.error('Fetch profile error:', error);
       return null;
     }
@@ -74,90 +52,45 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setUserRole(null);
   };
 
+  const isAbortError = (error: unknown) => {
+    return (
+      error instanceof Error &&
+      (error.name === 'AbortError' || error.message.toLowerCase().includes('abort'))
+    );
+  };
+
   useEffect(() => {
-    let isMounted = true;
-
-    const handleRedirectSession = async () => {
-      const url = window.location.href;
-      const hasAuthParams = /([#?](access_token|refresh_token|type)=)/.test(url);
-      if (!hasAuthParams) return;
-
+    const restoreSession = async () => {
       try {
-        const { error } = await supabase.auth.getSessionFromUrl({ storeSession: true });
-        if (error) {
-          console.error('Auth redirect session error:', error);
+        const { data, error } = await supabase.auth.getSession();
+        if (error || !data?.session?.user) {
+          return;
         }
-      } catch (err) {
-        if (!isAbortError(err)) {
-          console.error('Auth redirect session error:', err);
+
+        const memberData = await fetchProfile(data.session.user.id);
+        if (memberData) {
+          applyMemberState(memberData);
+        } else {
+          await supabase.auth.signOut();
+          clearMemberState();
+        }
+      } catch (error: unknown) {
+        if (isAbortError(error)) {
+          console.warn('Session restore was aborted by React Strict Mode. Retrying on next load.');
+        } else {
+          console.error('Session restore error:', error);
         }
       } finally {
-        if (window?.history?.replaceState) {
-          const cleanUrl = window.location.origin + window.location.pathname + window.location.search;
-          window.history.replaceState(null, '', cleanUrl);
-        }
+        setLoading(false);
       }
     };
 
-    const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
-      // ── INITIAL_SESSION ──────────────────────────────────────────────
-      // Fires once on mount. Restores session silently if one exists.
-      // This is the only place we auto-restore on page load.
-      if (event === 'INITIAL_SESSION') {
-        try {
-          if (session?.user && isMounted) {
-            const memberData = await fetchProfile(session.user.id);
-            if (isMounted && memberData) applyMemberState(memberData);
-          }
-        } catch (err) {
-          if (!isAbortError(err)) console.error('INITIAL_SESSION error:', err);
-        } finally {
-          if (isMounted) finalizeInitialSession();
-        }
-        return;
-      }
-
-      if (!isMounted) return;
-
-      // ── SIGNED_IN ────────────────────────────────────────────────────
-      if (event === 'SIGNED_IN') {
-        if (session?.user && !isLoggingIn.current) {
-          try {
-            const memberData = await fetchProfile(session.user.id);
-            if (memberData) applyMemberState(memberData);
-          } catch (err) {
-            if (!isAbortError(err)) console.error('SIGNED_IN error:', err);
-          }
-        }
-
-        if (isMounted) finalizeInitialSession();
-        return;
-      }
-
-      // ── TOKEN_REFRESHED ──────────────────────────────────────────────
-      // Background token refresh — no UI action needed.
-      if (event === 'TOKEN_REFRESHED') return;
-
-      // ── SIGNED_OUT ───────────────────────────────────────────────────
-      if (event === 'SIGNED_OUT') {
-        clearMemberState();
-        finalizeInitialSession();
-      }
-    });
-
-    handleRedirectSession();
-
-    return () => {
-      isMounted = false;
-      data.subscription.unsubscribe();
-    };
+    restoreSession();
   }, []);
 
   const login = async (email: string, password: string) => {
-    isLoggingIn.current = true;
+    setLoading(true);
     try {
-      setLoading(true);
-
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
 
@@ -166,7 +99,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
 
       const memberData = await fetchProfile(data.user.id);
-
       if (!memberData) {
         await supabase.auth.signOut();
         throw new Error('Member profile not found. Please contact support.');
@@ -174,28 +106,23 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       applyMemberState(memberData);
     } catch (error: unknown) {
-      console.error('Raw Login Error:', error);
       if (isAbortError(error)) {
-        const rawMsg = error instanceof Error ? error.message : JSON.stringify(error);
-        throw new Error(`Login was interrupted (${rawMsg}). Please try again.`);
+        throw new Error('Login was interrupted. Please try again.');
       }
       throw error;
     } finally {
-      isLoggingIn.current = false;
       setLoading(false);
     }
   };
 
   const logout = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
       await supabase.auth.signOut();
-      clearMemberState();
-      localStorage.clear();
-      window.location.href = '/login';
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
+      clearMemberState();
       setLoading(false);
     }
   };
