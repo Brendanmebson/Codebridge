@@ -16,7 +16,6 @@ const Register: React.FC = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
-  const [sessionReady, setSessionReady] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -25,54 +24,6 @@ const Register: React.FC = () => {
     if (inviteEmail) {
       setEmail(inviteEmail);
     }
-  }, []);
-
-  useEffect(() => {
-    let mounted = true;
-
-    const initSession = async () => {
-      try {
-        const { data: current } = await supabase.auth.getSession();
-        if (current?.session) {
-          if (mounted) setSessionReady(true);
-          return;
-        }
-
-        // Try to extract session from URL if present (invite redirect)
-        const url = window.location.href;
-        if (/([#?](access_token|refresh_token|type)=)/.test(url)) {
-          try {
-            const { error } = await supabase.auth.getSessionFromUrl({ storeSession: true });
-            if (error) console.error('getSessionFromUrl error:', error);
-          } catch (e) {
-            console.error('getSessionFromUrl threw:', e);
-          }
-        }
-
-        // Wait briefly for session to become available
-        let tries = 0;
-        while (mounted && tries < 10) {
-          const { data } = await supabase.auth.getSession();
-          if (data?.session) {
-            if (mounted) setSessionReady(true);
-            return;
-          }
-          // small delay
-          // eslint-disable-next-line no-await-in-loop
-          await new Promise((r) => setTimeout(r, 200));
-          tries += 1;
-        }
-
-        if (mounted) setSessionReady(true);
-      } catch (err) {
-        console.error('initSession error:', err);
-        if (mounted) setSessionReady(true);
-      }
-    };
-
-    initSession();
-
-    return () => { mounted = false; };
   }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -87,76 +38,22 @@ const Register: React.FC = () => {
 
     setLoading(true);
     try {
-      if (!sessionReady) {
-        // Try to extract session from URL now (user may have opened link earlier)
-        try {
-          const url = window.location.href;
-          if (/([#?](access_token|refresh_token|type)=)/.test(url)) {
-            const { error } = await supabase.auth.getSessionFromUrl({ storeSession: true });
-            if (error) console.warn('getSessionFromUrl returned error:', error);
-          }
-        } catch (e) {
-          console.warn('getSessionFromUrl threw:', e);
-        }
+      const { data, error: supabaseError } = await supabase.auth.updateUser({ password });
+      if (supabaseError) throw supabaseError;
 
-        // Wait up to ~3s for session to appear
-        let waited = 0;
-        while (!sessionReady && waited < 15) {
-          // eslint-disable-next-line no-await-in-loop
-          await new Promise((r) => setTimeout(r, 200));
-          const { data } = await supabase.auth.getSession();
-          if (data?.session) {
-            setSessionReady(true);
-            break;
-          }
-          waited += 1;
-        }
-
-        if (!sessionReady) {
-          setError('Finishing authentication failed — please open the invite link again or refresh the page.');
-          setLoading(false);
-          return;
-        }
+      if (data?.user) {
+        setSuccess('Your account has been created. Redirecting you to your dashboard...');
+        setTimeout(() => {
+          navigate('/dashboard', { replace: true });
+        }, 1200);
+      } else {
+        setError('Could not complete registration. Please try again.');
       }
-
-      // Attempt update; retry once on abort
-      let attempt = 0;
-      while (attempt < 2) {
-        try {
-          const { data, error: supabaseError } = await supabase.auth.updateUser({ password });
-          if (supabaseError) throw supabaseError;
-
-          if (data.user) {
-            setSuccess('Your account has been created. Redirecting you to your dashboard...');
-            setTimeout(() => {
-              navigate('/dashboard', { replace: true });
-            }, 1200);
-            break;
-          } else {
-            setError('Could not complete registration. Please try again.');
-            break;
-          }
-        } catch (err: any) {
-          const msg = err?.message || String(err);
-          // If aborted, retry once
-          if (msg && msg.toLowerCase().includes('abort')) {
-            attempt += 1;
-            if (attempt >= 2) {
-              setError('Request was aborted. Please refresh the page and open the invite link again.');
-            } else {
-              // small backoff before retry
-              // eslint-disable-next-line no-await-in-loop
-              await new Promise((r) => setTimeout(r, 300));
-              continue;
-            }
-          } else {
-            setError(msg);
-            break;
-          }
-        }
-    }
     } catch (err: unknown) {
-      const message = err && typeof err === 'object' && 'message' in err ? (err as any).message : 'Registration failed.';
+      const message =
+        err && typeof err === 'object' && 'message' in err
+          ? (err as any).message
+          : 'Registration failed. Please try again.';
       setError(message as string);
     } finally {
       setLoading(false);
