@@ -16,14 +16,35 @@ const Register: React.FC = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
+  const [sessionLoading, setSessionLoading] = useState(true);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const inviteEmail = params.get('email');
+    const handleSession = async () => {
+      try {
+        // Check if there's an active session from the invite link
+        const { data } = await supabase.auth.getSession();
+        
+        if (data?.session?.user?.email) {
+          setEmail(data.session.user.email);
+        } else {
+          // Fallback: check URL params
+          const params = new URLSearchParams(window.location.search);
+          const inviteEmail = params.get('email');
+          if (inviteEmail) {
+            setEmail(inviteEmail);
+          } else {
+            setError('Invalid invite link. Please request a new invitation.');
+          }
+        }
+      } catch (err) {
+        console.error('Session check error:', err);
+        setError('Failed to process invitation. Please try again.');
+      } finally {
+        setSessionLoading(false);
+      }
+    };
 
-    if (inviteEmail) {
-      setEmail(inviteEmail);
-    }
+    handleSession();
   }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -38,6 +59,13 @@ const Register: React.FC = () => {
 
     setLoading(true);
     try {
+      // Verify we have an active session
+      const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError || !sessionData?.session) {
+        throw new Error('No active session. Please click the invite link again.');
+      }
+
+      // Update password for the current user
       const { data, error: supabaseError } = await supabase.auth.updateUser({ password });
       if (supabaseError) throw supabaseError;
 
@@ -70,6 +98,10 @@ const Register: React.FC = () => {
           Please set a secure password for your new CodeBridge account. Your email address is already filled in from the invitation link.
         </Typography>
 
+        {sessionLoading && (
+          <Alert severity="info" sx={{ mb: 3 }}>Processing your invitation...</Alert>
+        )}
+
         {error && (
           <Alert severity="error" sx={{ mb: 3 }}>{error}</Alert>
         )}
@@ -100,6 +132,7 @@ const Register: React.FC = () => {
             onChange={(event) => setPassword(event.target.value)}
             fullWidth
             required
+            disabled={sessionLoading}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -108,7 +141,7 @@ const Register: React.FC = () => {
               ),
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                  <IconButton onClick={() => setShowPassword(!showPassword)} edge="end" disabled={sessionLoading}>
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
@@ -121,7 +154,7 @@ const Register: React.FC = () => {
             type="submit"
             variant="contained"
             size="large"
-            disabled={loading || !password}
+            disabled={loading || !password || sessionLoading}
             endIcon={!loading ? <ArrowForwardIcon /> : undefined}
             sx={{ textTransform: 'none', py: 1.5 }}
           >
