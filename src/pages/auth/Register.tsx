@@ -16,35 +16,29 @@ const Register: React.FC = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
-  const [sessionLoading, setSessionLoading] = useState(true);
 
   useEffect(() => {
-    const handleSession = async () => {
+    const handleInviteLink = async () => {
       try {
-        // Check if there's an active session from the invite link
+        // Get the current session (Supabase automatically creates one from the invite link)
         const { data } = await supabase.auth.getSession();
         
         if (data?.session?.user?.email) {
           setEmail(data.session.user.email);
         } else {
-          // Fallback: check URL params
+          // Fallback to URL parameter
           const params = new URLSearchParams(window.location.search);
           const inviteEmail = params.get('email');
           if (inviteEmail) {
             setEmail(inviteEmail);
-          } else {
-            setError('Invalid invite link. Please request a new invitation.');
           }
         }
       } catch (err) {
-        console.error('Session check error:', err);
-        setError('Failed to process invitation. Please try again.');
-      } finally {
-        setSessionLoading(false);
+        console.error('Error checking session:', err);
       }
     };
 
-    handleSession();
+    handleInviteLink();
   }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -57,17 +51,29 @@ const Register: React.FC = () => {
       return;
     }
 
+    if (!email) {
+      setError('Email is missing. Please click the invite link again.');
+      return;
+    }
+
     setLoading(true);
     try {
-      // Verify we have an active session
-      const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-      if (sessionError || !sessionData?.session) {
-        throw new Error('No active session. Please click the invite link again.');
+      // Try to get current session
+      const { data: sessionData } = await supabase.auth.getSession();
+      
+      // If no session, the invite link may have expired - user needs to click it again
+      if (!sessionData?.session) {
+        setError('Invite link has expired. Please check your email for a fresh invitation link.');
+        setLoading(false);
+        return;
       }
 
-      // Update password for the current user
+      // Update the password
       const { data, error: supabaseError } = await supabase.auth.updateUser({ password });
-      if (supabaseError) throw supabaseError;
+      
+      if (supabaseError) {
+        throw supabaseError;
+      }
 
       if (data?.user) {
         setSuccess('Your account has been created. Redirecting you to your dashboard...');
@@ -97,10 +103,6 @@ const Register: React.FC = () => {
         <Typography variant="body1" sx={{ mb: 3, color: 'text.secondary' }}>
           Please set a secure password for your new CodeBridge account. Your email address is already filled in from the invitation link.
         </Typography>
-
-        {sessionLoading && (
-          <Alert severity="info" sx={{ mb: 3 }}>Processing your invitation...</Alert>
-        )}
 
         {error && (
           <Alert severity="error" sx={{ mb: 3 }}>{error}</Alert>
@@ -132,7 +134,6 @@ const Register: React.FC = () => {
             onChange={(event) => setPassword(event.target.value)}
             fullWidth
             required
-            disabled={sessionLoading}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -141,7 +142,7 @@ const Register: React.FC = () => {
               ),
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton onClick={() => setShowPassword(!showPassword)} edge="end" disabled={sessionLoading}>
+                  <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
@@ -154,7 +155,7 @@ const Register: React.FC = () => {
             type="submit"
             variant="contained"
             size="large"
-            disabled={loading || !password || sessionLoading}
+            disabled={loading || !password}
             endIcon={!loading ? <ArrowForwardIcon /> : undefined}
             sx={{ textTransform: 'none', py: 1.5 }}
           >
