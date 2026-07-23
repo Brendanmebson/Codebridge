@@ -18,29 +18,47 @@ const Register: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Listen for auth state changes - this will capture the session from the invite link
-    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'INITIAL_SESSION') {
-        // Initial session check
-        if (session?.user?.email) {
-          setEmail(session.user.email);
-        } else {
-          // Fallback: check URL parameters
-          const params = new URLSearchParams(window.location.search);
-          const inviteEmail = params.get('email');
-          if (inviteEmail) {
-            setEmail(inviteEmail);
+    const resolveInviteSession = async () => {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+        const inviteEmail = params.get('email') || hashParams.get('email') || '';
+
+        if (inviteEmail) {
+          setEmail(inviteEmail);
+        }
+
+        try {
+          const { data, error } = await supabase.auth.getSessionFromUrl({ storeSession: true });
+          if (error) {
+            console.warn('Invite session parse warning:', error.message);
           }
+
+          const session = data?.session;
+          if (session?.user?.email) {
+            setEmail(session.user.email);
+          }
+        } catch (parseError) {
+          console.warn('Could not parse invite session from URL:', parseError);
         }
-      } else if (event === 'SIGNED_IN') {
-        // Session established from invite link
-        if (session?.user?.email) {
-          setEmail(session.user.email);
+
+        const { data: sessionData } = await supabase.auth.getSession();
+        if (sessionData?.session?.user?.email) {
+          setEmail(sessionData.session.user.email);
         }
+      } catch (err) {
+        console.error('Error resolving invite session:', err);
+      }
+    };
+
+    resolveInviteSession();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      if ((event === 'INITIAL_SESSION' || event === 'SIGNED_IN') && session?.user?.email) {
+        setEmail(session.user.email);
       }
     });
 
-    // Cleanup listener on unmount
     return () => {
       authListener?.subscription?.unsubscribe();
     };
