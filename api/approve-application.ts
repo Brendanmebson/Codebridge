@@ -2,11 +2,15 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || '';
 const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
-const appUrl = (process.env.APP_URL || process.env.SITE_URL || '').replace(/\/$/, '');
-const vercelUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '';
-const invitedRedirectUrlBase = `${appUrl || vercelUrl || 'https://codebridgetest.vercel.app'}/register`;
+const productionAppUrl = 'https://codebridgetest.vercel.app';
+const appUrl = (process.env.APP_URL || process.env.SITE_URL || productionAppUrl).replace(/\/$/, '');
+const invitedRedirectUrlBase = `${appUrl}/register`;
 
-const getInvitedRedirectUrl = (email: string) => `${invitedRedirectUrlBase}?email=${encodeURIComponent(email)}`;
+const getInvitedRedirectUrl = (email: string) => {
+  const url = new URL(invitedRedirectUrlBase);
+  url.searchParams.set('email', email);
+  return url.toString();
+};
 
 const adminSupabase = createClient(supabaseUrl, supabaseServiceRoleKey, {
   auth: {
