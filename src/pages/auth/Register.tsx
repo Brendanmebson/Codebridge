@@ -18,27 +18,32 @@ const Register: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const handleInviteLink = async () => {
-      try {
-        // Get the current session (Supabase automatically creates one from the invite link)
-        const { data } = await supabase.auth.getSession();
-        
-        if (data?.session?.user?.email) {
-          setEmail(data.session.user.email);
+    // Listen for auth state changes - this will capture the session from the invite link
+    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'INITIAL_SESSION') {
+        // Initial session check
+        if (session?.user?.email) {
+          setEmail(session.user.email);
         } else {
-          // Fallback to URL parameter
+          // Fallback: check URL parameters
           const params = new URLSearchParams(window.location.search);
           const inviteEmail = params.get('email');
           if (inviteEmail) {
             setEmail(inviteEmail);
           }
         }
-      } catch (err) {
-        console.error('Error checking session:', err);
+      } else if (event === 'SIGNED_IN') {
+        // Session established from invite link
+        if (session?.user?.email) {
+          setEmail(session.user.email);
+        }
       }
-    };
+    });
 
-    handleInviteLink();
+    // Cleanup listener on unmount
+    return () => {
+      authListener?.subscription?.unsubscribe();
+    };
   }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
