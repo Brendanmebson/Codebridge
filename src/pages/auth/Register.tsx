@@ -81,19 +81,29 @@ const Register: React.FC = () => {
 
     setLoading(true);
     try {
-      // Try to get current session
-      const { data: sessionData } = await supabase.auth.getSession();
-      
-      // If no session, the invite link may have expired - user needs to click it again
+      const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+
+      if (sessionError) {
+        throw sessionError;
+      }
+
       if (!sessionData?.session) {
-        setError('Invite link has expired. Please check your email for a fresh invitation link.');
+        try {
+          await supabase.auth.getSessionFromUrl({ storeSession: true });
+        } catch (recoverError) {
+          console.warn('Could not recover invite session:', recoverError);
+        }
+      }
+
+      const { data: refreshedSessionData } = await supabase.auth.getSession();
+      if (!refreshedSessionData?.session) {
+        setError('The invitation link could not be activated. Please use a fresh invite link sent from the admin panel.');
         setLoading(false);
         return;
       }
 
-      // Update the password
       const { data, error: supabaseError } = await supabase.auth.updateUser({ password });
-      
+
       if (supabaseError) {
         throw supabaseError;
       }
