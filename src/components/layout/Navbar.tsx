@@ -38,6 +38,8 @@ const Navbar: React.FC = () => {
   const { user, member, userRole, logout } = useAuth();
 
   const isDashboard = location.pathname.startsWith('/dashboard');
+  const isAuthenticated = Boolean(user || member);
+  const isAdminUser = (userRole?.toLowerCase() ?? member?.role?.toLowerCase() ?? '') === 'admin';
 
   // Detect scroll to toggle glass effect intensity
   useEffect(() => {
@@ -75,8 +77,8 @@ const Navbar: React.FC = () => {
     { label: 'Profile', path: '/dashboard/profile', icon: <GroupsIcon sx={{ fontSize: 18 }} /> },
   ];
 
-  const navItems: Array<{ label: string; path: string; icon: React.ReactNode }> = user
-    ? (userRole === 'admin' ? adminNavItems : dashboardNavItems)
+  const navItems: Array<{ label: string; path: string; icon: React.ReactNode }> = isAuthenticated
+    ? (isAdminUser ? adminNavItems : dashboardNavItems)
     : publicNavItems;
 
   const isActive = (path: string) =>
@@ -111,7 +113,7 @@ const Navbar: React.FC = () => {
         px: 3, pt: 3, pb: 2.5,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
-        <Box component={Link} to={userRole === 'admin' ? '/admin' : (isDashboard ? '/dashboard' : '/')} onClick={handleDrawerToggle}
+        <Box component={Link} to={isAdminUser ? '/admin' : (isDashboard ? '/dashboard' : (isAuthenticated ? '/dashboard' : '/'))} onClick={handleDrawerToggle}
           sx={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
           <Box component="img" src={logo} alt="CodeBridge Logo"
             sx={{ height: 34, width: 'auto', borderRadius: `${br - 4}px` }} />
@@ -316,7 +318,7 @@ const Navbar: React.FC = () => {
           {/* ── LOGO ── */}
           <Box
             component={Link}
-            to={userRole === 'admin' ? '/admin' : (isDashboard ? '/dashboard' : '/')}
+            to={isAdminUser ? '/admin' : (isDashboard ? '/dashboard' : (isAuthenticated ? '/dashboard' : '/'))}
             sx={{
               display: 'flex', alignItems: 'center',
               gap: 1.5, textDecoration: 'none',
@@ -415,7 +417,7 @@ const Navbar: React.FC = () => {
               </Box>
 
               {/* Auth actions */}
-              {user ? (
+              {isAuthenticated ? (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                   {/* User avatar chip */}
                   <Box sx={{
