@@ -3,11 +3,32 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || '';
 const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 const productionAppUrl = 'https://codebridgetest.vercel.app';
-const appUrl = (process.env.APP_URL || process.env.SITE_URL || productionAppUrl).replace(/\/$/, '');
-const invitedRedirectUrlBase = `${appUrl}/register`;
 
-const getInvitedRedirectUrl = (email: string) => {
-  const url = new URL(invitedRedirectUrlBase);
+const getAppUrl = (req: any) => {
+  const explicitUrl = (process.env.APP_URL || process.env.SITE_URL || process.env.VERCEL_URL || process.env.VERCEL_BRANCH_URL || process.env.VERCEL_PROJECT_PRODUCTION_URL || '').trim();
+  if (explicitUrl) {
+    return explicitUrl.startsWith('http') ? explicitUrl.replace(/\/$/, '') : `https://${explicitUrl.replace(/\/$/, '')}`;
+  }
+
+  const origin = req?.headers?.origin;
+  if (origin) {
+    return origin.replace(/\/$/, '');
+  }
+
+  const forwardedProto = req?.headers?.['x-forwarded-proto'];
+  const forwardedHost = req?.headers?.['x-forwarded-host'] || req?.headers?.host;
+  if (forwardedProto && forwardedHost) {
+    const protocol = Array.isArray(forwardedProto) ? forwardedProto[0] : forwardedProto;
+    const host = Array.isArray(forwardedHost) ? forwardedHost[0] : forwardedHost;
+    return `${protocol}://${host}`.replace(/\/$/, '');
+  }
+
+  return productionAppUrl;
+};
+
+const getInvitedRedirectUrl = (email: string, req: any) => {
+  const baseUrl = getAppUrl(req);
+  const url = new URL(`${baseUrl}/register`);
   url.searchParams.set('email', email);
   return url.toString();
 };
@@ -49,7 +70,7 @@ export default async function handler(req: any, res: any) {
         dateOfBirth: payload.date_of_birth ?? '',
         role: 'member',
       },
-      redirectTo: getInvitedRedirectUrl(email),
+      redirectTo: getInvitedRedirectUrl(email, req),
     });
 
     if (inviteError) {

@@ -16,46 +16,101 @@ const Register: React.FC = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
+  const [inviteStatus, setInviteStatus] = useState<'loading' | 'ready' | 'error'>('loading');
+
+  const resolveInviteSession = async (isSubmitting = false) => {
+    setError('');
+    setSuccess('');
+
+    const params = new URLSearchParams(window.location.search);
+    const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+    const inviteEmail = params.get('email') || hashParams.get('email') || '';
+    const tokenHash = params.get('token_hash') || hashParams.get('token_hash') || '';
+    const authType = params.get('type') || hashParams.get('type') || '';
+    const accessToken = params.get('access_token') || hashParams.get('access_token') || '';
+    const refreshToken = params.get('refresh_token') || hashParams.get('refresh_token') || '';
+    const authKeys = ['access_token', 'refresh_token', 'token', 'token_hash', 'type', 'state', 'code', 'error', 'error_description'];
+    const hasAuthParams = [...params.entries(), ...hashParams.entries()].some(([key]) => authKeys.includes(key));
+
+    if (inviteEmail) {
+      setEmail(inviteEmail);
+    }
+
+    if (hasAuthParams) {
+      setInviteStatus('loading');
+    }
+
+    try {
+      if (tokenHash && authType) {
+        const { data, error } = await supabase.auth.verifyOtp({
+          token_hash: tokenHash,
+          type: authType as 'invite',
+        });
+
+        if (error) {
+          console.warn('Invite token verification warning:', error.message);
+        }
+
+        const session = data?.session;
+        if (session?.user?.email) {
+          setEmail(session.user.email);
+          setInviteStatus('ready');
+          return true;
+        }
+      }
+
+      if (accessToken && refreshToken) {
+        const { data, error } = await supabase.auth.setSession({
+          access_token: accessToken,
+          refresh_token: refreshToken,
+        });
+
+        if (error) {
+          console.warn('Invite session set warning:', error.message);
+        }
+
+        const session = data?.session;
+        if (session?.user?.email) {
+          setEmail(session.user.email);
+          setInviteStatus('ready');
+          return true;
+        }
+      }
+    } catch (parseError) {
+      console.warn('Could not parse invite session from URL:', parseError);
+    }
+
+    const { data: sessionData } = await supabase.auth.getSession();
+    if (sessionData?.session?.user?.email) {
+      setEmail(sessionData.session.user.email);
+      setInviteStatus('ready');
+      return true;
+    }
+
+    if (hasAuthParams) {
+      setInviteStatus('error');
+      setError('The invitation link is still being activated. Please wait a moment and try again.');
+    } else if (inviteEmail) {
+      setInviteStatus('error');
+      setError('We could not find a valid invitation session for this account. Please reopen the invite link from the admin panel.');
+    } else if (!isSubmitting) {
+      setInviteStatus('error');
+      setError('This page is meant to be opened from an admin invitation email. Please use the latest invite link.');
+    } else {
+      setInviteStatus('error');
+      setError('The invitation link could not be activated. Please use a fresh invite link sent from the admin panel.');
+    }
+
+    return false;
+  };
 
   useEffect(() => {
-    const resolveInviteSession = async () => {
-      try {
-        const params = new URLSearchParams(window.location.search);
-        const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
-        const inviteEmail = params.get('email') || hashParams.get('email') || '';
-
-        if (inviteEmail) {
-          setEmail(inviteEmail);
-        }
-
-        try {
-          const { data, error } = await supabase.auth.getSessionFromUrl({ storeSession: true });
-          if (error) {
-            console.warn('Invite session parse warning:', error.message);
-          }
-
-          const session = data?.session;
-          if (session?.user?.email) {
-            setEmail(session.user.email);
-          }
-        } catch (parseError) {
-          console.warn('Could not parse invite session from URL:', parseError);
-        }
-
-        const { data: sessionData } = await supabase.auth.getSession();
-        if (sessionData?.session?.user?.email) {
-          setEmail(sessionData.session.user.email);
-        }
-      } catch (err) {
-        console.error('Error resolving invite session:', err);
-      }
-    };
-
-    resolveInviteSession();
+    void resolveInviteSession();
 
     const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
       if ((event === 'INITIAL_SESSION' || event === 'SIGNED_IN') && session?.user?.email) {
         setEmail(session.user.email);
+        setInviteStatus('ready');
       }
     });
 
@@ -81,6 +136,12 @@ const Register: React.FC = () => {
 
     setLoading(true);
     try {
+      const inviteReady = await resolveInviteSession(true);
+      if (!inviteReady) {
+        setLoading(false);
+        return;
+      }
+
       const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
 
       if (sessionError) {
@@ -88,15 +149,12 @@ const Register: React.FC = () => {
       }
 
       if (!sessionData?.session) {
-        try {
-          await supabase.auth.getSessionFromUrl({ storeSession: true });
-        } catch (recoverError) {
-          console.warn('Could not recover invite session:', recoverError);
-        }
+        await resolveInviteSession(true);
       }
 
       const { data: refreshedSessionData } = await supabase.auth.getSession();
       if (!refreshedSessionData?.session) {
+        setInviteStatus('error');
         setError('The invitation link could not be activated. Please use a fresh invite link sent from the admin panel.');
         setLoading(false);
         return;
@@ -136,6 +194,10 @@ const Register: React.FC = () => {
         <Typography variant="body1" sx={{ mb: 3, color: 'text.secondary' }}>
           Please set a secure password for your new CodeBridge account. Your email address is already filled in from the invitation link.
         </Typography>
+
+        {inviteStatus === 'loading' && !error && (
+          <Alert severity="info" sx={{ mb: 3 }}>Activating your invitation link. This usually completes in a moment.</Alert>
+        )}
 
         {error && (
           <Alert severity="error" sx={{ mb: 3 }}>{error}</Alert>
@@ -188,7 +250,7 @@ const Register: React.FC = () => {
             type="submit"
             variant="contained"
             size="large"
-            disabled={loading || !password}
+            disabled={loading || !password || inviteStatus !== 'ready'}
             endIcon={!loading ? <ArrowForwardIcon /> : undefined}
             sx={{ textTransform: 'none', py: 1.5 }}
           >
