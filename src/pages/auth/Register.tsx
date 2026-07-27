@@ -167,6 +167,20 @@ const Register: React.FC = () => {
       }
 
       if (data?.user) {
+        const normalizedEmail = email.trim().toLowerCase();
+        const { error: memberUpdateError } = await supabase
+          .from('members')
+          .update({
+            status: 'active',
+            auth_id: data.user.id,
+            updated_at: new Date().toISOString(),
+          })
+          .eq('email', normalizedEmail);
+
+        if (memberUpdateError) {
+          console.warn('Could not activate member profile automatically:', memberUpdateError);
+        }
+
         setSuccess('Your account has been created. Redirecting you to your dashboard...');
         setTimeout(() => {
           navigate('/dashboard', { replace: true });

@@ -105,9 +105,17 @@ const Apply: React.FC = () => {
   const FileUploadButton = ({ label, file, fileKey, accept }: { label: string, file: File | null, fileKey: keyof typeof files, accept: string }) => (
     <Box sx={{
       border: `1px dashed ${file ? palette.success.main : palette.divider}`,
-      borderRadius: `${br}px`, p: 2, textAlign: 'center',
+      borderRadius: `${br}px`,
+      p: 2,
+      textAlign: 'center',
       background: file ? `${palette.success.main}10` : palette.background.paper,
       transition: 'all 0.2s ease',
+      minHeight: 110,
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      overflow: 'hidden',
       '&:hover': { borderColor: palette.primary.main }
     }}>
       <input
@@ -117,18 +125,48 @@ const Apply: React.FC = () => {
         type="file"
         onChange={(e) => handleFileChange(e, fileKey)}
       />
-      <label htmlFor={`upload-button-${fileKey}`}>
+      <label htmlFor={`upload-button-${fileKey}`} style={{ width: '100%' }}>
         <Button
           variant="text"
           component="span"
           disabled={loading}
           startIcon={file ? <CheckCircleIcon color="success" /> : <CloudUploadIcon />}
-          sx={{ color: file ? palette.success.main : palette.text.primary, textTransform: 'none', fontWeight: 600 }}
+          sx={{
+            color: file ? palette.success.main : palette.text.primary,
+            textTransform: 'none',
+            fontWeight: 600,
+            width: '100%',
+            justifyContent: 'center',
+            px: 1,
+            whiteSpace: 'normal',
+            textAlign: 'center',
+            lineHeight: 1.4,
+            minHeight: 44,
+          }}
         >
           {file ? file.name : `Upload ${label}`}
         </Button>
       </label>
-      {!file && <Typography variant="caption" display="block" color="text.secondary" mt={1}>Max 5MB. PDF, JPG, PNG.</Typography>}
+      {file ? (
+        <Typography
+          variant="caption"
+          sx={{
+            mt: 1,
+            color: 'text.secondary',
+            width: '100%',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            px: 1,
+          }}
+        >
+          {file.name}
+        </Typography>
+      ) : (
+        <Typography variant="caption" display="block" color="text.secondary" mt={1} sx={{ px: 1, lineHeight: 1.4 }}>
+          Max 5MB. PDF, JPG, PNG.
+        </Typography>
+      )}
     </Box>
   );
 
@@ -184,14 +222,14 @@ const Apply: React.FC = () => {
 
               <Box sx={{ mt: 2, pt: 3, borderTop: `1px solid ${palette.divider}` }}>
                 <Typography variant="h6" sx={{ mb: 3, fontWeight: 600 }}>Required Documents</Typography>
-                <Stack spacing={2} direction={{ xs: 'column', sm: 'row' }}>
-                  <Box sx={{ flex: 1 }}>
+                <Stack spacing={2} direction={{ xs: 'column', sm: 'row' }} sx={{ alignItems: 'stretch' }}>
+                  <Box sx={{ flex: 1, minWidth: 0 }}>
                     <FileUploadButton label="Valid ID (NIN/Passport)" file={files.idDoc} fileKey="idDoc" accept="image/*,.pdf" />
                   </Box>
-                  <Box sx={{ flex: 1 }}>
+                  <Box sx={{ flex: 1, minWidth: 0 }}>
                     <FileUploadButton label="Recent Photograph" file={files.photoDoc} fileKey="photoDoc" accept="image/*" />
                   </Box>
-                  <Box sx={{ flex: 1 }}>
+                  <Box sx={{ flex: 1, minWidth: 0 }}>
                     <FileUploadButton label="Address Proof (Utility Bill)" file={files.addressDoc} fileKey="addressDoc" accept="image/*,.pdf" />
                   </Box>
                 </Stack>

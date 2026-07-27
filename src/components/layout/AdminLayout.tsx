@@ -38,6 +38,8 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     navigate('/');
   };
 
+  const handleDrawerClose = () => setMobileOpen(false);
+
   useEffect(() => {
     setMobileOpen(false);
   }, [location.pathname]);
@@ -181,7 +183,7 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         <Drawer
           anchor="left"
           open={mobileOpen}
-          onClose={() => setMobileOpen(false)}
+          onClose={handleDrawerClose}
           sx={{ '& .MuiDrawer-paper': { width: SIDEBAR_WIDTH, border: 'none' } }}
         >
           {sidebarContent}

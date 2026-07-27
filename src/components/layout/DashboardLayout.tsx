@@ -37,6 +37,8 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
     navigate('/');
   };
 
+  const handleDrawerClose = () => setMobileOpen(false);
+
   const isActive = (path: string) =>
     path === '/dashboard' ? location.pathname === '/dashboard' : location.pathname.startsWith(path);
 
@@ -176,7 +178,7 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
         <Drawer
           anchor="left"
           open={mobileOpen}
-          onClose={() => setMobileOpen(false)}
+          onClose={handleDrawerClose}
           ModalProps={{ keepMounted: true }}
           sx={{ '& .MuiDrawer-paper': { width: SIDEBAR_WIDTH, border: 'none' } }}
         >

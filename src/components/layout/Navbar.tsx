@@ -49,6 +49,7 @@ const Navbar: React.FC = () => {
   }, []);
 
   const handleDrawerToggle = () => setMobileOpen((prev) => !prev);
+  const handleDrawerClose = () => setMobileOpen(false);
 
   const handleLogout = async () => {
     await logout();
@@ -523,7 +524,7 @@ const Navbar: React.FC = () => {
       <Drawer
         anchor="right"
         open={mobileOpen}
-        onClose={handleDrawerToggle}
+        onClose={handleDrawerClose}
         ModalProps={{ keepMounted: true }}
         sx={{
           '& .MuiDrawer-paper': {
