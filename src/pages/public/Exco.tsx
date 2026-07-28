@@ -139,7 +139,7 @@ const Exco: React.FC = () => {
                 </Box>
                 <CardContent sx={{ flexGrow: 1, p: 3 }}>
                   <Typography variant="body2" color="text.secondary" sx={{ mb: 3, lineHeight: 1.6 }}>
-                    {shortBio}
+                    {member.shortBio}
                   </Typography>
                   <Button
                     component={Link}
@@ -172,7 +172,7 @@ const Exco: React.FC = () => {
                 </CardContent>
               </Card>
             </Box>
-          })}
+          ))}
         </Box>
       </Container>
 
