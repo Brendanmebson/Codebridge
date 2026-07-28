@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Box, Typography, Button, Container, Stack, useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
+import presidentPhoto from '../../assets/members/president.jpg';
 import SavingsIcon from '@mui/icons-material/Savings';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import GroupsIcon from '@mui/icons-material/Groups';
