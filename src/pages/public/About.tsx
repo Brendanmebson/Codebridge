@@ -79,12 +79,12 @@ const About: React.FC = () => {
 
   const team = [
     {
-      name: 'Adebayo Okafor',
-      role: 'Chairman',
-      initials: 'AO',
+      name: 'Edima Ben Ekpo',
+      role: 'President',
+      initials: 'EE',
       color: palette.primary.dark,
       img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80',
-      bio: 'Over 15 years in cooperative financial management and community development.',
+      bio: 'MBA, FCA, FCRM, CISA, PIOR, FAIAPM with over 30 years of experience in risk management, auditing, banking operations, and governance.',
     },
     {
       name: 'Ngozi Eze',
@@ -920,11 +920,11 @@ const About: React.FC = () => {
               }}>
                 <Box component="img"
                   src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80"
-                  alt="Chairman" sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  alt="President" sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </Box>
               <Box sx={{ textAlign: 'left' }}>
-                <Typography variant="body2" sx={{ color: '#fff', fontWeight: 600 }}>Adebayo Okafor</Typography>
-                <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.55)' }}>Chairman, CodeBridge Cooperative</Typography>
+                <Typography variant="body2" sx={{ color: '#fff', fontWeight: 600 }}>Edima Ben Ekpo, MBA, FCA, FCRM, CISA, PIOR, FAIAPM</Typography>
+                <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.55)' }}>President, CodeBridge Cooperative</Typography>
               </Box>
             </Box>
           </Box>

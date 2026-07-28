@@ -22,13 +22,13 @@ const Exco: React.FC = () => {
 
   const excoMembers = [
     {
-      name: 'Adebayo Okafor',
-      role: 'Chairman',
+      name: 'Edima Ben Ekpo',
+      role: 'President',
       img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
-      bio: 'A visionary leader with over 15 years of experience in cooperative financial management and community development. Adebayo has been instrumental in steering Codebridge towards sustainable growth.',
+      bio: 'Edima Ben Ekpo is an accomplished leader with over 30 years of experience in risk management, auditing, banking operations, and governance. He retired from UBA Plc as Deputy General Manager, Group Operational Risk Management after 19 years, and now leads EdimaBenEkpo Limited and serves as Chief Promoter of ETH10k.io.',
       linkedin: '#',
       twitter: '#',
-      email: 'adebayo@codebridge.coop',
+      email: 'edima@codebridge.coop',
     },
     {
       name: 'Ngozi Eze',

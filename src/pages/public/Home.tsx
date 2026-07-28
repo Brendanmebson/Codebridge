@@ -617,13 +617,13 @@ const Home: React.FC = () => {
                   }}>
                     <Box component="img"
                       src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=80"
-                      alt="Chairman"
+                      alt="President"
                       sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
                   </Box>
                   <Box>
-                    <Typography variant="caption" sx={{ color: '#fff', fontWeight: 600, display: 'block' }}>Adebayo Okafor</Typography>
-                    <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)' }}>Chairman, CodeBridge</Typography>
+                    <Typography variant="caption" sx={{ color: '#fff', fontWeight: 600, display: 'block' }}>Edima Ben Ekpo, MBA, FCA, FCRM, CISA, PIOR, FAIAPM</Typography>
+                    <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)' }}>President, CodeBridge</Typography>
                   </Box>
                 </Box>
               </Box>
