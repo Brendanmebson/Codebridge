@@ -40,6 +40,9 @@ const Register: React.FC = () => {
 
     if (hasAuthParams) {
       setInviteStatus('loading');
+    } else if (inviteEmail) {
+      setInviteStatus('ready');
+      return true;
     }
 
     const wait = (ms: number) => new Promise((resolve) => window.setTimeout(resolve, ms));
@@ -60,6 +63,9 @@ const Register: React.FC = () => {
           if (session?.user?.email) {
             setEmail(session.user.email);
             setInviteStatus('ready');
+            if (window.location.hash) {
+              window.history.replaceState({}, '', `${window.location.pathname}${window.location.search}`);
+            }
             return true;
           }
         }
@@ -78,6 +84,9 @@ const Register: React.FC = () => {
           if (session?.user?.email) {
             setEmail(session.user.email);
             setInviteStatus('ready');
+            if (window.location.hash) {
+              window.history.replaceState({}, '', `${window.location.pathname}${window.location.search}`);
+            }
             return true;
           }
         }
@@ -96,6 +105,9 @@ const Register: React.FC = () => {
           if (session?.user?.email) {
             setEmail(session.user.email);
             setInviteStatus('ready');
+            if (window.location.hash) {
+              window.history.replaceState({}, '', `${window.location.pathname}${window.location.search}`);
+            }
             return true;
           }
         }
@@ -111,6 +123,9 @@ const Register: React.FC = () => {
           if (session?.user?.email) {
             setEmail(session.user.email);
             setInviteStatus('ready');
+            if (window.location.hash) {
+              window.history.replaceState({}, '', `${window.location.pathname}${window.location.search}`);
+            }
             return true;
           }
         }
@@ -119,9 +134,15 @@ const Register: React.FC = () => {
       }
 
       const { data: sessionData } = await supabase.auth.getSession();
-      if (sessionData?.session?.user?.email) {
-        setEmail(sessionData.session.user.email);
+      const { data: userData } = await supabase.auth.getUser();
+      const activeSession = sessionData?.session || userData?.user;
+      if (activeSession?.user?.email || userData?.user?.email) {
+        const resolvedEmail = sessionData?.session?.user?.email || userData?.user?.email;
+        setEmail(resolvedEmail || inviteEmail);
         setInviteStatus('ready');
+        if (window.location.hash) {
+          window.history.replaceState({}, '', `${window.location.pathname}${window.location.search}`);
+        }
         return true;
       }
 
@@ -151,7 +172,7 @@ const Register: React.FC = () => {
     void resolveInviteSession();
 
     const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-      if ((event === 'INITIAL_SESSION' || event === 'SIGNED_IN') && session?.user?.email) {
+      if ((event === 'INITIAL_SESSION' || event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') && session?.user?.email) {
         setEmail(session.user.email);
         setInviteStatus('ready');
       }
