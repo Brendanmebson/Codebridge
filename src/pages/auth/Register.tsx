@@ -26,9 +26,11 @@ const Register: React.FC = () => {
     const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
     const inviteEmail = params.get('email') || hashParams.get('email') || '';
     const tokenHash = params.get('token_hash') || hashParams.get('token_hash') || '';
+    const inviteToken = params.get('token') || hashParams.get('token') || '';
     const authType = params.get('type') || hashParams.get('type') || '';
     const accessToken = params.get('access_token') || hashParams.get('access_token') || '';
     const refreshToken = params.get('refresh_token') || hashParams.get('refresh_token') || '';
+    const code = params.get('code') || hashParams.get('code') || '';
     const authKeys = ['access_token', 'refresh_token', 'token', 'token_hash', 'type', 'state', 'code', 'error', 'error_description'];
     const hasAuthParams = [...params.entries(), ...hashParams.entries()].some(([key]) => authKeys.includes(key));
 
@@ -40,59 +42,100 @@ const Register: React.FC = () => {
       setInviteStatus('loading');
     }
 
-    try {
-      if (tokenHash && authType) {
-        const { data, error } = await supabase.auth.verifyOtp({
-          token_hash: tokenHash,
-          type: authType as 'invite',
-        });
+    const wait = (ms: number) => new Promise((resolve) => window.setTimeout(resolve, ms));
 
-        if (error) {
-          console.warn('Invite token verification warning:', error.message);
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      try {
+        if (tokenHash && authType) {
+          const { data, error } = await supabase.auth.verifyOtp({
+            token_hash: tokenHash,
+            type: authType as 'invite',
+          });
+
+          if (error) {
+            console.warn('Invite token verification warning:', error.message);
+          }
+
+          const session = data?.session;
+          if (session?.user?.email) {
+            setEmail(session.user.email);
+            setInviteStatus('ready');
+            return true;
+          }
         }
 
-        const session = data?.session;
-        if (session?.user?.email) {
-          setEmail(session.user.email);
-          setInviteStatus('ready');
-          return true;
+        if (inviteToken && authType) {
+          const { data, error } = await supabase.auth.verifyOtp({
+            token: inviteToken,
+            type: authType as 'invite',
+          });
+
+          if (error) {
+            console.warn('Invite token verification warning:', error.message);
+          }
+
+          const session = data?.session;
+          if (session?.user?.email) {
+            setEmail(session.user.email);
+            setInviteStatus('ready');
+            return true;
+          }
         }
+
+        if (accessToken && refreshToken) {
+          const { data, error } = await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken,
+          });
+
+          if (error) {
+            console.warn('Invite session set warning:', error.message);
+          }
+
+          const session = data?.session;
+          if (session?.user?.email) {
+            setEmail(session.user.email);
+            setInviteStatus('ready');
+            return true;
+          }
+        }
+
+        if (code) {
+          const { data, error } = await supabase.auth.exchangeCodeForSession({ code });
+
+          if (error) {
+            console.warn('Invite code exchange warning:', error.message);
+          }
+
+          const session = data?.session;
+          if (session?.user?.email) {
+            setEmail(session.user.email);
+            setInviteStatus('ready');
+            return true;
+          }
+        }
+      } catch (parseError) {
+        console.warn('Could not parse invite session from URL:', parseError);
       }
 
-      if (accessToken && refreshToken) {
-        const { data, error } = await supabase.auth.setSession({
-          access_token: accessToken,
-          refresh_token: refreshToken,
-        });
-
-        if (error) {
-          console.warn('Invite session set warning:', error.message);
-        }
-
-        const session = data?.session;
-        if (session?.user?.email) {
-          setEmail(session.user.email);
-          setInviteStatus('ready');
-          return true;
-        }
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (sessionData?.session?.user?.email) {
+        setEmail(sessionData.session.user.email);
+        setInviteStatus('ready');
+        return true;
       }
-    } catch (parseError) {
-      console.warn('Could not parse invite session from URL:', parseError);
-    }
 
-    const { data: sessionData } = await supabase.auth.getSession();
-    if (sessionData?.session?.user?.email) {
-      setEmail(sessionData.session.user.email);
-      setInviteStatus('ready');
-      return true;
+      if (attempt < 2) {
+        await wait(1000);
+      }
     }
 
     if (hasAuthParams) {
-      setInviteStatus('error');
+      setInviteStatus('loading');
       setError('The invitation link is still being activated. Please wait a moment and try again.');
     } else if (inviteEmail) {
-      setInviteStatus('error');
-      setError('We could not find a valid invitation session for this account. Please reopen the invite link from the admin panel.');
+      setInviteStatus('ready');
+      setError('');
     } else if (!isSubmitting) {
       setInviteStatus('error');
       setError('This page is meant to be opened from an admin invitation email. Please use the latest invite link.');
@@ -134,6 +177,8 @@ const Register: React.FC = () => {
       return;
     }
 
+    const normalizedEmail = email.trim().toLowerCase();
+
     setLoading(true);
     try {
       const inviteReady = await resolveInviteSession(true);
@@ -167,7 +212,6 @@ const Register: React.FC = () => {
       }
 
       if (data?.user) {
-        const normalizedEmail = email.trim().toLowerCase();
         const { error: memberUpdateError } = await supabase
           .from('members')
           .update({
