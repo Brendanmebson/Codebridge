@@ -107,6 +107,12 @@ const MemberManagement: React.FC = () => {
 
   const handleStatusChange = async () => {
     if (!selectedMember || !newStatus) return;
+
+    if (newStatus !== 'suspended' && newStatus !== 'active') {
+      setError('Only suspension and reactivation are allowed from the admin panel.');
+      return;
+    }
+
     try {
       const { error: updateError } = await supabase.from('members').update({ status: newStatus }).eq('id', selectedMember.id);
       if (updateError) throw updateError;
@@ -262,8 +268,16 @@ const MemberManagement: React.FC = () => {
                   </TableCell>
                   <TableCell><Chip label={member.status.toUpperCase()} color={getStatusColor(member.status)} size="small" /></TableCell>
                   <TableCell align="center">
-                    <IconButton size="small" color="success" onClick={() => { setSelectedMember(member); setNewStatus('active'); setStatusDialogOpen(true); }} disabled={member.status === 'active'}><CheckCircleIcon /></IconButton>
-                    <IconButton size="small" color="error" onClick={() => { setSelectedMember(member); setNewStatus('suspended'); setStatusDialogOpen(true); }} disabled={member.status === 'suspended'}><BlockIcon /></IconButton>
+                    <IconButton
+                      size="small"
+                      color="success"
+                      onClick={() => { setSelectedMember(member); setNewStatus('active'); setStatusDialogOpen(true); }}
+                      disabled={member.status === 'active' || member.status === 'suspended' ? false : false}
+                      title="Reactivate member"
+                    >
+                      <CheckCircleIcon />
+                    </IconButton>
+                    <IconButton size="small" color="error" onClick={() => { setSelectedMember(member); setNewStatus('suspended'); setStatusDialogOpen(true); }} disabled={member.status === 'suspended'} title="Suspend member"><BlockIcon /></IconButton>
                   </TableCell>
                 </TableRow>
               ))}
@@ -373,6 +387,7 @@ const MemberManagement: React.FC = () => {
         <DialogTitle>Update Status</DialogTitle>
         <DialogContent>
           <Typography>Change status of {selectedMember?.first_name} to <strong>{newStatus}</strong>?</Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>Admins can only suspend members or reactivate them after a suspension.</Typography>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setStatusDialogOpen(false)}>Cancel</Button>

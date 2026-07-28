@@ -96,7 +96,7 @@ export default async function handler(req: any, res: any) {
       date_of_birth: payload.date_of_birth ?? existingMember?.date_of_birth ?? null,
       member_number: existingMember?.member_number ?? createMemberNumber(),
       role: 'member',
-      status: 'inactive',
+      status: 'active',
       registration_date: existingMember?.registration_date ?? new Date().toISOString(),
     };
 
