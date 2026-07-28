@@ -607,8 +607,8 @@ const Home: React.FC = () => {
                   color: 'rgba(255,255,255,0.88)', lineHeight: 1.85,
                   fontStyle: 'italic', mb: 2.5, fontSize: '0.95rem',
                 }}>
-                  Eight years ago we started with 42 members and a shared belief.
-                  Today, over 1,200 families are building better futures together.
+                  Six years ago we started with 2 members and a shared belief.
+                  Today, over 50 members are building better futures together.
                 </Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                   <Box sx={{
@@ -616,7 +616,7 @@ const Home: React.FC = () => {
                     border: '2px solid rgba(255,255,255,0.3)', flexShrink: 0,
                   }}>
                     <Box component="img"
-                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=80"
+                      src={presidentPhoto}
                       alt="President"
                       sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
@@ -645,7 +645,7 @@ const Home: React.FC = () => {
                 Ready to be part of the story?
               </Typography>
               <Typography variant="body2" sx={{ color: palette.text.secondary, fontWeight: 300 }}>
-                Join over 1,240 members already building financial freedom.
+                Join over 50 members already building financial freedom.
               </Typography>
             </Box>
             <Stack direction="row" spacing={2}>

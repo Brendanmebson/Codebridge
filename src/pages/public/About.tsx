@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Box, Typography, Button, Container, Stack, useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import presidentPhoto from '../../assets/members/president.jpg';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import BalanceIcon from '@mui/icons-material/Balance';
@@ -83,7 +84,7 @@ const About: React.FC = () => {
       role: 'President',
       initials: 'EE',
       color: palette.primary.dark,
-      img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80',
+      img: presidentPhoto,
       bio: 'MBA, FCA, FCRM, CISA, PIOR, FAIAPM with over 30 years of experience in risk management, auditing, banking operations, and governance.',
     },
     {
@@ -919,7 +920,7 @@ const About: React.FC = () => {
                 border: '2px solid rgba(255,255,255,0.3)', flexShrink: 0,
               }}>
                 <Box component="img"
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80"
+                  src={presidentPhoto}
                   alt="President" sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </Box>
               <Box sx={{ textAlign: 'left' }}>

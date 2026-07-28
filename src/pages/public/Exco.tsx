@@ -10,6 +10,7 @@ import {
   Stack,
   IconButton,
 } from '@mui/material';
+import presidentPhoto from '../../assets/members/president.jpg';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import EmailIcon from '@mui/icons-material/Email';
@@ -24,7 +25,7 @@ const Exco: React.FC = () => {
     {
       name: 'Edima Ben Ekpo',
       role: 'President',
-      img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
+      img: presidentPhoto,
       bio: 'Edima Ben Ekpo is an accomplished leader with over 30 years of experience in risk management, auditing, banking operations, and governance. He retired from UBA Plc as Deputy General Manager, Group Operational Risk Management after 19 years, and now leads EdimaBenEkpo Limited and serves as Chief Promoter of ETH10k.io.',
       linkedin: '#',
       twitter: '#',
