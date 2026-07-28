@@ -12,6 +12,9 @@ import {
 } from '@mui/material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import TagIcon from '@mui/icons-material/Tag';
+import img2 from '../../assets/img2.jpg';
+import img3 from '../../assets/img3.jpg';
+import img4 from '../../assets/img4.jpg';
 
 const Gallery: React.FC = () => {
   const theme = useTheme();
@@ -31,21 +34,21 @@ const Gallery: React.FC = () => {
       title: 'Member Business Workshop',
       date: 'February 10, 2025',
       category: 'Workshop',
-      img: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=80',
+      img: img2,
       description: 'Empowering our members with financial literacy and business management skills. A day of learning and networking.',
     },
     {
       title: 'New Office Inauguration',
       date: 'January 5, 2025',
       category: 'Milestone',
-      img: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80',
+      img: img3,
       description: 'Celebrating the opening of our new headquarters. A modern space designed to serve our growing community better.',
     },
     {
       title: 'Cooperative Sports Day',
       date: 'December 20, 2024',
       category: 'Social',
-      img: 'https://images.unsplash.com/photo-1526676037777-05a232554f77?w=600&q=80',
+      img: img4,
       description: 'Members and their families joined for a day of fun, games, and community bonding at the city stadium.',
     },
     {

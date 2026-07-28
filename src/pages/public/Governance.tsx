@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Box, Container, Typography, Button, useTheme, Stack } from '@mui/material';
 import presidentPhoto from '../../assets/members/president.jpg';
+import treasurerPhoto from '../../assets/members/Treasurer.jpg';
 import { Link } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import HowToVoteIcon from '@mui/icons-material/HowToVote';
@@ -54,7 +55,7 @@ const Governance: React.FC = () => {
     { name: 'Edima Ben Ekpo', role: 'President', tenure: 'Since 2016', img: presidentPhoto, color: palette.primary.dark },
     { name: 'Mrs Ngozi Adeleke', role: 'Vice Chairperson', tenure: 'Since 2018', img: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&q=80', color: palette.info.dark },
     { name: 'Dr Femi Babatunde', role: 'Secretary General', tenure: 'Since 2020', img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80', color: palette.secondary.dark },
-    { name: 'Mrs Amaka Eze', role: 'Treasurer', tenure: 'Since 2019', img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80', color: palette.primary.dark },
+    { name: 'Ebuk Emmanuel', role: 'Treasurer', tenure: 'Since 2019', img: treasurerPhoto, color: palette.primary.dark },
     { name: 'Mr Tunde Oladele', role: 'Loans Committee Chair', tenure: 'Since 2021', img: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&q=80', color: palette.info.dark },
     { name: 'Mrs Bimpe Afolabi', role: 'Welfare Officer', tenure: 'Since 2022', img: 'https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=200&q=80', color: palette.secondary.dark },
   ];

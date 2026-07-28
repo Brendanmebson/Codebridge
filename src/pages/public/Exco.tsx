@@ -11,6 +11,7 @@ import {
   IconButton,
 } from '@mui/material';
 import presidentPhoto from '../../assets/members/president.jpg';
+import treasurerPhoto from '../../assets/members/Treasurer.jpg';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import EmailIcon from '@mui/icons-material/Email';
@@ -41,10 +42,10 @@ const Exco: React.FC = () => {
       email: 'ngozi@codebridge.coop',
     },
     {
-      name: 'Chidi Amadi',
+      name: 'Ebuk Emmanuel',
       role: 'Treasurer',
-      img: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80',
-      bio: 'A certified accountant with a precision-focused approach to managing cooperative funds. Chidi oversees our financial health and ensures accountability in every transaction.',
+      img: treasurerPhoto,
+      bio: 'A certified accountant with a precision-focused approach to managing cooperative funds. Ebuk oversees our financial health and ensures accountability in every transaction.',
       linkedin: '#',
       twitter: '#',
       email: 'chidi@codebridge.coop',

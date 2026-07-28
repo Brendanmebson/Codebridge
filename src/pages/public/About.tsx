@@ -3,6 +3,7 @@ import { Box, Typography, Button, Container, Stack, useTheme } from '@mui/materi
 import { Link } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import presidentPhoto from '../../assets/members/president.jpg';
+import treasurerPhoto from '../../assets/members/Treasurer.jpg';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import BalanceIcon from '@mui/icons-material/Balance';
@@ -96,11 +97,11 @@ const About: React.FC = () => {
       bio: 'Expert in cooperative governance and member relations with a decade of experience.',
     },
     {
-      name: 'Chidi Amadi',
+      name: 'Ebuk Emmanuel',
       role: 'Treasurer',
-      initials: 'CA',
+      initials: 'EE',
       color: palette.secondary.dark,
-      img: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&q=80',
+      img: treasurerPhoto,
       bio: 'Certified accountant managing over ₦1.2B in cooperative funds with precision.',
     },
     {

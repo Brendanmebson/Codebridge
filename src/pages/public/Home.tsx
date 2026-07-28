@@ -2,6 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Box, Typography, Button, Container, Stack, useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
 import presidentPhoto from '../../assets/members/president.jpg';
+import img1 from '../../assets/img1.jpg';
+import img2 from '../../assets/img2.jpg';
+import img3 from '../../assets/img3.jpg';
 import SavingsIcon from '@mui/icons-material/Savings';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import GroupsIcon from '@mui/icons-material/Groups';
@@ -117,6 +120,18 @@ const Home: React.FC = () => {
     { icon: <HandshakeIcon sx={{ fontSize: 22 }} />, title: 'Mutual Support', desc: 'Every member gains access to a network of people invested in their financial success.' },
     { icon: <EmojiEventsIcon sx={{ fontSize: 22 }} />, title: 'Proven Results', desc: '8+ years of consistent member growth, competitive returns, and community impact.' },
   ];
+
+  const [rightImageIndex, setRightImageIndex] = useState(0);
+  const rightImages = [img2, img3];
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setRightImageIndex((prev) => (prev + 1) % rightImages.length);
+    }, 2000);
+    return () => window.clearInterval(interval);
+  }, []);
+
+  const rightImageSrc = rightImages[rightImageIndex];
 
   const testimonials = [
     {
@@ -566,7 +581,7 @@ const Home: React.FC = () => {
                   '&:hover img': { transform: 'scale(1.05)' },
                 }}>
                   <Box component="img"
-                    src="https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=400&q=80"
+                    src={img1}
                     alt="Member"
                     sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s cubic-bezier(0.22,1,0.36,1)' }}
                   />
@@ -577,7 +592,7 @@ const Home: React.FC = () => {
                   '&:hover img': { transform: 'scale(1.05)' },
                 }}>
                   <Box component="img"
-                    src="https://images.unsplash.com/photo-1560264280-88b68371db39?w=400&q=80"
+                    src={rightImageSrc}
                     alt="Community"
                     sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s cubic-bezier(0.22,1,0.36,1)' }}
                   />
