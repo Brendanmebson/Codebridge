@@ -175,7 +175,7 @@ const Exco: React.FC = () => {
                 </CardContent>
               </Card>
             </Box>
-          ))}
+          })}
         </Box>
       </Container>
 
