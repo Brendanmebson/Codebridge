@@ -90,10 +90,7 @@ const Exco: React.FC = () => {
           gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' },
           gap: 4
         }}>
-          {members.map((member, index) => {
-            const shortBio = member.shortBio;
-
-            return (
+          {members.map((member, index) => (
               <Box key={index}>
                 <Card
                   sx={{
