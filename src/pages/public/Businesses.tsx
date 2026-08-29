@@ -22,15 +22,7 @@ import LaunchIcon from '@mui/icons-material/Launch';
 import BusinessIcon from '@mui/icons-material/Business';
 import CloseIcon from '@mui/icons-material/Close';
 
-const Businesses: React.FC = () => {
-  const theme = useTheme();
-  const { palette, shape } = theme;
-
-  const heroGradient = `linear-gradient(150deg, ${palette.primary.dark} 0%, ${palette.primary.main} 50%, ${palette.secondary.dark} 100%)`;
-
-  const [openBiz, setOpenBiz] = React.useState<any>(null);
-
-  export const businesses = [
+export const businesses = [
     {
       name: 'Esther Chigbogu',
       businessName: 'Starlet Tutors',
@@ -178,6 +170,14 @@ const Businesses: React.FC = () => {
       ],
     },
   ];
+
+const Businesses: React.FC = () => {
+  const theme = useTheme();
+  const { palette, shape } = theme;
+
+  const heroGradient = `linear-gradient(150deg, ${palette.primary.dark} 0%, ${palette.primary.main} 50%, ${palette.secondary.dark} 100%)`;
+
+  const [openBiz, setOpenBiz] = React.useState<any>(null);
 
   const codebridgeLogo = new URL('../../assets/logo.jpg', import.meta.url).href;
 
