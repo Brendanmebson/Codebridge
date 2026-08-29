@@ -136,31 +136,18 @@ const Home: React.FC = () => {
 
   const rightImageSrc = rightImages[rightImageIndex];
 
-  // Build testimonials: first Emmanuel Ebuk (Treasurer) with an agriculture-themed quote,
-  // then two random businesses using their `impact` and profile images.
-  const getRandomBusinesses = (n = 2) => {
-    const pool = businesses.filter((b) => b.impact && !/^(nil)$/i.test(String(b.impact).trim()));
-    if (pool.length <= n) return pool;
-    const picks: any[] = [];
-    const used = new Set<number>();
-    while (picks.length < n) {
-      const idx = Math.floor(Math.random() * pool.length);
-      if (!used.has(idx)) {
-        used.add(idx);
-        picks.push(pool[idx]);
-      }
-    }
-    return picks;
-  };
-
-  const selectedBusinesses = getRandomBusinesses(2);
+  // Keep the homepage story personal and grounded: Emmanuel is presented as a member farmer,
+  // while the additional testimonials are limited to the strongest two business stories.
+  const selectedBusinesses = businesses
+    .filter((b) => b.impact && !/^(nil)$/i.test(String(b.impact).trim()))
+    .slice(0, 2);
 
   const testimonials = [
     {
       quote:
-        "Through prudent lending and targeted support, CodeBridge helped us invest in smallholder agriculture projects — improving yields, stabilizing income, and strengthening food value chains for our members.",
-      name: 'Emmanuel Jackson Ebuk',
-      role: 'Treasurer',
+        'CodeBridge helped me grow my farm business and gave me the support I needed to plan better, expand confidently, and improve my livelihood. It was a practical step forward for my family and my future.',
+      name: 'Emmanuel Ebuk',
+      role: 'Farmer & Member',
       color: palette.info.dark,
       img: treasurerPhoto,
       stars: 5,
@@ -168,7 +155,7 @@ const Home: React.FC = () => {
     ...selectedBusinesses.map((b) => ({
       quote: b.impact || 'Codebridge supported my business growth.',
       name: b.businessName || b.name,
-      role: b.name,
+      role: 'Business Owner',
       color: palette.primary.dark,
       img: b.profileImage || presidentPhoto,
       stars: 5,
