@@ -59,7 +59,7 @@ export const businesses = [
       businessName: 'Brainiac Academy',
       description:
         'Brainiac Academy helps students build confidence and master core subjects through personalized tutoring and enrichment programs. Our expert educators tailor instruction to each learner\'s pace and goals — turning academic struggles into strengths and curiosity into lifelong learning.',
-      impact: 'Codebridge has been instrumental to my business. It has encouraged me to invest and this has in turn helped my business growth.',
+      impact: 'CodeBridge has been instrumental to my business because it gave me a structured way to save, invest, and grow without feeling overwhelmed. The support has helped me make better decisions, strengthen my operations, and steadily expand the value I offer to parents and students. It has not only improved my business financially, but also given me the confidence to keep building for the future.',
       websiteOrSocial: 'https://vt.tiktok.com/ZS4HoAqon/',
       profileImage: new URL('../../assets/business/ProfilePicture/Braniac Academy PP.jpeg', import.meta.url).href,
       images: [
@@ -100,7 +100,7 @@ export const businesses = [
       name: 'Lola Abidemi Owoola',
       businessName: 'Oladoja Alaso Ebi',
       description: 'Home of Fabrics. African Prints and Lace Materials',
-      impact: 'Codebridge has been impacted my business by releasing loans anytime the need arises and members patronage.',
+      impact: 'CodeBridge has had a real impact on my business because whenever I needed support, the cooperative was able to release funds at the right time. That access to finance helped me keep my business moving, serve more customers, and maintain steady operations during important periods. The members\' loyalty and support have also made a difference, and I feel more confident growing my business with a strong community behind me.',
       websiteOrSocial: 'Social Media Pages',
       profileImage: new URL('../../assets/business/ProfilePicture/Oladoja Alaso PP.jpeg', import.meta.url).href,
       images: [

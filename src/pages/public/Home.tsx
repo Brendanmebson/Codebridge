@@ -137,10 +137,10 @@ const Home: React.FC = () => {
   const rightImageSrc = rightImages[rightImageIndex];
 
   // Keep the homepage story personal and grounded: Emmanuel is presented as a member farmer,
-  // while the additional testimonials are limited to the strongest two business stories.
-  const selectedBusinesses = businesses
-    .filter((b) => b.impact && !/^(nil)$/i.test(String(b.impact).trim()))
-    .slice(0, 2);
+  // while the additional testimonials are limited to the two strongest business stories.
+  const selectedBusinesses = businesses.filter((b) =>
+    ['Brainiac Academy', 'Oladoja Alaso Ebi'].includes(b.businessName || b.name)
+  );
 
   const testimonials = [
     {
