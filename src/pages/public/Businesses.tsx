@@ -38,6 +38,8 @@ const Businesses: React.FC = () => {
         'We are a company of experienced, passionate and dedicated teachers of diverse subjects, ranging from English Language, Mathematics and Sciences.',
       impact: 'Code bridge has helped us stay committed to a realistic target saving plan.',
       websiteOrSocial: 'Starlettutors@gmail.com',
+      profileImage: new URL('../../assets/business/ProfilePicture/Starlet Tutors PP.jpg', import.meta.url).href,
+      images: [new URL('../../assets/business/BusinessPicture/Starlet Tutors BP.png', import.meta.url).href],
     },
     {
       name: 'Emem Owo',
@@ -46,6 +48,19 @@ const Businesses: React.FC = () => {
         "I'm Emem Owo! I run Ememowo's Needle in IBESIKPO. I've been sewing for 4 years and I LOVE making outfits that fit you perfectly and make you feel good. Let's create something beautiful together 💕",
       impact: 'Coatbridge stood by me when I needed phone badly for my business',
       websiteOrSocial: 'Both',
+      profileImage: new URL('../../assets/business/ProfilePicture/Ememowo Needle PP.jpg', import.meta.url).href,
+      images: [
+        new URL('../../assets/business/BusinessPicture/Ememowo Needle BP1.jpg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/Ememowo Needle BP2.jpg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/Ememowo Needle BP3.jpg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/Ememowo Needle BP4.png', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/Ememowo Needle BP5.jpg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/Ememowo Needle BP6.jpg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/Ememowo Needle BP7.jpg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/Ememowo Needle BP8.jpg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/Ememowo Needle BP9.jpg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/Ememowo Needle BP10.jpg', import.meta.url).href,
+      ],
     },
     {
       name: 'Favour Onaji',
@@ -54,6 +69,13 @@ const Businesses: React.FC = () => {
         'Brainiac Academy helps students build confidence and master core subjects through personalized tutoring and enrichment programs. Our expert educators tailor instruction to each learner\'s pace and goals — turning academic struggles into strengths and curiosity into lifelong learning.',
       impact: 'Codebridge has been instrumental to my business. It has encouraged me to invest and this has in turn helped my business growth.',
       websiteOrSocial: 'https://vt.tiktok.com/ZS4HoAqon/',
+      profileImage: new URL('../../assets/business/ProfilePicture/Braniac Academy PP.jpeg', import.meta.url).href,
+      images: [
+        new URL('../../assets/business/BusinessPicture/Braniac Academy BP1.jpeg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/Braniac Academy BP2.jpeg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/Braniac Academy BP3.jpeg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/Braniac Academy BP4.jpeg', import.meta.url).href,
+      ],
     },
     {
       name: 'Enyita Jacob',
@@ -61,6 +83,8 @@ const Businesses: React.FC = () => {
       description: 'Royalsec company',
       impact: 'Codebridge cooperative has been awesome and a family to stay',
       websiteOrSocial: 'Jacobenyita@gmail.com',
+      profileImage: new URL('../../assets/business/ProfilePicture/Royalsec Ltd PP.jpg', import.meta.url).href,
+      images: [],
     },
     {
       name: 'Chukwuekezie Uche Michael',
@@ -68,6 +92,8 @@ const Businesses: React.FC = () => {
       description: 'Beverages firm',
       impact: 'At least I don’t think about the money I have kept in codebridge and I receive good dividends',
       websiteOrSocial: 'https://www.tiktok.com/@uche74445?_r=1&_t=ZS-98fHrVp2FFg',
+      profileImage: new URL('../../assets/business/ProfilePicture/Fruitylife PP.jpeg', import.meta.url).href,
+      images: [new URL('../../assets/business/BusinessPicture/Fruity BP.jpeg', import.meta.url).href],
     },
     {
       name: 'HELEN STEPHEN EMMANUEL',
@@ -75,6 +101,8 @@ const Businesses: React.FC = () => {
       description: 'NIL',
       impact: 'NIL',
       websiteOrSocial: 'NIL',
+      profileImage: new URL('../../assets/business/ProfilePicture/Helen Stephen PP.jpg', import.meta.url).href,
+      images: [],
     },
     {
       name: 'Lola Abidemi Owoola',
@@ -82,6 +110,19 @@ const Businesses: React.FC = () => {
       description: 'Home of Fabrics. African Prints and Lace Materials',
       impact: 'Codebridge has been impacted my business by releasing loans anytime the need arises and members patronage.',
       websiteOrSocial: 'Social Media Pages',
+      profileImage: new URL('../../assets/business/ProfilePicture/Oladoja Alaso PP.jpeg', import.meta.url).href,
+      images: [
+        new URL('../../assets/business/BusinessPicture/Oladoja Alaso BP1.jpeg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/Oladoja Alaso BP2.jpeg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/Oladoja Alaso BP3.jpeg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/Oladoja Alaso BP4.jpeg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/Oladoja Alaso BP5.jpeg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/Oladoja Alaso BP6.jpeg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/Oladoja Alaso BP7.jpeg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/Oladoja Alaso BP8.jpeg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/Oladoja Alaso BP9.jpeg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/Oladoja Alaso BP10.png', import.meta.url).href,
+      ],
     },
     {
       name: 'Esther Adelaja',
@@ -89,6 +130,8 @@ const Businesses: React.FC = () => {
       description: 'Nil',
       impact: 'Nil',
       websiteOrSocial: 'Nil',
+      profileImage: new URL('../../assets/business/ProfilePicture/Debangelz PP.png', import.meta.url).href,
+      images: [new URL('../../assets/business/BusinessPicture/Debanglez BP.jpeg', import.meta.url).href],
     },
     {
       name: 'Akan Usung',
@@ -97,6 +140,11 @@ const Businesses: React.FC = () => {
         'Akel & Chil Naturopathic Services (in affiliation with Kedi Healthcare International), is a health and wellness company, using herbal medicine for the eradication of health challenges such as diabetes, hypertension, ulcers, prostate, etc.\n\nWe carry out a complete bio scan, to determine your health status, to enable us apply the right herbal medication; after body detoxification.\n\nOur Blood Circulation Massager (BCM; otherwise called, Home Doctor), clears arterial bad fat and blockage; ensuring proper blood flow and thereby eliminating various health issues.',
       impact: 'In great partnership',
       websiteOrSocial: 'In progress',
+      profileImage: new URL('../../assets/business/ProfilePicture/Akel & Chil Naturopathic Services PP.png', import.meta.url).href,
+      images: [
+        new URL('../../assets/business/BusinessPicture/Akel & Chil Naturopathic Services BP1.mp4', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/Akel & Chil Naturopathic Services BP2.mp4', import.meta.url).href,
+      ],
     },
     {
       name: 'Edima Ben Ekpo',
@@ -105,6 +153,8 @@ const Businesses: React.FC = () => {
         'EdimaBenEkpo Limited is a professional consulting firm providing governance advisory, public policy support, strategic communications, and cybersecurity risk control services across Africa.\n\nWe partner with governments, financial institutions, and organisations to manage risk, strengthen compliance, and support effective decision-making. Our work is grounded in global best practices and informed by local context, enabling practical and sustainable outcomes for our clients.\n\nAt EdimaBenEkpo, we are committed to responsibility, excellence, empowerment, and integrity in every engagement.',
       impact: 'It has helped in terms of financial savings, stability and accountability.',
       websiteOrSocial: 'https://edimabenekpo.ng/',
+      profileImage: new URL('../../assets/business/ProfilePicture/EdimaBenEkpo Limited PP.jpg', import.meta.url).href,
+      images: [new URL('../../assets/business/BusinessPicture/EdimaBenEkpo BP.jpg', import.meta.url).href],
     },
     {
       name: 'Amasua David Essien',
@@ -113,67 +163,19 @@ const Businesses: React.FC = () => {
         'TechGrid Limited is not just another Information Technology company – we are your strategic partner in navigating the ever-changing digital landscape. With a commitment to excellence and a passion for innovation, we empower organizations and individuals to thrive in a digital-first world.',
       impact: 'Provision of loans for projects when required.',
       websiteOrSocial: 'https://www.techgridng.com',
-    },
-    {
-      name: 'Esther Chigbogu',
-      businessName: 'Starlet Tutors',
-      description:
-        'We are a company of experienced, passionate and dedicated teachers of diverse subjects, ranging from English Language, Mathematics and Sciences.',
-    },
-    {
-      name: 'Emem Owo',
-      businessName: "Ememowo's Needle",
-      description:
-        "I'm Emem Owo! I run Ememowo's Needle in IBESIKPO. I've been sewing for 4 years and I LOVE making outfits that fit you perfectly and make you feel good. Let's create something beautiful together 💕",
-    },
-    {
-      name: 'Favour Onaji',
-      businessName: 'Brainiac Academy',
-      description:
-        'Brainiac Academy helps students build confidence and master core subjects through personalized tutoring and enrichment programs. Our expert educators tailor instruction to each learner\'s pace and goals — turning academic struggles into strengths and curiosity into lifelong learning.',
-    },
-    {
-      name: 'Enyita Jacob',
-      businessName: 'Royalsec Ltd',
-      description: 'Royalsec company',
-    },
-    {
-      name: 'Chukwuekezie Uche Michael',
-      businessName: 'Fruitylife Enterprise',
-      description: 'Beverages firm',
-    },
-    {
-      name: 'HELEN STEPHEN EMMANUEL',
-      businessName: 'NIL',
-      description: 'NIL',
-    },
-    {
-      name: 'Lola Abidemi Owoola',
-      businessName: 'Oladoja Alaso Ebi',
-      description: 'Home of Fabrics. African Prints and Lace Materials',
-    },
-    {
-      name: 'Esther Adelaja',
-      businessName: 'Debangelz',
-      description: 'Nil',
-    },
-    {
-      name: 'Akan Usung',
-      businessName: 'Akel & Chil Naturopathic Services',
-      description:
-        'Akel & Chil Naturopathic Services (in affiliation with Kedi Healthcare International), is a health and wellness company, using herbal medicine for the eradication of health challenges such as diabetes, hypertension, ulcers, prostate, etc.\n\nWe carry out a complete bio scan, to determine your health status, to enable us apply the right herbal medication; after body detoxification.\n\nOur Blood Circulation Massager (BCM; otherwise called, Home Doctor), clears arterial bad fat and blockage; ensuring proper blood flow and thereby eliminating various health issues.',
-    },
-    {
-      name: 'Edima Ben Ekpo',
-      businessName: 'EdimaBenEkpo Limited',
-      description:
-        'EdimaBenEkpo Limited is a professional consulting firm providing governance advisory, public policy support, strategic communications, and cybersecurity risk control services across Africa.\n\nWe partner with governments, financial institutions, and organisations to manage risk, strengthen compliance, and support effective decision-making. Our work is grounded in global best practices and informed by local context, enabling practical and sustainable outcomes for our clients.\n\nAt EdimaBenEkpo, we are committed to responsibility, excellence, empowerment, and integrity in every engagement.',
-    },
-    {
-      name: 'Amasua David Essien',
-      businessName: 'TechGrid Limited',
-      description:
-        'TechGrid Limited is not just another Information Technology company – we are your strategic partner in navigating the ever-changing digital landscape. With a commitment to excellence and a passion for innovation, we empower organizations and individuals to thrive in a digital-first world.',
+      profileImage: new URL('../../assets/business/ProfilePicture/TechGrid Limited PP.png', import.meta.url).href,
+      images: [
+        new URL('../../assets/business/BusinessPicture/TechGrid Limited BP1.jpg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/TechGrid Limited BP2.jpg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/TechGrid Limited BP3.jpg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/TechGrid Limited BP4.jpg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/TechGrid Limited BP5.jpg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/TechGrid Limited BP6.jpg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/TechGrid Limited BP7.jpg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/TechGrid Limited BP8.jpg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/TechGrid Limited BP9.jpg', import.meta.url).href,
+        new URL('../../assets/business/BusinessPicture/TechGrid Limited BP10.png', import.meta.url).href,
+      ],
     },
   ];
 
@@ -293,7 +295,7 @@ const Businesses: React.FC = () => {
                     height: { xs: 200, sm: 'auto' },
                     objectFit: 'cover',
                   }}
-                  image={biz.img}
+                  image={biz.images?.[0] || biz.img}
                   alt={biz.name}
                 />
                 <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
@@ -335,7 +337,7 @@ const Businesses: React.FC = () => {
 
                     <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">
                       <Stack direction="row" spacing={1.5} alignItems="center">
-                        <Avatar src={biz.ownerImg} sx={{ width: 32, height: 32 }} />
+                        <Avatar src={biz.profileImage || biz.ownerImg} sx={{ width: 32, height: 32 }} />
                         <Box>
                           <Typography variant="caption" sx={{ display: 'block', color: 'text.secondary' }}>
                             Owned by
@@ -387,6 +389,11 @@ const Businesses: React.FC = () => {
           </IconButton>
         </DialogTitle>
         <DialogContent dividers sx={{ p: 3 }}>
+          {openBiz?.profileImage && (
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+              <Box component="img" src={openBiz.profileImage} sx={{ width: 96, height: 96, borderRadius: '50%' }} />
+            </Box>
+          )}
           <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1 }}>
             Owner: {openBiz?.name}
           </Typography>
@@ -413,6 +420,21 @@ const Businesses: React.FC = () => {
               <Typography variant="body2">
                 {openBiz.websiteOrSocial}
               </Typography>
+            </Box>
+          )}
+
+          {openBiz?.images && openBiz.images.length > 0 && (
+            <Box sx={{ mt: 2 }}>
+              <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1 }}>
+                Gallery
+              </Typography>
+              <Stack direction="row" spacing={1} sx={{ overflowX: 'auto', pb: 1 }}>
+                {openBiz.images.map((src: string, i: number) => (
+                  <Box key={i} component={src.endsWith('.mp4') ? 'video' : 'img'} src={src} controls={src.endsWith('.mp4')}
+                    sx={{ width: 120, height: 80, objectFit: 'cover', borderRadius: 1 }}
+                  />
+                ))}
+              </Stack>
             </Box>
           )}
         </DialogContent>
