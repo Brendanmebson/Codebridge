@@ -11,10 +11,16 @@ import {
   Avatar,
   Stack,
   Divider,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  IconButton,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import LaunchIcon from '@mui/icons-material/Launch';
 import BusinessIcon from '@mui/icons-material/Business';
+import CloseIcon from '@mui/icons-material/Close';
 
 const Businesses: React.FC = () => {
   const theme = useTheme();
@@ -22,60 +28,152 @@ const Businesses: React.FC = () => {
 
   const heroGradient = `linear-gradient(150deg, ${palette.primary.dark} 0%, ${palette.primary.main} 50%, ${palette.secondary.dark} 100%)`;
 
+  const [openBiz, setOpenBiz] = React.useState<any>(null);
+
   const businesses = [
     {
-      name: 'Okafor & Sons Construction',
-      description: 'A leading construction firm specializing in residential and commercial buildings. We deliver quality and durability in every project.',
-      owner: 'Adebayo Okafor',
-      img: 'https://images.unsplash.com/photo-1541888946425-d81bb19480c5?w=600&q=80',
-      ownerImg: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80',
-      website: 'https://okaforsons.com',
-      category: 'Construction',
+      name: 'Esther Chigbogu',
+      businessName: 'Starlet Tutors',
+      description:
+        'We are a company of experienced, passionate and dedicated teachers of diverse subjects, ranging from English Language, Mathematics and Sciences.',
+      impact: 'Code bridge has helped us stay committed to a realistic target saving plan.',
+      websiteOrSocial: 'Starlettutors@gmail.com',
     },
     {
-      name: 'Eze Logistics Solutions',
-      description: 'Reliable logistics and supply chain management services. We ensure your goods reach their destination safely and on time.',
-      owner: 'Ngozi Eze',
-      img: 'https://images.unsplash.com/photo-1586528116311-ad861a995e68?w=600&q=80',
-      ownerImg: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=100&q=80',
-      website: '#',
-      category: 'Logistics',
+      name: 'Emem Owo',
+      businessName: "Ememowo's Needle",
+      description:
+        "I'm Emem Owo! I run Ememowo's Needle in IBESIKPO. I've been sewing for 4 years and I LOVE making outfits that fit you perfectly and make you feel good. Let's create something beautiful together 💕",
+      impact: 'Coatbridge stood by me when I needed phone badly for my business',
+      websiteOrSocial: 'Both',
     },
     {
-      name: 'Amadi Accounting Services',
-      description: 'Comprehensive accounting and tax consultancy services for small businesses and individuals.',
-      owner: 'Chidi Amadi',
-      img: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=80',
-      ownerImg: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&q=80',
-      website: '#',
-      category: 'Finance',
+      name: 'Favour Onaji',
+      businessName: 'Brainiac Academy',
+      description:
+        'Brainiac Academy helps students build confidence and master core subjects through personalized tutoring and enrichment programs. Our expert educators tailor instruction to each learner\'s pace and goals — turning academic struggles into strengths and curiosity into lifelong learning.',
+      impact: 'Codebridge has been instrumental to my business. It has encouraged me to invest and this has in turn helped my business growth.',
+      websiteOrSocial: 'https://vt.tiktok.com/ZS4HoAqon/',
     },
     {
-      name: 'Bello Agri-Hub',
-      description: 'Providing sustainable agricultural solutions and high-quality farm produce to the local community.',
-      owner: 'Fatima Bello',
-      img: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=600&q=80',
-      ownerImg: 'https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=100&q=80',
-      website: '#',
-      category: 'Agriculture',
+      name: 'Enyita Jacob',
+      businessName: 'Royalsec Ltd',
+      description: 'Royalsec company',
+      impact: 'Codebridge cooperative has been awesome and a family to stay',
+      websiteOrSocial: 'Jacobenyita@gmail.com',
     },
     {
-      name: 'Balogun Creative Agency',
-      description: 'A full-service creative agency offering branding, digital marketing, and web development.',
-      owner: 'Oluwaseun Balogun',
-      img: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=600&q=80',
-      ownerImg: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80',
-      website: '#',
-      category: 'Marketing',
+      name: 'Chukwuekezie Uche Michael',
+      businessName: 'Fruitylife Enterprise',
+      description: 'Beverages firm',
+      impact: 'At least I don’t think about the money I have kept in codebridge and I receive good dividends',
+      websiteOrSocial: 'https://www.tiktok.com/@uche74445?_r=1&_t=ZS-98fHrVp2FFg',
     },
     {
-      name: 'Okoro Healthcare Clinic',
-      description: 'Providing accessible and compassionate healthcare services to families and individuals in our community.',
-      owner: 'Amaka Okoro',
-      img: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600&q=80',
-      ownerImg: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&q=80',
-      website: '#',
-      category: 'Healthcare',
+      name: 'HELEN STEPHEN EMMANUEL',
+      businessName: 'NIL',
+      description: 'NIL',
+      impact: 'NIL',
+      websiteOrSocial: 'NIL',
+    },
+    {
+      name: 'Lola Abidemi Owoola',
+      businessName: 'Oladoja Alaso Ebi',
+      description: 'Home of Fabrics. African Prints and Lace Materials',
+      impact: 'Codebridge has been impacted my business by releasing loans anytime the need arises and members patronage.',
+      websiteOrSocial: 'Social Media Pages',
+    },
+    {
+      name: 'Esther Adelaja',
+      businessName: 'Debangelz',
+      description: 'Nil',
+      impact: 'Nil',
+      websiteOrSocial: 'Nil',
+    },
+    {
+      name: 'Akan Usung',
+      businessName: 'Akel & Chil Naturopathic Services',
+      description:
+        'Akel & Chil Naturopathic Services (in affiliation with Kedi Healthcare International), is a health and wellness company, using herbal medicine for the eradication of health challenges such as diabetes, hypertension, ulcers, prostate, etc.\n\nWe carry out a complete bio scan, to determine your health status, to enable us apply the right herbal medication; after body detoxification.\n\nOur Blood Circulation Massager (BCM; otherwise called, Home Doctor), clears arterial bad fat and blockage; ensuring proper blood flow and thereby eliminating various health issues.',
+      impact: 'In great partnership',
+      websiteOrSocial: 'In progress',
+    },
+    {
+      name: 'Edima Ben Ekpo',
+      businessName: 'EdimaBenEkpo Limited',
+      description:
+        'EdimaBenEkpo Limited is a professional consulting firm providing governance advisory, public policy support, strategic communications, and cybersecurity risk control services across Africa.\n\nWe partner with governments, financial institutions, and organisations to manage risk, strengthen compliance, and support effective decision-making. Our work is grounded in global best practices and informed by local context, enabling practical and sustainable outcomes for our clients.\n\nAt EdimaBenEkpo, we are committed to responsibility, excellence, empowerment, and integrity in every engagement.',
+      impact: 'It has helped in terms of financial savings, stability and accountability.',
+      websiteOrSocial: 'https://edimabenekpo.ng/',
+    },
+    {
+      name: 'Amasua David Essien',
+      businessName: 'TechGrid Limited',
+      description:
+        'TechGrid Limited is not just another Information Technology company – we are your strategic partner in navigating the ever-changing digital landscape. With a commitment to excellence and a passion for innovation, we empower organizations and individuals to thrive in a digital-first world.',
+      impact: 'Provision of loans for projects when required.',
+      websiteOrSocial: 'https://www.techgridng.com',
+    },
+    {
+      name: 'Esther Chigbogu',
+      businessName: 'Starlet Tutors',
+      description:
+        'We are a company of experienced, passionate and dedicated teachers of diverse subjects, ranging from English Language, Mathematics and Sciences.',
+    },
+    {
+      name: 'Emem Owo',
+      businessName: "Ememowo's Needle",
+      description:
+        "I'm Emem Owo! I run Ememowo's Needle in IBESIKPO. I've been sewing for 4 years and I LOVE making outfits that fit you perfectly and make you feel good. Let's create something beautiful together 💕",
+    },
+    {
+      name: 'Favour Onaji',
+      businessName: 'Brainiac Academy',
+      description:
+        'Brainiac Academy helps students build confidence and master core subjects through personalized tutoring and enrichment programs. Our expert educators tailor instruction to each learner\'s pace and goals — turning academic struggles into strengths and curiosity into lifelong learning.',
+    },
+    {
+      name: 'Enyita Jacob',
+      businessName: 'Royalsec Ltd',
+      description: 'Royalsec company',
+    },
+    {
+      name: 'Chukwuekezie Uche Michael',
+      businessName: 'Fruitylife Enterprise',
+      description: 'Beverages firm',
+    },
+    {
+      name: 'HELEN STEPHEN EMMANUEL',
+      businessName: 'NIL',
+      description: 'NIL',
+    },
+    {
+      name: 'Lola Abidemi Owoola',
+      businessName: 'Oladoja Alaso Ebi',
+      description: 'Home of Fabrics. African Prints and Lace Materials',
+    },
+    {
+      name: 'Esther Adelaja',
+      businessName: 'Debangelz',
+      description: 'Nil',
+    },
+    {
+      name: 'Akan Usung',
+      businessName: 'Akel & Chil Naturopathic Services',
+      description:
+        'Akel & Chil Naturopathic Services (in affiliation with Kedi Healthcare International), is a health and wellness company, using herbal medicine for the eradication of health challenges such as diabetes, hypertension, ulcers, prostate, etc.\n\nWe carry out a complete bio scan, to determine your health status, to enable us apply the right herbal medication; after body detoxification.\n\nOur Blood Circulation Massager (BCM; otherwise called, Home Doctor), clears arterial bad fat and blockage; ensuring proper blood flow and thereby eliminating various health issues.',
+    },
+    {
+      name: 'Edima Ben Ekpo',
+      businessName: 'EdimaBenEkpo Limited',
+      description:
+        'EdimaBenEkpo Limited is a professional consulting firm providing governance advisory, public policy support, strategic communications, and cybersecurity risk control services across Africa.\n\nWe partner with governments, financial institutions, and organisations to manage risk, strengthen compliance, and support effective decision-making. Our work is grounded in global best practices and informed by local context, enabling practical and sustainable outcomes for our clients.\n\nAt EdimaBenEkpo, we are committed to responsibility, excellence, empowerment, and integrity in every engagement.',
+    },
+    {
+      name: 'Amasua David Essien',
+      businessName: 'TechGrid Limited',
+      description:
+        'TechGrid Limited is not just another Information Technology company – we are your strategic partner in navigating the ever-changing digital landscape. With a commitment to excellence and a passion for innovation, we empower organizations and individuals to thrive in a digital-first world.',
     },
   ];
 
@@ -219,9 +317,19 @@ const Businesses: React.FC = () => {
                       </Box>
                     </Stack>
 
+                    {/* Short bio with Read more if long */}
                     <Typography variant="body2" color="text.secondary" sx={{ mb: 3, lineHeight: 1.6 }}>
-                      {biz.description}
+                      {biz.description.length > 140 ? `${biz.description.substring(0, 140).trim()}...` : biz.description}
                     </Typography>
+                    {biz.description.length > 140 && (
+                      <Button
+                        size="small"
+                        onClick={() => setOpenBiz(biz)}
+                        sx={{ textTransform: 'none', fontWeight: 700 }}
+                      >
+                        Read more
+                      </Button>
+                    )}
 
                     <Divider sx={{ mb: 2 }} />
 
@@ -259,6 +367,61 @@ const Businesses: React.FC = () => {
           ))}
         </Box>
       </Container>
+
+      {/* Modal for full business details */}
+      <Dialog
+        open={Boolean(openBiz)}
+        onClose={() => setOpenBiz(null)}
+        maxWidth="sm"
+        fullWidth
+        aria-labelledby="business-dialog-title"
+      >
+        <DialogTitle sx={{ m: 0, p: 2 }} id="business-dialog-title">
+          {openBiz?.businessName || openBiz?.name}
+          <IconButton
+            aria-label="close"
+            onClick={() => setOpenBiz(null)}
+            sx={{ position: 'absolute', right: 8, top: 8 }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent dividers sx={{ p: 3 }}>
+          <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1 }}>
+            Owner: {openBiz?.name}
+          </Typography>
+          <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap', mb: 2 }}>
+            {openBiz?.description}
+          </Typography>
+
+          {openBiz?.impact && !/^(nil|in progress)$/i.test(openBiz.impact) && (
+            <Box sx={{ mb: 2 }}>
+              <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+                Impact
+              </Typography>
+              <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>
+                {openBiz.impact}
+              </Typography>
+            </Box>
+          )}
+
+          {openBiz?.websiteOrSocial && !/^(nil|in progress)$/i.test(openBiz.websiteOrSocial) && (
+            <Box>
+              <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+                Website / Social
+              </Typography>
+              <Typography variant="body2">
+                {openBiz.websiteOrSocial}
+              </Typography>
+            </Box>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenBiz(null)} variant="contained">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       {/* List Your Business */}
       <Box sx={{ background: `linear-gradient(135deg, ${palette.secondary.dark}, ${palette.secondary.main})`, color: '#fff', py: 10 }}>
