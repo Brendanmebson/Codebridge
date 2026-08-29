@@ -30,7 +30,7 @@ const Businesses: React.FC = () => {
 
   const [openBiz, setOpenBiz] = React.useState<any>(null);
 
-  const businesses = [
+  export const businesses = [
     {
       name: 'Esther Chigbogu',
       businessName: 'Starlet Tutors',

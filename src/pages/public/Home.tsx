@@ -2,6 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Box, Typography, Button, Container, Stack, useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
 import presidentPhoto from '../../assets/members/president.jpg';
+import treasurerPhoto from '../../assets/members/Treasurer.jpg';
+import excoMembers from '../../data/excoMembers';
+import { businesses } from './Businesses';
 import img1 from '../../assets/img1.jpg';
 import img2 from '../../assets/img2.jpg';
 import img3 from '../../assets/img3.jpg';
@@ -133,31 +136,43 @@ const Home: React.FC = () => {
 
   const rightImageSrc = rightImages[rightImageIndex];
 
+  // Build testimonials: first Emmanuel Ebuk (Treasurer) with an agriculture-themed quote,
+  // then two random businesses using their `impact` and profile images.
+  const getRandomBusinesses = (n = 2) => {
+    const pool = businesses.filter((b) => b.impact && !/^(nil)$/i.test(String(b.impact).trim()));
+    if (pool.length <= n) return pool;
+    const picks: any[] = [];
+    const used = new Set<number>();
+    while (picks.length < n) {
+      const idx = Math.floor(Math.random() * pool.length);
+      if (!used.has(idx)) {
+        used.add(idx);
+        picks.push(pool[idx]);
+      }
+    }
+    return picks;
+  };
+
+  const selectedBusinesses = getRandomBusinesses(2);
+
   const testimonials = [
     {
-      quote: "CodeBridge helped me secure a loan to expand my tailoring business. The process was seamless, the rates were fair, and the team genuinely cared.",
-      name: "Amara Okonkwo",
-      role: "Business Owner, Lagos",
-      color: palette.primary.dark,
-      img: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=120&q=80',
-      stars: 5,
-    },
-    {
-      quote: "I've been saving with CodeBridge for two years now. Their disciplined approach and consistent dividends helped me buy my first home.",
-      name: "Emeka Adeyemi",
-      role: "Software Engineer, Abuja",
+      quote:
+        "Through prudent lending and targeted support, CodeBridge helped us invest in smallholder agriculture projects — improving yields, stabilizing income, and strengthening food value chains for our members.",
+      name: 'Emmanuel Jackson Ebuk',
+      role: 'Treasurer',
       color: palette.info.dark,
-      img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&q=80',
+      img: treasurerPhoto,
       stars: 5,
     },
-    {
-      quote: "When my father passed, the welfare support from CodeBridge was extraordinary. This cooperative truly feels like an extended family.",
-      name: "Funke Balogun",
-      role: "Teacher, Ibadan",
-      color: palette.secondary.dark,
-      img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&q=80',
+    ...selectedBusinesses.map((b) => ({
+      quote: b.impact || 'Codebridge supported my business growth.',
+      name: b.businessName || b.name,
+      role: b.name,
+      color: palette.primary.dark,
+      img: b.profileImage || presidentPhoto,
       stars: 5,
-    },
+    })),
   ];
 
   const howItWorks = [
