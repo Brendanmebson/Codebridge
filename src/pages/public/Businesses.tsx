@@ -181,6 +181,22 @@ const Businesses: React.FC = () => {
 
   const codebridgeLogo = new URL('../../assets/logo.jpg', import.meta.url).href;
 
+  const normalize = (val?: string) => {
+    if (!val) return '';
+    const v = String(val).trim();
+    if (/^(nil|in progress)$/i.test(v)) return '';
+    return v;
+  };
+
+  const makeHref = (val?: string) => {
+    const v = normalize(val);
+    if (!v) return '';
+    if (/^https?:\/\//i.test(v)) return v;
+    if (/^www\./i.test(v)) return `https://${v}`;
+    if (v.includes('@') && !v.includes(' ')) return `mailto:${v}`;
+    return '';
+  };
+
   return (
     <Box sx={{ overflowX: 'hidden', background: palette.background.paper }}>
       {/* Hero Section */}
@@ -322,18 +338,27 @@ const Businesses: React.FC = () => {
                     </Stack>
 
                     {/* Short bio with Read more if long */}
-                    <Typography variant="body2" color="text.secondary" sx={{ mb: 3, lineHeight: 1.6 }}>
-                      {biz.description.length > 140 ? `${biz.description.substring(0, 140).trim()}...` : biz.description}
-                    </Typography>
-                    {biz.description.length > 140 && (
-                      <Button
-                        size="small"
-                        onClick={() => setOpenBiz(biz)}
-                        sx={{ textTransform: 'none', fontWeight: 700 }}
-                      >
-                        Read more
-                      </Button>
-                    )}
+                    {(() => {
+                      const desc = normalize(biz.description);
+                      if (!desc) return null;
+                      const short = desc.length > 140 ? `${desc.substring(0, 140).trim()}...` : desc;
+                      return (
+                        <>
+                          <Typography variant="body2" color="text.secondary" sx={{ mb: 3, lineHeight: 1.6 }}>
+                            {short}
+                          </Typography>
+                          {desc.length > 140 && (
+                            <Button
+                              size="small"
+                              onClick={() => setOpenBiz(biz)}
+                              sx={{ textTransform: 'none', fontWeight: 700 }}
+                            >
+                              Read more
+                            </Button>
+                          )}
+                        </>
+                      );
+                    })()}
 
                     <Divider sx={{ mb: 2 }} />
 
@@ -349,20 +374,27 @@ const Businesses: React.FC = () => {
                           </Typography>
                         </Box>
                       </Stack>
-                      <Button
-                        variant="outlined"
-                        size="small"
-                        endIcon={<LaunchIcon sx={{ fontSize: 16 }} />}
-                        href={biz.website}
-                        target="_blank"
-                        sx={{
-                          borderRadius: '100px',
-                          textTransform: 'none',
-                          fontWeight: 600,
-                        }}
-                      >
-                        Visit Website
-                      </Button>
+                      {(() => {
+                        const href = makeHref(biz.websiteOrSocial || (biz as any).website);
+                        if (!href) return null;
+                        return (
+                          <Button
+                            variant="outlined"
+                            size="small"
+                            endIcon={<LaunchIcon sx={{ fontSize: 16 }} />}
+                            href={href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            sx={{
+                              borderRadius: '100px',
+                              textTransform: 'none',
+                              fontWeight: 600,
+                            }}
+                          >
+                            Visit Website
+                          </Button>
+                        );
+                      })()}
                     </Stack>
                   </CardContent>
                 </Box>
@@ -412,16 +444,25 @@ const Businesses: React.FC = () => {
             </Box>
           )}
 
-          {openBiz?.websiteOrSocial && !/^(nil|in progress)$/i.test(openBiz.websiteOrSocial) && (
-            <Box>
-              <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
-                Website / Social
-              </Typography>
-              <Typography variant="body2">
-                {openBiz.websiteOrSocial}
-              </Typography>
-            </Box>
-          )}
+          {(() => {
+            const site = normalize(openBiz?.websiteOrSocial);
+            if (!site) return null;
+            const href = makeHref(site);
+            return (
+              <Box>
+                <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+                  Website / Social
+                </Typography>
+                {href ? (
+                  <Typography variant="body2">
+                    <a href={href} target="_blank" rel="noopener noreferrer">{site}</a>
+                  </Typography>
+                ) : (
+                  <Typography variant="body2">{site}</Typography>
+                )}
+              </Box>
+            );
+          })()}
 
           {openBiz?.images && openBiz.images.length > 0 && (
             <Box sx={{ mt: 2 }}>
