@@ -2,6 +2,7 @@ import presidentPhoto from '../assets/members/president.jpg';
 import vicePhoto from '../assets/members/Vice President.jpg';
 import treasurerPhoto from '../assets/members/Treasurer.jpg';
 import secretaryPhoto from '../assets/members/SecretaryManager.jpg';
+import amasuaPhoto from '../assets/logo.jpg';
 
 export type ExcoMember = {
   name: string;
@@ -77,6 +78,20 @@ Emmanuel is a sought-after conference speaker and trainer, presenting on topics 
     linkedin: '#',
     twitter: '#',
     email: 'ebuk@codebridge.coop',
+  },
+  {
+    name: 'Amasua David Essien',
+    role: 'Senior Executive, Technology & Business Strategist',
+    slug: slugify('Amasua David Essien'),
+    img: amasuaPhoto,
+    shortBio:
+      'Seasoned senior executive and digital transformation leader with over two decades of experience across IT, financial services, and strategic management.',
+    bio: `Amasua David Essien is a seasoned senior executive, technology strategist, and business transformation professional with over two decades of progressive experience spanning Information Technology, financial services, business continuity, enterprise architecture, customer experience, digital transformation, and strategic management. Over the course of his distinguished career, he has progressed through diverse technical, managerial, and executive leadership roles, culminating in senior management positions at Assistant Vice President (AVP) and Deputy General Manager (DGM) levels, as well as serving as a Chief Technology Officer. His career reflects a rare blend of deep technological expertise, business acumen, strategic leadership, and the ability to translate complex challenges into practical solutions that deliver measurable organizational value. His accomplishments include leading major technology infrastructure transformations, developing Board-approved IT policies and business continuity frameworks, contributing to successful banking data migration and integration, transforming customer experience through technology-driven initiatives, and growing a Micro Pensions membership base from fewer than 2,000 to over 8,000 members in less than a year through strategic partnerships and collaboration.
+
+Beyond his professional accomplishments, Amasua brings to CodeBridge Multi-Purpose Cooperative Society a wealth of executive leadership experience, strategic insight, collaborative thinking, and a strong commitment to excellence. His extensive exposure to technology, management, financial services, organizational transformation, and stakeholder engagement provides a valuable perspective for advancing the Society's vision, strengthening member value, and fostering sustainable collective growth. He holds a B.Sc. in Computer Science and a Postgraduate Diploma in Management, and is a member of the Nigeria Computer Society (MNCS) and the Computer Professionals Registration Council of Nigeria (MCPN). Amasua is a strategic thinker and people-focused leader who believes in harnessing knowledge, innovation, collaboration, and purposeful leadership to create lasting value and meaningful impact.`,
+    linkedin: '#',
+    twitter: '#',
+    email: '',
   },
 ];
 
