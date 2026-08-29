@@ -2,7 +2,7 @@ import presidentPhoto from '../assets/members/president.jpg';
 import vicePhoto from '../assets/members/Vice President.jpg';
 import treasurerPhoto from '../assets/members/Treasurer.jpg';
 import secretaryPhoto from '../assets/members/SecretaryManager.jpg';
-import amasuaPhoto from '../assets/logo.jpg';
+import amasuaPhoto from '../assets/members/Amasua.jpg';
 
 export type ExcoMember = {
   name: string;
