@@ -179,6 +179,8 @@ const Businesses: React.FC = () => {
     },
   ];
 
+  const codebridgeLogo = new URL('../../assets/logo.jpg', import.meta.url).href;
+
   return (
     <Box sx={{ overflowX: 'hidden', background: palette.background.paper }}>
       {/* Hero Section */}
@@ -295,7 +297,7 @@ const Businesses: React.FC = () => {
                     height: { xs: 200, sm: 'auto' },
                     objectFit: 'cover',
                   }}
-                  image={biz.images?.[0] || biz.img}
+                  image={biz.images?.[0] || biz.img || codebridgeLogo}
                   alt={biz.name}
                 />
                 <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
@@ -337,7 +339,7 @@ const Businesses: React.FC = () => {
 
                     <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">
                       <Stack direction="row" spacing={1.5} alignItems="center">
-                        <Avatar src={biz.profileImage || biz.ownerImg} sx={{ width: 32, height: 32 }} />
+                        <Avatar src={biz.profileImage || biz.ownerImg || codebridgeLogo} sx={{ width: 32, height: 32 }} />
                         <Box>
                           <Typography variant="caption" sx={{ display: 'block', color: 'text.secondary' }}>
                             Owned by
@@ -389,11 +391,9 @@ const Businesses: React.FC = () => {
           </IconButton>
         </DialogTitle>
         <DialogContent dividers sx={{ p: 3 }}>
-          {openBiz?.profileImage && (
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-              <Box component="img" src={openBiz.profileImage} sx={{ width: 96, height: 96, borderRadius: '50%' }} />
-            </Box>
-          )}
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+            <Box component="img" src={openBiz?.profileImage || codebridgeLogo} sx={{ width: 96, height: 96, borderRadius: '50%' }} />
+          </Box>
           <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1 }}>
             Owner: {openBiz?.name}
           </Typography>
