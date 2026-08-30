@@ -96,6 +96,7 @@ const About: React.FC = () => {
   const lifeInCodebridgeImages = [photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9, photo10, photo11];
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [viewerOpen, setViewerOpen] = useState(false);
+  const [selectedMember, setSelectedMember] = useState<(typeof excoMembers)[number] | null>(null);
 
   useEffect(() => {
     const interval = window.setInterval(() => {
@@ -796,7 +797,7 @@ const About: React.FC = () => {
                 transition: 'all 0.4s cubic-bezier(0.22,1,0.36,1)',
                 '&:hover': {
                   transform: 'translateY(-8px)',
-                  boxShadow: `0 24px 60px ${member.color}18`,
+                  boxShadow: `0 24px 60px ${palette.primary.main}18`,
                   borderColor: 'transparent',
                   '& .member-img': { transform: 'scale(1.06)' },
                 },
@@ -817,14 +818,29 @@ const About: React.FC = () => {
                   </Box>
                 </Box>
                 {/* Info */}
-                <Box sx={{ p: 2.5 }}>
+                <Box sx={{ p: 2.5, display: 'flex', flexDirection: 'column', height: '100%' }}>
                   <Typography variant="h6" sx={{ color: palette.text.primary, mb: 0.5 }}>{member.name}</Typography>
-                  <Typography variant="caption" sx={{ color: member.color, fontWeight: 600, display: 'block', mb: 1.5, letterSpacing: '0.04em' }}>
+                  <Typography variant="caption" sx={{ color: palette.primary.main, fontWeight: 600, display: 'block', mb: 1.5, letterSpacing: '0.04em' }}>
                     {member.role}
                   </Typography>
-                  <Typography variant="caption" sx={{ color: palette.text.secondary, lineHeight: 1.7, display: 'block' }}>
-                    {member.bio}
+                  <Typography variant="caption" sx={{ color: palette.text.secondary, lineHeight: 1.7, display: 'block', flex: 1 }}>
+                    {member.shortBio.length > 150 ? `${member.shortBio.slice(0, 150).trim()}...` : member.shortBio}
                   </Typography>
+                  <Button
+                    size="small"
+                    onClick={() => setSelectedMember(member)}
+                    sx={{
+                      mt: 1.5,
+                      alignSelf: 'flex-start',
+                      textTransform: 'none',
+                      fontWeight: 700,
+                      color: palette.primary.main,
+                      px: 0,
+                      minWidth: 0,
+                    }}
+                  >
+                    Read more
+                  </Button>
                 </Box>
               </Box>
             ))}
@@ -967,6 +983,54 @@ const About: React.FC = () => {
             }}
           />
         </Box>
+      </Dialog>
+
+      <Dialog
+        open={Boolean(selectedMember)}
+        onClose={() => setSelectedMember(null)}
+        maxWidth="md"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: 3,
+            overflow: 'hidden',
+            boxShadow: `0 30px 80px ${palette.primary.main}20`,
+          },
+        }}
+      >
+        {selectedMember && (
+          <>
+            <Box sx={{ position: 'relative', height: 220, overflow: 'hidden' }}>
+              <Box
+                component="img"
+                src={selectedMember.img}
+                alt={selectedMember.name}
+                sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+              <Box sx={{
+                position: 'absolute', inset: 0,
+                background: 'linear-gradient(180deg, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.65) 100%)',
+              }} />
+              <IconButton
+                aria-label="close member profile"
+                onClick={() => setSelectedMember(null)}
+                sx={{ position: 'absolute', right: 12, top: 12, color: '#fff', bgcolor: 'rgba(0,0,0,0.25)' }}
+              >
+                <CloseIcon />
+              </IconButton>
+              <Box sx={{ position: 'absolute', left: 24, bottom: 20, right: 24 }}>
+                <Typography variant="h4" sx={{ color: '#fff', mb: 0.5 }}>{selectedMember.name}</Typography>
+                <Typography variant="subtitle1" sx={{ color: 'rgba(255,255,255,0.8)' }}>{selectedMember.role}</Typography>
+              </Box>
+            </Box>
+
+            <Box sx={{ p: 3 }}>
+              <Typography variant="body1" sx={{ color: palette.text.primary, lineHeight: 1.8, whiteSpace: 'pre-line' }}>
+                {selectedMember.bio}
+              </Typography>
+            </Box>
+          </>
+        )}
       </Dialog>
 
 
