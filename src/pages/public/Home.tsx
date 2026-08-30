@@ -142,25 +142,19 @@ const Home: React.FC = () => {
     ['Brainiac Academy', 'Oladoja Alaso Ebi'].includes(b.businessName || b.name)
   );
 
-  const testimonials = [
-    {
-      quote:
-        'CodeBridge helped me grow my farm business and gave me the support I needed to plan better, expand confidently, and improve my livelihood. It was a practical step forward for my family and my future.',
-      name: 'Emmanuel Ebuk',
-      role: 'Farmer & Member',
-      color: palette.info.dark,
-      img: treasurerPhoto,
-      stars: 5,
-    },
-    ...selectedBusinesses.map((b) => ({
-      quote: b.impact || 'Codebridge supported my business growth.',
-      name: b.businessName || b.name,
-      role: 'Business Owner',
-      color: palette.primary.dark,
-      img: b.profileImage || presidentPhoto,
-      stars: 5,
-    })),
-  ];
+  const testimonials = excoMembers.slice(0, 3).map((member, index) => ({
+    quote:
+      index === 0
+        ? 'I joined CodeBridge because I believe a strong cooperative should be built on trust, transparency, and shared prosperity for every member.'
+        : index === 1
+          ? 'CodeBridge gives our members a place to save, grow, and support one another with real commitment and purpose.'
+          : 'What excites me most is seeing members access opportunities, confidence, and financial stability through one united community.',
+    name: member.name,
+    role: member.role,
+    color: index === 0 ? palette.primary.dark : index === 1 ? palette.info.dark : palette.secondary.dark,
+    img: member.img,
+    stars: 5,
+  }));
 
   const howItWorks = [
     { step: '01', title: 'Register', desc: 'Complete a simple membership form and get verified in under 24 hours.' },
@@ -317,33 +311,35 @@ const Home: React.FC = () => {
                 and improving economic wellbeing through mutual support and responsible financial management.
               </Typography>
 
-              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mb: 5 }}>
-                <Button
-                  component={Link} to="/apply" variant="contained" size="large"
-                  endIcon={<ArrowForwardIcon sx={{ fontSize: 18 }} />}
-                  sx={{
-                    background: '#fff', color: palette.primary.dark,
-                    boxShadow: '0 12px 40px rgba(0,0,0,0.22)',
-                    '&:hover': { background: palette.background.default, boxShadow: '0 20px 50px rgba(0,0,0,0.28)' },
-                  }}
-                >
-                  Get Started Today
-                </Button>
-                <Button
-                  component={Link} to="/apply" variant="outlined" size="large"
-                  sx={{
-                    borderColor: 'rgba(255,255,255,0.35)', color: '#fff',
-                    backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.06)',
-                    '&:hover': { borderColor: 'rgba(255,255,255,0.7)', background: 'rgba(255,255,255,0.12)' },
-                  }}
-                >
-                  Apply for a Loan
-                </Button>
-              </Stack>
+              {false && (
+                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mb: 5 }}>
+                  <Button
+                    component={Link} to="/apply" variant="contained" size="large"
+                    endIcon={<ArrowForwardIcon sx={{ fontSize: 18 }} />}
+                    sx={{
+                      background: '#fff', color: palette.primary.dark,
+                      boxShadow: '0 12px 40px rgba(0,0,0,0.22)',
+                      '&:hover': { background: palette.background.default, boxShadow: '0 20px 50px rgba(0,0,0,0.28)' },
+                    }}
+                  >
+                    Get Started Today
+                  </Button>
+                  <Button
+                    component={Link} to="/apply" variant="outlined" size="large"
+                    sx={{
+                      borderColor: 'rgba(255,255,255,0.35)', color: '#fff',
+                      backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.06)',
+                      '&:hover': { borderColor: 'rgba(255,255,255,0.7)', background: 'rgba(255,255,255,0.12)' },
+                    }}
+                  >
+                    Apply for a Loan
+                  </Button>
+                </Stack>
+              )}
 
               {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, flexWrap: 'wrap' }}>
                 {[
-                  { val: '₦1.2B+', lab: 'Disbursed' },
+                  { val: '₦100M+', lab: 'Disbursed' },
                   { val: '98%', lab: 'Approval Rate' },
                   { val: '48h', lab: 'Loan Turnaround' },
                 ].map((item, i) => (
@@ -408,7 +404,7 @@ const Home: React.FC = () => {
                   <TrendingUpIcon sx={{ fontSize: 14, color: palette.secondary.light }} />
                   <Typography variant="caption" sx={{ color: palette.secondary.light, fontWeight: 600 }}>+12.4% growth</Typography>
                 </Box>
-                <Typography variant="h4" sx={{ color: '#fff', lineHeight: 1, fontSize: '1.7rem' }}>₦1.2B</Typography>
+                <Typography variant="h4" sx={{ color: '#fff', lineHeight: 1, fontSize: '1.7rem' }}>₦100M+</Typography>
                 <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)', display: 'block', mt: 0.3 }}>Total Disbursed</Typography>
               </Box>
 
@@ -424,7 +420,7 @@ const Home: React.FC = () => {
                   <PeopleAltIcon sx={{ fontSize: 14, color: palette.info.light }} />
                   <Typography variant="caption" sx={{ color: palette.info.light, fontWeight: 600 }}>Active Members</Typography>
                 </Box>
-                <Typography variant="h4" sx={{ color: '#fff', lineHeight: 1, fontSize: '1.7rem' }}>1,240</Typography>
+                <Typography variant="h4" sx={{ color: '#fff', lineHeight: 1, fontSize: '1.7rem' }}>30</Typography>
                 <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)', display: 'block', mt: 0.3 }}>& growing</Typography>
               </Box>
 
@@ -523,8 +519,8 @@ const Home: React.FC = () => {
             {/* Left: impact metric cards */}
             <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 3 }}>
               {[
-                { num: 1.2, prefix: '₦', suffix: 'B+', label: 'Total Disbursed', sub: 'Across all loan categories', color: palette.primary.main, bg: '#E8F5E9', decimals: 1 },
-                { num: 1240, label: 'Active Members', sub: 'And growing every month', color: palette.info.main, bg: '#E0F2F1' },
+                { num: 100, prefix: '₦', suffix: 'M+', label: 'Total Disbursed', sub: 'Across all loan categories', color: palette.primary.main, bg: '#E8F5E9', decimals: 0 },
+                { num: 30, label: 'Active Members', sub: 'And growing every month', color: palette.info.main, bg: '#E0F2F1' },
                 { num: 98, suffix: '%', label: 'Approval Rate', sub: 'Fastest in the sector', color: palette.secondary.dark, bg: '#F1F8E9' },
                 { num: 150, prefix: '₦', suffix: 'K', label: 'Avg. Loan Size', sub: 'Accessible to all members', color: palette.primary.dark, bg: '#F9FBE7' },
               ].map((m, i) => (
@@ -1069,7 +1065,7 @@ const Home: React.FC = () => {
               </Box>
               <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.65)' }}>
                 Join{' '}
-                <Box component="span" sx={{ color: '#fff', fontWeight: 600 }}>1,240+</Box>
+                <Box component="span" sx={{ color: '#fff', fontWeight: 600 }}>30</Box>
                 {' '}members already growing with us
               </Typography>
             </Box>

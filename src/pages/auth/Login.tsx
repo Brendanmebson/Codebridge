@@ -91,8 +91,8 @@ const Login: React.FC = () => {
   });
 
   const stats = [
-    { icon: <GroupsIcon sx={{ fontSize: 16 }} />, value: '1,240+', label: 'Active Members' },
-    { icon: <TrendingUpIcon sx={{ fontSize: 16 }} />, value: '₦1.2B+', label: 'Total Disbursed' },
+    { icon: <GroupsIcon sx={{ fontSize: 16 }} />, value: '30', label: 'Active Members' },
+    { icon: <TrendingUpIcon sx={{ fontSize: 16 }} />, value: '₦100M+', label: 'Total Disbursed' },
     { icon: <ShieldOutlinedIcon sx={{ fontSize: 16 }} />, value: '98%', label: 'Loan Approval Rate' },
   ];
 
@@ -204,7 +204,7 @@ const Login: React.FC = () => {
             ))}
           </Box>
           <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)', lineHeight: 1.4, fontSize: '0.72rem' }}>
-            1,240 members already<br />on the platform
+            30 members already<br />on the platform
           </Typography>
         </Box>
       </Box>

@@ -252,7 +252,7 @@ const Services: React.FC = () => {
             animation: 'heroUp 1s cubic-bezier(0.22,1,0.36,1) 0.3s forwards', opacity: 0,
           }}>
             {[
-              { val: '₦1.2B+', label: 'Total Disbursed', sub: 'Since 2016' },
+              { val: '₦100M+', label: 'Total Disbursed', sub: 'Since 2016' },
               { val: '8%–15%', label: 'Loan Rates', sub: 'Competitive & fair' },
               { val: '48h', label: 'Approval Time', sub: 'Most loan types' },
               { val: '98%', label: 'Approval Rate', sub: 'Member success' },
@@ -842,29 +842,31 @@ const Services: React.FC = () => {
               Login to access your savings dashboard or apply for a loan today.
               Our team is ready to guide you through every step.
             </Typography>
-            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifyContent: 'center', mb: 6 }}>
-              <Button
-                component={Link} to="/apply" variant="contained" size="large"
-                endIcon={<ArrowForwardIcon />}
-                sx={{
-                  background: '#fff', color: palette.primary.dark,
-                  boxShadow: '0 10px 40px rgba(0,0,0,0.22)',
-                  '&:hover': { background: palette.background.default, boxShadow: '0 18px 56px rgba(0,0,0,0.28)' },
-                }}
-              >
-                Get Started Today
-              </Button>
-              <Button
-                component={Link} to="/apply" variant="outlined" size="large"
-                sx={{
-                  borderColor: 'rgba(255,255,255,0.3)', color: '#fff',
-                  backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.07)',
-                  '&:hover': { borderColor: 'rgba(255,255,255,0.65)', background: 'rgba(255,255,255,0.14)' },
-                }}
-              >
-                Apply for a Loan
-              </Button>
-            </Stack>
+            {false && (
+              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifyContent: 'center', mb: 6 }}>
+                <Button
+                  component={Link} to="/apply" variant="contained" size="large"
+                  endIcon={<ArrowForwardIcon />}
+                  sx={{
+                    background: '#fff', color: palette.primary.dark,
+                    boxShadow: '0 10px 40px rgba(0,0,0,0.22)',
+                    '&:hover': { background: palette.background.default, boxShadow: '0 18px 56px rgba(0,0,0,0.28)' },
+                  }}
+                >
+                  Get Started Today
+                </Button>
+                <Button
+                  component={Link} to="/apply" variant="outlined" size="large"
+                  sx={{
+                    borderColor: 'rgba(255,255,255,0.3)', color: '#fff',
+                    backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.07)',
+                    '&:hover': { borderColor: 'rgba(255,255,255,0.65)', background: 'rgba(255,255,255,0.14)' },
+                  }}
+                >
+                  Apply for a Loan
+                </Button>
+              </Stack>
+            )}
 
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
               <Box sx={{ display: 'flex' }}>
@@ -885,7 +887,7 @@ const Services: React.FC = () => {
               </Box>
               <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.65)' }}>
                 Join{' '}
-                <Box component="span" sx={{ color: '#fff', fontWeight: 600 }}>1,240+</Box>
+                <Box component="span" sx={{ color: '#fff', fontWeight: 600 }}>30</Box>
                 {' '}members already growing with us
               </Typography>
             </Box>

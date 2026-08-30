@@ -238,7 +238,7 @@ const Membership: React.FC = () => {
             }}>
               {[
                 { val: '₦5K', label: 'Min. Deposit', sub: 'To get started' },
-                { val: '1,240+', label: 'Members', sub: 'And growing' },
+                { val: '30', label: 'Members', sub: 'And growing' },
                 { val: '48h', label: 'Loan Approval', sub: 'After eligibility' },
                 { val: '8+', label: 'Years Active', sub: 'Est. 2016' },
               ].map((s, i) => (
@@ -362,7 +362,7 @@ const Membership: React.FC = () => {
                   <GroupsIcon sx={{ fontSize: 18, color: '#fff' }} />
                 </Box>
                 <Box>
-                  <Typography variant="body2" sx={{ fontWeight: 700, color: palette.text.primary, lineHeight: 1 }}>1,240+ Members</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 700, color: palette.text.primary, lineHeight: 1 }}>30 Members</Typography>
                   <Typography variant="caption" sx={{ color: palette.text.secondary }}>and growing every month</Typography>
                 </Box>
               </Box>
@@ -850,29 +850,31 @@ const Membership: React.FC = () => {
               Join thousands of members building financial security together.
               Your journey to financial empowerment starts with a single step.
             </Typography>
-            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifyContent: 'center', mb: 6 }}>
-              <Button
-                component={Link} to="/apply" variant="contained" size="large"
-                endIcon={<ArrowForwardIcon />}
-                sx={{
-                  background: '#fff', color: palette.primary.dark,
-                  boxShadow: '0 10px 40px rgba(0,0,0,0.22)',
-                  '&:hover': { background: palette.background.default, boxShadow: '0 18px 56px rgba(0,0,0,0.28)' },
-                }}
-              >
-                Get Started Today
-              </Button>
-              <Button
-                component={Link} to="/apply" variant="outlined" size="large"
-                sx={{
-                  borderColor: 'rgba(255,255,255,0.3)', color: '#fff',
-                  backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.07)',
-                  '&:hover': { borderColor: 'rgba(255,255,255,0.65)', background: 'rgba(255,255,255,0.14)' },
-                }}
-              >
-                Apply for a Loan
-              </Button>
-            </Stack>
+            {false && (
+              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifyContent: 'center', mb: 6 }}>
+                <Button
+                  component={Link} to="/apply" variant="contained" size="large"
+                  endIcon={<ArrowForwardIcon />}
+                  sx={{
+                    background: '#fff', color: palette.primary.dark,
+                    boxShadow: '0 10px 40px rgba(0,0,0,0.22)',
+                    '&:hover': { background: palette.background.default, boxShadow: '0 18px 56px rgba(0,0,0,0.28)' },
+                  }}
+                >
+                  Get Started Today
+                </Button>
+                <Button
+                  component={Link} to="/apply" variant="outlined" size="large"
+                  sx={{
+                    borderColor: 'rgba(255,255,255,0.3)', color: '#fff',
+                    backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.07)',
+                    '&:hover': { borderColor: 'rgba(255,255,255,0.65)', background: 'rgba(255,255,255,0.14)' },
+                  }}
+                >
+                  Apply for a Loan
+                </Button>
+              </Stack>
+            )}
 
             {/* Social proof */}
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
@@ -894,7 +896,7 @@ const Membership: React.FC = () => {
               </Box>
               <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.65)' }}>
                 Join{' '}
-                <Box component="span" sx={{ color: '#fff', fontWeight: 600 }}>1,240+</Box>
+                <Box component="span" sx={{ color: '#fff', fontWeight: 600 }}>30</Box>
                 {' '}members already growing with us
               </Typography>
             </Box>

@@ -812,16 +812,18 @@ const LoanPolicy: React.FC = () => {
               Now that you understand the policy, log in to apply. Transparent rates, clear terms,
               and a Loans Committee that genuinely works for members.
             </Typography>
-            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifyContent: 'center', mb: 6 }}>
-              <Button component={Link} to="/apply" variant="contained" size="large" endIcon={<ArrowForwardIcon />}
-                sx={{ background: '#fff', color: palette.primary.dark, boxShadow: '0 10px 40px rgba(0,0,0,0.22)', '&:hover': { background: palette.background.default, boxShadow: '0 18px 56px rgba(0,0,0,0.28)' } }}>
-                Get Started Today
-              </Button>
-              <Button component={Link} to="/apply" variant="outlined" size="large"
-                sx={{ borderColor: 'rgba(255,255,255,0.3)', color: '#fff', backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.07)', '&:hover': { borderColor: 'rgba(255,255,255,0.65)', background: 'rgba(255,255,255,0.14)' } }}>
-                Apply for a Loan
-              </Button>
-            </Stack>
+            {false && (
+              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifyContent: 'center', mb: 6 }}>
+                <Button component={Link} to="/apply" variant="contained" size="large" endIcon={<ArrowForwardIcon />}
+                  sx={{ background: '#fff', color: palette.primary.dark, boxShadow: '0 10px 40px rgba(0,0,0,0.22)', '&:hover': { background: palette.background.default, boxShadow: '0 18px 56px rgba(0,0,0,0.28)' } }}>
+                  Get Started Today
+                </Button>
+                <Button component={Link} to="/apply" variant="outlined" size="large"
+                  sx={{ borderColor: 'rgba(255,255,255,0.3)', color: '#fff', backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.07)', '&:hover': { borderColor: 'rgba(255,255,255,0.65)', background: 'rgba(255,255,255,0.14)' } }}>
+                  Apply for a Loan
+                </Button>
+              </Stack>
+            )}
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
               <Box sx={{ display: 'flex' }}>
                 {['https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=60&q=80', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&q=80', 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&q=80', 'https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=60&q=80'].map((img, i) => (
@@ -831,7 +833,7 @@ const LoanPolicy: React.FC = () => {
                 ))}
               </Box>
               <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.65)' }}>
-                Join <Box component="span" sx={{ color: '#fff', fontWeight: 600 }}>1,240+</Box> members already borrowing with us
+                Join <Box component="span" sx={{ color: '#fff', fontWeight: 600 }}>30</Box> members already borrowing with us
               </Typography>
             </Box>
           </Box>

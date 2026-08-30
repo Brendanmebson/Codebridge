@@ -860,32 +860,34 @@ const Contact: React.FC = () => {
             <Typography variant="subtitle1" sx={{
               color: 'rgba(255,255,255,0.62)', mb: 6, maxWidth: 480, mx: 'auto', fontWeight: 300,
             }}>
-              Still have questions? Reach out — or take the leap and join 1,240+ members building
+              Still have questions? Reach out — or take the leap and join 30 members building
               their financial future with CodeBridge.
             </Typography>
-            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifyContent: 'center', mb: 6 }}>
-              <Button
-                component={Link} to="/apply" variant="contained" size="large"
-                endIcon={<ArrowForwardIcon />}
-                sx={{
-                  background: '#fff', color: palette.primary.dark,
-                  boxShadow: '0 10px 40px rgba(0,0,0,0.22)',
-                  '&:hover': { background: palette.background.default, boxShadow: '0 18px 56px rgba(0,0,0,0.28)' },
-                }}
-              >
-                Get Started Today
-              </Button>
-              <Button
-                component={Link} to="/apply" variant="outlined" size="large"
-                sx={{
-                  borderColor: 'rgba(255,255,255,0.3)', color: '#fff',
-                  backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.07)',
-                  '&:hover': { borderColor: 'rgba(255,255,255,0.65)', background: 'rgba(255,255,255,0.14)' },
-                }}
-              >
-                Apply for a Loan
-              </Button>
-            </Stack>
+            {false && (
+              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifyContent: 'center', mb: 6 }}>
+                <Button
+                  component={Link} to="/apply" variant="contained" size="large"
+                  endIcon={<ArrowForwardIcon />}
+                  sx={{
+                    background: '#fff', color: palette.primary.dark,
+                    boxShadow: '0 10px 40px rgba(0,0,0,0.22)',
+                    '&:hover': { background: palette.background.default, boxShadow: '0 18px 56px rgba(0,0,0,0.28)' },
+                  }}
+                >
+                  Get Started Today
+                </Button>
+                <Button
+                  component={Link} to="/apply" variant="outlined" size="large"
+                  sx={{
+                    borderColor: 'rgba(255,255,255,0.3)', color: '#fff',
+                    backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.07)',
+                    '&:hover': { borderColor: 'rgba(255,255,255,0.65)', background: 'rgba(255,255,255,0.14)' },
+                  }}
+                >
+                  Apply for a Loan
+                </Button>
+              </Stack>
+            )}
 
             {/* Social proof */}
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
@@ -907,7 +909,7 @@ const Contact: React.FC = () => {
               </Box>
               <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.65)' }}>
                 Join{' '}
-                <Box component="span" sx={{ color: '#fff', fontWeight: 600 }}>1,240+</Box>
+                <Box component="span" sx={{ color: '#fff', fontWeight: 600 }}>30</Box>
                 {' '}members already growing with us
               </Typography>
             </Box>

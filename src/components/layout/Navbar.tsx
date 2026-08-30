@@ -284,7 +284,7 @@ const Navbar: React.FC = () => {
               ))}
             </Box>
             <Typography variant="caption" sx={{ color: palette.text.secondary, fontSize: '0.7rem' }}>
-              1,240+ members
+              30 members
             </Typography>
           </Box>
         )}
@@ -417,8 +417,8 @@ const Navbar: React.FC = () => {
                 })}
               </Box>
 
-              {/* Auth actions */}
-              {isAuthenticated ? (
+              {/* Auth actions hidden for now */}
+              {false && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                   {/* User avatar chip */}
                   <Box sx={{
@@ -466,7 +466,9 @@ const Navbar: React.FC = () => {
                     Logout
                   </Button>
                 </Box>
-              ) : (
+              )}
+
+              {false && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                   <Button
                     component={Link}

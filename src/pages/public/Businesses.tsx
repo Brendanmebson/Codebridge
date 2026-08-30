@@ -38,7 +38,7 @@ export const businesses = [
       businessName: "Ememowo's Needle",
       description:
         "I'm Emem Owo! I run Ememowo's Needle in IBESIKPO. I've been sewing for 4 years and I LOVE making outfits that fit you perfectly and make you feel good. Let's create something beautiful together 💕",
-      impact: 'Coatbridge stood by me when I needed phone badly for my business',
+      impact: 'CodeBridge stood by me when I needed a phone badly for my business',
       websiteOrSocial: 'Both',
       profileImage: new URL('../../assets/business/ProfilePicture/Ememowo Needle PP.jpg', import.meta.url).href,
       images: [

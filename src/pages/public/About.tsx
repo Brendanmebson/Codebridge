@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Typography, Button, Container, Stack, useTheme } from '@mui/material';
+import { Box, Typography, Button, Container, Stack, useTheme, Dialog, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import presidentPhoto from '../../assets/members/president.jpg';
-import treasurerPhoto from '../../assets/members/Treasurer.jpg';
+import CloseIcon from '@mui/icons-material/Close';
+import excoMembers from '../../data/excoMembers';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import BalanceIcon from '@mui/icons-material/Balance';
@@ -19,6 +19,18 @@ import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
+
+import photo1 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-41-31.jpg';
+import photo2 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-42-06.jpg';
+import photo3 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-42-28.jpg';
+import photo4 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-42-56.jpg';
+import photo5 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-43-28.jpg';
+import photo6 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-43-55.jpg';
+import photo7 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-44-27.jpg';
+import photo8 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-45-03.jpg';
+import photo9 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-45-03_1.jpg';
+import photo10 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-45-04.jpg';
+import photo11 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-45-04_1.jpg';
 
 // --- Intersection observer fade-in hook ---
 function useFadeIn() {
@@ -79,47 +91,24 @@ const About: React.FC = () => {
     },
   ];
 
-  const team = [
-    {
-      name: 'Edima Ben Ekpo',
-      role: 'President',
-      initials: 'EE',
-      color: palette.primary.dark,
-      img: presidentPhoto,
-      bio: 'MBA, FCA, FCRM, CISA, PIOR, FAIAPM with over 30 years of experience in risk management, auditing, banking operations, and governance.',
-    },
-    {
-      name: 'Ngozi Eze',
-      role: 'Secretary',
-      initials: 'NE',
-      color: palette.info.dark,
-      img: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&q=80',
-      bio: 'Expert in cooperative governance and member relations with a decade of experience.',
-    },
-    {
-      name: 'Ebuk Emmanuel',
-      role: 'Treasurer',
-      initials: 'EE',
-      color: palette.secondary.dark,
-      img: treasurerPhoto,
-      bio: 'Certified accountant managing over ₦1.2B in cooperative funds with precision.',
-    },
-    {
-      name: 'Fatima Bello',
-      role: 'Loan Officer',
-      initials: 'FB',
-      color: palette.info.dark,
-      img: 'https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=200&q=80',
-      bio: 'Specialist in credit assessment ensuring fair and fast loan approvals for all members.',
-    },
-  ];
+  const team = excoMembers;
+  const lifeInCodebridgeImages = [photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9, photo10, photo11];
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [viewerOpen, setViewerOpen] = useState(false);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setActiveImageIndex((current) => (current + 1) % lifeInCodebridgeImages.length);
+    }, 3500);
+    return () => window.clearInterval(interval);
+  }, [lifeInCodebridgeImages.length]);
 
   const milestones = [
     { year: '2016', title: 'Founded', desc: 'CodeBridge registered as a multi-purpose cooperative society with 42 founding members.' },
     { year: '2018', title: 'First Major Loan', desc: 'Disbursed our first major business loan batch totalling ₦12M to 80 members.' },
     { year: '2020', title: '500 Members', desc: 'Crossed the 500-member mark, expanding welfare and emergency support programs.' },
     { year: '2022', title: 'Digital Platform', desc: 'Launched our digital member portal for real-time savings and loan tracking.' },
-    { year: '2024', title: '1,200+ Members', desc: 'Reached 1,240 active members with ₦1.2B total disbursed and counting.' },
+    { year: '2024', title: '30 Members', desc: 'Reached 30 active members with ₦100M total disbursed and counting.' },
   ];
 
   const principles = [
@@ -262,8 +251,8 @@ const About: React.FC = () => {
           }}>
             {[
               { value: '2016', label: 'Founded', sub: 'Years of trust', icon: <CalendarTodayIcon sx={{ fontSize: 18 }} /> },
-              { value: '1,240+', label: 'Members', sub: 'Active & growing', icon: <GroupsIcon sx={{ fontSize: 18 }} /> },
-              { value: '₦1.2B', label: 'Disbursed', sub: 'Total loans given', icon: <TrendingUpIcon sx={{ fontSize: 18 }} /> },
+              { value: '30', label: 'Members', sub: 'Active & growing', icon: <GroupsIcon sx={{ fontSize: 18 }} /> },
+              { value: '₦100M', label: 'Disbursed', sub: 'Total loans given', icon: <TrendingUpIcon sx={{ fontSize: 18 }} /> },
               { value: '98%', label: 'Approval Rate', sub: 'Loan success', icon: <EmojiEventsIcon sx={{ fontSize: 18 }} /> },
             ].map((s, i) => (
               <Box key={i} sx={{
@@ -848,48 +837,136 @@ const About: React.FC = () => {
         <Container maxWidth="lg">
           <Box sx={{ textAlign: 'center', mb: 7 }}>
             <Typography variant="h2" sx={{ color: palette.text.primary, mb: 1.5, fontSize: { xs: '2.2rem', md: '3rem' } }}>
-              Our Community in Action
+              Life in CodeBridge
             </Typography>
             <Typography variant="body1" sx={{ color: palette.text.secondary, fontWeight: 300 }}>
-              Moments of connection, growth, and shared financial achievement
+              Real moments of connection, celebration, and member community energy
             </Typography>
           </Box>
 
           <Box sx={{
             display: 'grid',
-            gridTemplateColumns: { xs: '1fr 1fr', md: 'repeat(12, 1fr)' },
-            gridTemplateRows: { md: 'repeat(2, 220px)' },
+            gridTemplateColumns: { xs: '1fr', md: '1.3fr 0.7fr' },
             gap: 2.5,
+            alignItems: 'stretch',
           }}>
-            {[
-              { src: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&q=80', col: '1 / 5', row: '1 / 3' },
-              { src: 'https://images.unsplash.com/photo-1565945887714-d5139f4eb0ce?w=400&q=80', col: '5 / 9', row: '1 / 2' },
-              { src: 'https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=400&q=80', col: '9 / 13', row: '1 / 2' },
-              { src: 'https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=400&q=80', col: '5 / 9', row: '2 / 3' },
-              { src: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&q=80', col: '9 / 13', row: '2 / 3' },
-            ].map((img, i) => (
-              <Box key={i} sx={{
-                borderRadius: `${(shape.borderRadius as number) * 1.5}px`, overflow: 'hidden',
-                gridColumn: { xs: undefined, md: img.col },
-                gridRow: { xs: undefined, md: img.row },
-                height: { xs: 160, md: 'auto' },
+            <Box
+              onClick={() => setViewerOpen(true)}
+              sx={{
                 position: 'relative',
-                '&::after': {
-                  content: '""', position: 'absolute', inset: 0,
-                  background: `linear-gradient(to bottom, transparent 50%, ${palette.primary.dark}60)`,
-                  opacity: 0, transition: 'opacity 0.4s',
-                },
-                '&:hover::after': { opacity: 1 },
-                '&:hover img': { transform: 'scale(1.06)' },
+                height: { xs: 300, md: 540 },
+                overflow: 'hidden',
+                borderRadius: `${(shape.borderRadius as number) * 2}px`,
+                cursor: 'pointer',
+                boxShadow: `0 20px 60px ${palette.primary.main}18`,
+                '& img': { transition: 'transform 0.8s ease, filter 0.4s ease' },
+                '&:hover img': { transform: 'scale(1.06)', filter: 'saturate(1.08)' },
+              }}
+            >
+              <Box
+                component="img"
+                src={lifeInCodebridgeImages[activeImageIndex]}
+                alt="Life in CodeBridge"
+                sx={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                  display: 'block',
+                  background: palette.background.paper,
+                }}
+              />
+              <Box sx={{
+                position: 'absolute', inset: 0,
+                background: 'linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.5) 100%)',
+                display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between',
+                p: 2.5,
               }}>
-                <Box component="img" src={img.src} alt={`Community ${i + 1}`}
-                  sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }}
-                />
+                <Box>
+                  <Typography variant="overline" sx={{ color: '#fff', letterSpacing: '0.12em', opacity: 0.8 }}>
+                    Community life
+                  </Typography>
+                  <Typography variant="h4" sx={{ color: '#fff', fontSize: { xs: '1.4rem', md: '2.1rem' } }}>
+                    CodeBridge together
+                  </Typography>
+                </Box>
+                <Box sx={{
+                  display: 'inline-flex', alignItems: 'center', gap: 1, px: 1.5, py: 0.8,
+                  bgcolor: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(8px)',
+                  borderRadius: '999px', color: '#fff', fontWeight: 600,
+                }}>
+                  <VisibilityIcon sx={{ fontSize: 18 }} />
+                  View full
+                </Box>
               </Box>
-            ))}
+            </Box>
+
+            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 2.5 }}>
+              {lifeInCodebridgeImages.map((src, index) => (
+                <Box
+                  key={index}
+                  onClick={() => {
+                    setActiveImageIndex(index);
+                    setViewerOpen(true);
+                  }}
+                  sx={{
+                    position: 'relative',
+                    height: { xs: 150, md: 255 },
+                    overflow: 'hidden',
+                    borderRadius: `${(shape.borderRadius as number) * 1.25}px`,
+                    cursor: 'pointer',
+                    outline: index === activeImageIndex ? `2px solid ${palette.primary.main}` : 'none',
+                    outlineOffset: 2,
+                    '& img': { transition: 'transform 0.6s ease' },
+                    '&:hover img': { transform: 'scale(1.08)' },
+                  }}
+                >
+                  <Box component="img" src={src} alt={`CodeBridge life ${index + 1}`} sx={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                </Box>
+              ))}
+            </Box>
           </Box>
         </Container>
       </Box>
+
+      <Dialog
+        open={viewerOpen}
+        onClose={() => setViewerOpen(false)}
+        maxWidth="xl"
+        fullWidth
+        PaperProps={{
+          sx: {
+            background: 'rgba(10, 14, 18, 0.88)',
+            boxShadow: 'none',
+            overflow: 'hidden',
+            borderRadius: 2,
+          },
+        }}
+      >
+        <Box sx={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh', p: 1.5 }}>
+          <IconButton
+            aria-label="close viewer"
+            onClick={() => setViewerOpen(false)}
+            sx={{ position: 'absolute', right: 12, top: 12, zIndex: 2, color: '#fff', bgcolor: 'rgba(255,255,255,0.12)' }}
+          >
+            <CloseIcon />
+          </IconButton>
+          <Box
+            component="img"
+            src={lifeInCodebridgeImages[activeImageIndex]}
+            alt="Full view of CodeBridge life"
+            sx={{
+              maxWidth: '94vw',
+              maxHeight: '82vh',
+              width: 'auto',
+              height: 'auto',
+              objectFit: 'contain',
+              display: 'block',
+              borderRadius: 2,
+            }}
+          />
+        </Box>
+      </Dialog>
 
 
       {/* ── QUOTE ─────────────────────────────────────────────── */}
@@ -1076,7 +1153,7 @@ const About: React.FC = () => {
               </Box>
               <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.65)' }}>
                 Join{' '}
-                <Box component="span" sx={{ color: '#fff', fontWeight: 600 }}>1,240+</Box>
+                <Box component="span" sx={{ color: '#fff', fontWeight: 600 }}>30</Box>
                 {' '}members growing with us
               </Typography>
             </Box>
