@@ -847,7 +847,7 @@ const About: React.FC = () => {
 
           <Box sx={{
             display: 'grid',
-            gridTemplateColumns: { xs: '1fr', md: '1.3fr 0.7fr' },
+            gridTemplateColumns: { xs: '1fr', md: '1.45fr 0.95fr' },
             gap: 2.5,
             alignItems: 'stretch',
           }}>
@@ -855,13 +855,13 @@ const About: React.FC = () => {
               onClick={() => setViewerOpen(true)}
               sx={{
                 position: 'relative',
-                height: { xs: 300, md: 540 },
+                height: { xs: 320, md: 520 },
                 overflow: 'hidden',
                 borderRadius: `${(shape.borderRadius as number) * 2}px`,
                 cursor: 'pointer',
-                boxShadow: `0 20px 60px ${palette.primary.main}18`,
+                boxShadow: `0 22px 64px ${palette.primary.main}18`,
                 '& img': { transition: 'transform 0.8s ease, filter 0.4s ease' },
-                '&:hover img': { transform: 'scale(1.06)', filter: 'saturate(1.08)' },
+                '&:hover img': { transform: 'scale(1.05)', filter: 'saturate(1.08)' },
               }}
             >
               <Box
@@ -879,7 +879,7 @@ const About: React.FC = () => {
               />
               <Box sx={{
                 position: 'absolute', inset: 0,
-                background: 'linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.5) 100%)',
+                background: 'linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.52) 100%)',
                 display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between',
                 p: 2.5,
               }}>
@@ -887,7 +887,7 @@ const About: React.FC = () => {
                   <Typography variant="overline" sx={{ color: '#fff', letterSpacing: '0.12em', opacity: 0.8 }}>
                     Community life
                   </Typography>
-                  <Typography variant="h4" sx={{ color: '#fff', fontSize: { xs: '1.4rem', md: '2.1rem' } }}>
+                  <Typography variant="h4" sx={{ color: '#fff', fontSize: { xs: '1.4rem', md: '2.2rem' } }}>
                     CodeBridge together
                   </Typography>
                 </Box>
@@ -902,8 +902,8 @@ const About: React.FC = () => {
               </Box>
             </Box>
 
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 2.5 }}>
-              {lifeInCodebridgeImages.map((src, index) => (
+            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 2.5, alignContent: 'stretch' }}>
+              {lifeInCodebridgeImages.slice(0, 4).map((src, index) => (
                 <Box
                   key={index}
                   onClick={() => {
@@ -912,7 +912,7 @@ const About: React.FC = () => {
                   }}
                   sx={{
                     position: 'relative',
-                    height: { xs: 150, md: 255 },
+                    height: { xs: 150, md: index === 0 || index === 1 ? 248 : 220 },
                     overflow: 'hidden',
                     borderRadius: `${(shape.borderRadius as number) * 1.25}px`,
                     cursor: 'pointer',

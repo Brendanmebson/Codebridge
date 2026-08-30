@@ -136,7 +136,7 @@ const Gallery: React.FC = () => {
               opacity: 0.9,
             }}
           >
-            Stay updated with our latest activities, events, and inspiring member stories.
+            Moments from our member events, learning sessions, milestones, and community celebrations.
           </Typography>
         </Container>
         {/* Wave background */}

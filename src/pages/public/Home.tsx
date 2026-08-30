@@ -633,7 +633,7 @@ const Home: React.FC = () => {
                   fontStyle: 'italic', mb: 2.5, fontSize: '0.95rem',
                 }}>
                   Six years ago we started with 2 members and a shared belief.
-                  Today, over 50 members are building better futures together.
+                  Today, over 30 members are building better futures together.
                 </Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                   <Box sx={{
@@ -670,7 +670,7 @@ const Home: React.FC = () => {
                 Ready to be part of the story?
               </Typography>
               <Typography variant="body2" sx={{ color: palette.text.secondary, fontWeight: 300 }}>
-                Join over 50 members already building financial freedom.
+                Join over 30 members already building financial freedom.
               </Typography>
             </Box>
             <Stack direction="row" spacing={2}>
