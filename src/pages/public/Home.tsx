@@ -8,6 +8,11 @@ import { businesses } from './Businesses';
 import img1 from '../../assets/img1.jpg';
 import img2 from '../../assets/img2.jpg';
 import img3 from '../../assets/img3.jpg';
+import lifeCodebridge1 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-41-31.jpg';
+import lifeCodebridge2 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-42-06.jpg';
+import lifeCodebridge3 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-42-28.jpg';
+import lifeCodebridge4 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-43-28.jpg';
+import lifeCodebridge5 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-44-27.jpg';
 import SavingsIcon from '@mui/icons-material/Savings';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import GroupsIcon from '@mui/icons-material/Groups';
@@ -170,11 +175,11 @@ const Home: React.FC = () => {
   ];
 
   const gallery = [
-    require('../../assets/life@codebridge/PHOTO-2026-08-29-19-41-31.jpg'),
-    require('../../assets/life@codebridge/PHOTO-2026-08-29-19-42-06.jpg'),
-    require('../../assets/life@codebridge/PHOTO-2026-08-29-19-42-28.jpg'),
-    require('../../assets/life@codebridge/PHOTO-2026-08-29-19-43-28.jpg'),
-    require('../../assets/life@codebridge/PHOTO-2026-08-29-19-44-27.jpg'),
+    lifeCodebridge1,
+    lifeCodebridge2,
+    lifeCodebridge3,
+    lifeCodebridge4,
+    lifeCodebridge5,
   ];
 
   const heroGradient = `linear-gradient(150deg, ${palette.primary.dark} 0%, ${palette.primary.main} 50%, ${palette.secondary.dark} 100%)`;
