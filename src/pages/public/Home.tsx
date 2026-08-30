@@ -142,19 +142,25 @@ const Home: React.FC = () => {
     ['Brainiac Academy', 'Oladoja Alaso Ebi'].includes(b.businessName || b.name)
   );
 
-  const testimonials = excoMembers.slice(0, 3).map((member, index) => ({
-    quote:
-      index === 0
-        ? 'I joined CodeBridge because I believe a strong cooperative should be built on trust, transparency, and shared prosperity for every member.'
-        : index === 1
-          ? 'CodeBridge gives our members a place to save, grow, and support one another with real commitment and purpose.'
-          : 'What excites me most is seeing members access opportunities, confidence, and financial stability through one united community.',
-    name: member.name,
-    role: member.role,
-    color: index === 0 ? palette.primary.dark : index === 1 ? palette.info.dark : palette.secondary.dark,
-    img: member.img,
-    stars: 5,
-  }));
+  const testimonials = [
+    {
+      quote:
+        'CodeBridge helped me grow my farm business and gave me the support I needed to plan better, expand confidently, and improve my livelihood. It was a practical step forward for my family and my future.',
+      name: 'Emmanuel Ebuk',
+      role: 'Farmer & Member',
+      color: palette.info.dark,
+      img: treasurerPhoto,
+      stars: 5,
+    },
+    ...selectedBusinesses.map((b) => ({
+      quote: b.impact || 'Codebridge supported my business growth.',
+      name: b.businessName || b.name,
+      role: 'Business Owner',
+      color: palette.primary.dark,
+      img: b.profileImage || presidentPhoto,
+      stars: 5,
+    })),
+  ];
 
   const howItWorks = [
     { step: '01', title: 'Register', desc: 'Complete a simple membership form and get verified in under 24 hours.' },

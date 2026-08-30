@@ -3,6 +3,7 @@ import { Box, Typography, Button, Container, Stack, useTheme, Dialog, IconButton
 import { Link } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import CloseIcon from '@mui/icons-material/Close';
+import presidentPhoto from '../../assets/members/president.jpg';
 import excoMembers from '../../data/excoMembers';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import HandshakeIcon from '@mui/icons-material/Handshake';
