@@ -170,11 +170,11 @@ const Home: React.FC = () => {
   ];
 
   const gallery = [
-    'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=500&q=80',
-    'https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=500&q=80',
-    'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=500&q=80',
-    'https://images.unsplash.com/photo-1565945887714-d5139f4eb0ce?w=500&q=80',
-    'https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=500&q=80',
+    require('../../assets/life@codebridge/PHOTO-2026-08-29-19-41-31.jpg'),
+    require('../../assets/life@codebridge/PHOTO-2026-08-29-19-42-06.jpg'),
+    require('../../assets/life@codebridge/PHOTO-2026-08-29-19-42-28.jpg'),
+    require('../../assets/life@codebridge/PHOTO-2026-08-29-19-43-28.jpg'),
+    require('../../assets/life@codebridge/PHOTO-2026-08-29-19-44-27.jpg'),
   ];
 
   const heroGradient = `linear-gradient(150deg, ${palette.primary.dark} 0%, ${palette.primary.main} 50%, ${palette.secondary.dark} 100%)`;
@@ -898,29 +898,34 @@ const Home: React.FC = () => {
 
           <Box sx={{
             display: 'grid',
-            gridTemplateColumns: { xs: '1fr 1fr', md: 'repeat(3,1fr)' },
-            gridTemplateRows: { md: '240px 240px' },
+            gridTemplateColumns: { xs: '1fr', md: '1.35fr 0.65fr' },
             gap: 2.5,
+            alignItems: 'stretch',
           }}>
-            {gallery.map((img, i) => (
-              <Box key={i} sx={{
-                borderRadius: `${br * 1.5}px`, overflow: 'hidden',
-                gridColumn: i === 0 ? { md: '1 / 2' } : undefined,
-                gridRow: i === 0 ? { md: '1 / 3' } : undefined,
-                height: { xs: 180, md: 'auto' },
-                position: 'relative',
-                '&::after': {
-                  content: '""', position: 'absolute', inset: 0,
-                  background: `linear-gradient(to bottom, transparent 50%, ${palette.primary.dark}60)`,
-                  opacity: 0, transition: 'opacity 0.4s',
-                },
-                '&:hover::after': { opacity: 1 },
-                '&:hover img': { transform: 'scale(1.06)' },
-              }}>
-                <Box component="img" src={img} alt={`Community ${i + 1}`}
-                  sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }} />
-              </Box>
-            ))}
+            <Box sx={{
+              position: 'relative',
+              borderRadius: `${br * 1.75}px`,
+              overflow: 'hidden',
+              height: { xs: 280, md: 520 },
+              boxShadow: `0 22px 60px ${palette.primary.main}18`,
+            }}>
+              <Box component="img" src={gallery[0]} alt="Life in CodeBridge highlight"
+                sx={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            </Box>
+
+            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 2.5 }}>
+              {gallery.slice(1).map((img, i) => (
+                <Box key={i} sx={{
+                  borderRadius: `${br * 1.5}px`, overflow: 'hidden',
+                  height: { xs: 170, md: i === 2 ? 250 : 200 },
+                  position: 'relative',
+                  '&:hover img': { transform: 'scale(1.06)' },
+                }}>
+                  <Box component="img" src={img} alt={`Life in CodeBridge ${i + 2}`}
+                    sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s ease' }} />
+                </Box>
+              ))}
+            </Box>
           </Box>
         </Container>
       </Box>
