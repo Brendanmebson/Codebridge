@@ -16,6 +16,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import NotFound from './components/layout/NotFound';
+import FloatingIcons from './components/layout/FloatingIcons';
 
 
 // Public Pages
@@ -198,9 +199,10 @@ const AppRoutes: React.FC = () => {
         minHeight: '100vh',
       }}
     >
+      <FloatingIcons />
   {!hideLayout && <Navbar />}
 
-      <Box sx={{ flex: 1 }}>
+      <Box sx={{ flex: 1, position: 'relative', zIndex: 1 }}>
         <Suspense fallback={renderSuspenseFallback()}>
           <Routes>
           {/* Public Routes */}
@@ -312,7 +314,7 @@ const AppRoutes: React.FC = () => {
       </Box>
 
       {/* Hide footer on dashboard, admin & login */}
-  {!hideLayout && <Footer />}
+  {!hideLayout && <Box sx={{ position: 'relative', zIndex: 1 }}><Footer /></Box>}
     </Box>
   );
 };

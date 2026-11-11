@@ -62,14 +62,14 @@ const Newsletter: React.FC = () => {
       <Container maxWidth="sm">
         <Box
           sx={{
-            background: `linear-gradient(135deg, ${palette.primary.dark}, ${palette.primary.main})`,
+            background: palette.primary.main,
             color: '#fff',
             p: { xs: 3, md: 5 },
             borderRadius: `${br * 2}px`,
-            boxShadow: `0 20px 60px ${palette.primary.main}24`,
+            
           }}
         >
-          <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
+          <Typography variant="h4" sx={{ mb: 1 }}>
             Stay Connected
           </Typography>
           <Typography variant="body1" sx={{ mb: 3, color: 'rgba(255,255,255,0.85)' }}>
@@ -97,12 +97,12 @@ const Newsletter: React.FC = () => {
               startIcon={<EmailOutlinedIcon />}
               disabled={submitting}
               sx={{
-                bgcolor: '#fff',
-                color: palette.primary.main,
-                fontWeight: 700,
+                bgcolor: palette.accent.main,
+                color: palette.accent.contrastText,
+                fontWeight: 500,
                 borderRadius: '999px',
                 textTransform: 'none',
-                '&:hover': { bgcolor: '#f5f5f5' },
+                '&:hover': { bgcolor: palette.accent.dark },
               }}
             >
               {submitting ? 'Subscribing...' : 'Subscribe'}

@@ -67,7 +67,7 @@ const Footer: React.FC = () => {
         transition: 'all 0.25s',
         width: 'fit-content',
         '&:hover': {
-          color: '#fff',
+          color: palette.accent.main,
           gap: 1.25,
         },
         '&:hover .link-arrow': { opacity: 1, transform: 'translateX(0)' },
@@ -81,38 +81,19 @@ const Footer: React.FC = () => {
   );
 
   return (
+    <Box component="footer" sx={{ background: palette.background.default, px: { xs: 1.5, sm: 2, md: 3 }, pb: { xs: 1.5, md: 3 }, pt: { xs: 1.5, md: 1.5 } }}>
     <Box
-      component="footer"
       sx={{
-        background: `linear-gradient(175deg, ${palette.primary.dark} 0%, #0D2E0F 100%)`,
+        maxWidth: 1360,
+        mx: 'auto',
+        background: palette.primary.main,
+        borderRadius: { xs: '22px', md: '28px' },
         color: '#fff',
         position: 'relative',
         overflow: 'hidden',
         fontFamily: typography.fontFamily,
       }}
     >
-      {/* Background blobs */}
-      {[
-        { size: 500, top: -200, right: -150, opacity: 0.06 },
-        { size: 350, bottom: -100, left: -100, opacity: 0.05 },
-        { size: 200, top: '40%', left: '35%', opacity: 0.03 },
-      ].map((b, i) => (
-        <Box key={i} sx={{
-          position: 'absolute',
-          width: b.size, height: b.size, borderRadius: '50%',
-          background: `radial-gradient(circle, rgba(255,255,255,${b.opacity * 2}), transparent 70%)`,
-          top: b.top, bottom: b.bottom, right: b.right, left: b.left,
-          pointerEvents: 'none',
-        }} />
-      ))}
-
-      {/* Grain overlay */}
-      <Box sx={{
-        position: 'absolute', inset: 0, pointerEvents: 'none',
-        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E")`,
-        backgroundSize: '200px', opacity: 0.5,
-      }} />
-
       {/* ── STATS BAR ───────────────────────────────────────────
       <Box sx={{
         borderBottom: '1px solid rgba(255,255,255,0.07)',
@@ -175,16 +156,15 @@ const Footer: React.FC = () => {
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
               <Box sx={{
                 width: 40, height: 40, borderRadius: `${br}px`,
-                background: `linear-gradient(135deg, ${palette.primary.main}, ${palette.secondary.dark})`,
+                background: palette.accent.main,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: `0 4px 16px ${palette.primary.main}40`,
               }}>
-                <SavingsIcon sx={{ fontSize: 20, color: '#fff' }} />
+                <SavingsIcon sx={{ fontSize: 20, color: palette.primary.dark }} />
               </Box>
               <Box>
                 <Typography sx={{
                   fontFamily: typography.fontFamily,
-                  fontWeight: 700, fontSize: '0.95rem', color: '#fff', lineHeight: 1.1,
+                  fontWeight: 500, fontSize: '1rem', color: '#fff', lineHeight: 1.1,
                 }}>
                   CodeBridge
                 </Typography>
@@ -234,7 +214,7 @@ const Footer: React.FC = () => {
                   key={i}
                   component="a" href={s.href} aria-label={s.label}
                   sx={{
-                    width: 36, height: 36, borderRadius: `${br}px`,
+                    width: 38, height: 38, borderRadius: '50%',
                     background: 'rgba(255,255,255,0.07)',
                     border: '1px solid rgba(255,255,255,0.1)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -242,9 +222,9 @@ const Footer: React.FC = () => {
                     textDecoration: 'none',
                     transition: 'all 0.25s cubic-bezier(0.22,1,0.36,1)',
                     '&:hover': {
-                      background: `${palette.primary.main}40`,
-                      border: `1px solid ${palette.primary.main}60`,
-                      color: '#fff',
+                      background: palette.accent.main,
+                      border: `1px solid ${palette.accent.main}`,
+                      color: palette.primary.dark,
                       transform: 'translateY(-3px)',
                     },
                   }}
@@ -259,9 +239,9 @@ const Footer: React.FC = () => {
           <Box>
             <Typography sx={{
               fontFamily: typography.fontFamily,
-              fontSize: '0.75rem', fontWeight: 600,
-              color: 'rgba(255,255,255,0.35)',
-              letterSpacing: '0.12em', textTransform: 'uppercase',
+              fontSize: '0.95rem', fontWeight: 500,
+              color: '#fff',
+              letterSpacing: '0.02em',
               mb: 3,
             }}>
               Quick Links
@@ -277,9 +257,9 @@ const Footer: React.FC = () => {
           <Box>
             <Typography sx={{
               fontFamily: typography.fontFamily,
-              fontSize: '0.75rem', fontWeight: 600,
-              color: 'rgba(255,255,255,0.35)',
-              letterSpacing: '0.12em', textTransform: 'uppercase',
+              fontSize: '0.95rem', fontWeight: 500,
+              color: '#fff',
+              letterSpacing: '0.02em',
               mb: 3,
             }}>
               Legal
@@ -298,15 +278,10 @@ const Footer: React.FC = () => {
               borderRadius: `${br}px`,
             }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                <Box sx={{
-                  width: 6, height: 6, borderRadius: '50%',
-                  background: palette.secondary.light,
-                  boxShadow: `0 0 6px ${palette.secondary.light}`,
-                }} />
                 <Typography sx={{
                   fontFamily: typography.fontFamily,
                   fontSize: '0.68rem', fontWeight: 600,
-                  color: palette.secondary.light, letterSpacing: '0.06em',
+                  color: palette.accent.main, letterSpacing: '0.06em',
                 }}>
                   REGISTERED
                 </Typography>
@@ -325,9 +300,9 @@ const Footer: React.FC = () => {
           <Box>
             <Typography sx={{
               fontFamily: typography.fontFamily,
-              fontSize: '0.75rem', fontWeight: 600,
-              color: 'rgba(255,255,255,0.35)',
-              letterSpacing: '0.12em', textTransform: 'uppercase',
+              fontSize: '0.95rem', fontWeight: 500,
+              color: '#fff',
+              letterSpacing: '0.02em',
               mb: 3,
             }}>
               Contact
@@ -354,10 +329,10 @@ const Footer: React.FC = () => {
                 <Box key={i} sx={{ display: 'flex', gap: 1.75, alignItems: 'flex-start' }}>
                   <Box sx={{
                     width: 32, height: 32, borderRadius: `${br - 2}px`, flexShrink: 0,
-                    background: `${palette.primary.main}25`,
-                    border: `1px solid ${palette.primary.main}30`,
+                    background: 'rgba(255,255,255,0.06)',
+                    border: '1px solid rgba(255,255,255,0.1)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: palette.secondary.light, mt: 0.25,
+                    color: palette.accent.main, mt: 0.25,
                   }}>
                     {c.icon}
                   </Box>
@@ -414,7 +389,7 @@ const Footer: React.FC = () => {
                   <Typography sx={{
                     fontFamily: typography.fontFamily,
                     fontSize: '0.78rem',
-                    color: h.time === 'Closed' ? 'rgba(255,255,255,0.25)' : palette.secondary.light,
+                    color: h.time === 'Closed' ? 'rgba(255,255,255,0.25)' : palette.accent.main,
                     fontWeight: 500,
                   }}>
                     {h.time}
@@ -470,6 +445,7 @@ const Footer: React.FC = () => {
           </Box>
         </Box>
       </Box>
+    </Box>
     </Box>
   );
 };

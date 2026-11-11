@@ -38,7 +38,7 @@ const ExcoMember: React.FC = () => {
   }
 
   return (
-    <Box sx={{ overflowX: 'hidden', background: palette.background.paper, pb: 8 }}>
+    <Box sx={{ overflowX: 'hidden', background: palette.background.default, pb: 8 }}>
       <Box sx={{ background: palette.primary.main, py: { xs: 10, md: 14 }, color: '#fff' }}>
         <Container maxWidth="lg">
           <Typography variant="h2" sx={{ fontWeight: 700, mb: 2 }}>

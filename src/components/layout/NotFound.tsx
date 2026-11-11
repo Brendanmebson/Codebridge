@@ -81,10 +81,10 @@ const NotFound: React.FC = () => {
         transition: 'transform 1.2s cubic-bezier(0.22,1,0.36,1)',
       }} />
       {/* Grain overlay */}
-      <Box sx={{ position: 'absolute', inset: 0, pointerEvents: 'none', backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E")`, backgroundSize: '200px', opacity: 0.5 }} />
+      <Box sx={{ position: 'absolute', inset: 0, pointerEvents: 'none', display: 'none', backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E")`, backgroundSize: '200px', opacity: 0.5 }} />
       {/* Floating dots */}
       {[...Array(8)].map((_, i) => (
-        <Box key={i} sx={{
+        <Box key={i} sx={{ display: 'none',
           position: 'absolute', width: 4, height: 4, borderRadius: '50%',
           background: i % 2 === 0 ? `${palette.primary.main}40` : `${palette.secondary.main}30`,
           top: `${8 + i * 11}%`, left: `${5 + (i % 4) * 24}%`,
@@ -102,8 +102,7 @@ const NotFound: React.FC = () => {
             {/* Left — text */}
             <Box sx={{ animation: 'slideUp 0.9s cubic-bezier(0.22,1,0.36,1) forwards', '@keyframes slideUp': { from: { opacity: 0, transform: 'translateY(40px)' }, to: { opacity: 1, transform: 'translateY(0)' } } }}>
               {/* Badge */}
-              <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 1, px: 2.5, py: 0.75, mb: 4, background: `${palette.primary.main}08`, border: `1px solid ${palette.primary.main}20`, borderRadius: '100px' }}>
-                <Box sx={{ width: 7, height: 7, borderRadius: '50%', background: palette.primary.main, animation: 'nblink 2.5s ease infinite', '@keyframes nblink': { '0%,100%': { opacity: 1 }, '50%': { opacity: 0.3 } } }} />
+              <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 1, mb: 4, }}>
                 <Typography variant="caption" sx={{ color: palette.primary.main, fontWeight: 600, letterSpacing: '0.06em' }}>
                   Error 404
                 </Typography>
@@ -281,7 +280,7 @@ const NotFound: React.FC = () => {
       <Box sx={{ position: 'relative', zIndex: 2, py: { xs: 6, md: 8 }, borderTop: `1px solid ${palette.primary.main}08` }}>
         <Container maxWidth="lg">
           <Box sx={{ textAlign: 'center', mb: 5 }}>
-            <Box sx={{ display: 'inline-block', px: 2.5, py: 0.6, background: `${palette.primary.main}08`, border: `1px solid ${palette.primary.main}18`, borderRadius: '100px', mb: 2 }}>
+            <Box sx={{ display: 'inline-block', mb: 2 }}>
               <Typography variant="overline" sx={{ color: palette.primary.main }}>Quick Navigation</Typography>
             </Box>
             <Typography variant="h4" sx={{ color: palette.text.primary, fontWeight: 700, fontSize: { xs: '1.5rem', md: '2rem' }, mb: 1 }}>

@@ -1,1094 +1,597 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Typography, Button, Container, Stack, useTheme } from '@mui/material';
+import { Box, Typography, Button, useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
 import presidentPhoto from '../../assets/members/president.jpg';
 import treasurerPhoto from '../../assets/members/Treasurer.jpg';
-import excoMembers from '../../data/excoMembers';
 import { businesses } from './Businesses';
-import img1 from '../../assets/img1.jpg';
 import img2 from '../../assets/img2.jpg';
 import img3 from '../../assets/img3.jpg';
 import lifeCodebridge1 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-41-31.jpg';
-import lifeCodebridge2 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-42-06.jpg';
+import heroPhoto from '../../assets/life@codebridge/PHOTO-2026-08-29-19-45-04.jpg';
 import lifeCodebridge3 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-42-28.jpg';
 import lifeCodebridge4 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-43-28.jpg';
 import lifeCodebridge5 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-44-27.jpg';
-import SavingsIcon from '@mui/icons-material/Savings';
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import GroupsIcon from '@mui/icons-material/Groups';
-import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import StarIcon from '@mui/icons-material/Star';
-import SecurityIcon from '@mui/icons-material/Security';
-import SpeedIcon from '@mui/icons-material/Speed';
-import HandshakeIcon from '@mui/icons-material/Handshake';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import SavingsOutlinedIcon from '@mui/icons-material/SavingsOutlined';
+import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
+import VolunteerActivismOutlinedIcon from '@mui/icons-material/VolunteerActivismOutlined';
+import GavelOutlinedIcon from '@mui/icons-material/GavelOutlined';
+import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined';
+import BoltOutlinedIcon from '@mui/icons-material/BoltOutlined';
+import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined';
+import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
+import ScheduleOutlinedIcon from '@mui/icons-material/ScheduleOutlined';
+import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
+import StarRoundedIcon from '@mui/icons-material/StarRounded';
 
-// --- Animated counter hook ---
-function useCounter(end: number, duration = 2000, start = false, decimals = 0) {
+// --- Animated counter ---
+function useCounter(end: number, duration = 1800, start = false) {
   const [count, setCount] = useState(0);
   useEffect(() => {
     if (!start) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) { setCount(end); return; }
     let startTime: number | null = null;
-    const step = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      const ease = 1 - Math.pow(1 - progress, 3);
-      const current = ease * end;
-      setCount(Number(current.toFixed(decimals)));
-      if (progress < 1) requestAnimationFrame(step);
+    let frame = 0;
+    const step = (t: number) => {
+      if (startTime === null) startTime = t;
+      const p = Math.min((t - startTime) / duration, 1);
+      setCount(Math.round((1 - Math.pow(1 - p, 3)) * end));
+      if (p < 1) frame = requestAnimationFrame(step);
     };
-    requestAnimationFrame(step);
-  }, [end, duration, start, decimals]);
+    frame = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(frame);
+  }, [end, duration, start]);
   return count;
 }
 
-function StatCounter({ value, label, prefix = '', suffix = '', decimals = 0, color = '#fff', variant = 'h2', sx = {} }: {
-  value: number; label?: string; prefix?: string; suffix?: string; decimals?: number; color?: string; variant?: any; sx?: any;
-}) {
+const BigStat: React.FC<{ value: number; prefix?: string; suffix?: string; label: string }> = ({ value, prefix = '', suffix = '', label }) => {
+  const theme = useTheme();
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
-  const count = useCounter(value, 2000, visible, decimals);
+  const count = useCounter(value, 1800, visible);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect(); } },
-      { threshold: 0.3 }
+      { threshold: 0.4 },
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, []);
 
   return (
-    <Box ref={ref} sx={{ textAlign: 'center', ...sx }}>
-      <Typography variant={variant} sx={{
-        color: color,
-        fontSize: variant === 'h2' ? { xs: '2.8rem', md: '3.6rem' } : undefined,
+    <Box ref={ref}>
+      <Typography sx={{
+        fontSize: { xs: '2.9rem', sm: '3.4rem', md: '4.4rem' },
+        fontWeight: 400,
+        letterSpacing: '-0.04em',
         lineHeight: 1,
-        mb: label ? 0.5 : 0,
-        ...sx.typography
+        color: theme.palette.text.primary,
+        fontVariantNumeric: 'tabular-nums',
       }}>
-        {prefix}{decimals > 0 ? count.toFixed(decimals) : count.toLocaleString()}{suffix}
+        {prefix}{count.toLocaleString()}{suffix}
       </Typography>
-      {label && (
-        <Typography variant="overline" sx={{ color: 'rgba(255,255,255,0.6)' }}>
-          {label}
-        </Typography>
-      )}
+      <Typography variant="body2" sx={{ color: theme.palette.text.secondary, mt: 1.5 }}>
+        {label}
+      </Typography>
     </Box>
   );
-}
+};
 
 const Home: React.FC = () => {
   const theme = useTheme();
-  const { palette, typography, shape } = theme;
-  const br = shape.borderRadius as number;
+  const { palette } = theme;
 
-  const features = [
-    {
-      icon: <SavingsIcon sx={{ fontSize: 24 }} />,
-      title: 'Secure Savings',
-      description: 'Build financial security with our disciplined savings schemes tailored to your personal and family goals.',
-      color: palette.primary.dark,
-      accent: palette.primary.main,
-      bg: '#E8F5E9',
-    },
-    {
-      icon: <AccountBalanceIcon sx={{ fontSize: 24 }} />,
-      title: 'Affordable Loans',
-      description: 'Access credit facilities for personal, business, and emergency needs at fair, transparent rates.',
-      color: palette.info.dark,
-      accent: palette.info.main,
-      bg: '#E0F2F1',
-    },
-    {
-      icon: <GroupsIcon sx={{ fontSize: 24 }} />,
-      title: 'Welfare Support',
-      description: 'Benefit from collective mutual aid during times of hardship, celebration, and community milestones.',
-      color: palette.secondary.dark,
-      accent: palette.secondary.main,
-      bg: '#F1F8E9',
-    },
-    {
-      icon: <VerifiedUserIcon sx={{ fontSize: 24 }} />,
-      title: 'Transparent Governance',
-      description: 'Member-focused decision-making with full accountability, open reporting, and democratic oversight.',
-      color: palette.primary.dark,
-      accent: palette.success.main,
-      bg: '#F9FBE7',
-    },
+  const radius = { xs: '22px', md: '28px' };
+  const gap = { xs: 1.5, md: 1.5 };
+
+  const services = [
+    { icon: <SavingsOutlinedIcon />, title: 'Secure Savings', desc: 'Build financial security with disciplined savings schemes tailored to your personal and family goals.' },
+    { icon: <AccountBalanceOutlinedIcon />, title: 'Affordable Loans', desc: 'Access credit for personal, business, and emergency needs at fair, transparent rates.' },
+    { icon: <VolunteerActivismOutlinedIcon />, title: 'Welfare Support', desc: 'Collective mutual aid during hardship, celebration, and community milestones.' },
+    { icon: <GavelOutlinedIcon />, title: 'Transparent Governance', desc: 'Member-focused decisions with full accountability, open reporting, and democratic oversight.' },
   ];
 
   const values = [
-    { icon: <SecurityIcon sx={{ fontSize: 22 }} />, title: 'Trust & Security', desc: 'Your funds are protected by best-in-class financial safeguards and cooperative law.' },
-    { icon: <SpeedIcon sx={{ fontSize: 22 }} />, title: 'Fast Processing', desc: 'Loan decisions within 48 hours. Savings credited instantly. No bureaucratic delays.' },
-    { icon: <HandshakeIcon sx={{ fontSize: 22 }} />, title: 'Mutual Support', desc: 'Every member gains access to a network of people invested in their financial success.' },
-    { icon: <EmojiEventsIcon sx={{ fontSize: 22 }} />, title: 'Proven Results', desc: '8+ years of consistent member growth, competitive returns, and community impact.' },
-  ];
-
-  const [rightImageIndex, setRightImageIndex] = useState(0);
-  const rightImages = [img2, img3];
-
-  useEffect(() => {
-    const interval = window.setInterval(() => {
-      setRightImageIndex((prev) => (prev + 1) % rightImages.length);
-    }, 2000);
-    return () => window.clearInterval(interval);
-  }, []);
-
-  const rightImageSrc = rightImages[rightImageIndex];
-
-  // Keep the homepage story personal and grounded: Emmanuel is presented as a member farmer,
-  // while the additional testimonials are limited to the two strongest business stories.
-  const selectedBusinesses = businesses.filter((b) =>
-    ['Brainiac Academy', 'Oladoja Alaso Ebi'].includes(b.businessName || b.name)
-  );
-
-  const testimonials = [
-    {
-      quote:
-        'CodeBridge helped me grow my farm business and gave me the support I needed to plan better, expand confidently, and improve my livelihood. It was a practical step forward for my family and my future.',
-      name: 'Emmanuel Ebuk',
-      role: 'Farmer & Member',
-      color: palette.info.dark,
-      img: treasurerPhoto,
-      stars: 5,
-    },
-    ...selectedBusinesses.map((b) => ({
-      quote: b.impact || 'Codebridge supported my business growth.',
-      name: b.businessName || b.name,
-      role: 'Business Owner',
-      color: palette.primary.dark,
-      img: b.profileImage || presidentPhoto,
-      stars: 5,
-    })),
+    { icon: <ShieldOutlinedIcon />, title: 'Trust & Security', desc: 'Your funds are protected by sound financial safeguards and cooperative law.' },
+    { icon: <BoltOutlinedIcon />, title: 'Fast Processing', desc: 'Loan decisions within 48 hours. Savings credited promptly. No bureaucratic delays.' },
+    { icon: <HandshakeOutlinedIcon />, title: 'Mutual Support', desc: 'A network of people invested in each other’s financial success.' },
+    { icon: <EmojiEventsOutlinedIcon />, title: 'Proven Results', desc: 'Consistent member growth, competitive returns, and real community impact.' },
   ];
 
   const howItWorks = [
     { step: '01', title: 'Register', desc: 'Complete a simple membership form and get verified in under 24 hours.' },
     { step: '02', title: 'Contribute', desc: 'Set up your monthly savings plan and make your first contribution.' },
     { step: '03', title: 'Access Benefits', desc: 'Unlock loans, dividends, and welfare support as an active member.' },
-    { step: '04', title: 'Grow Together', desc: 'Participate in governance, referrals, and community investment programs.' },
+    { step: '04', title: 'Grow Together', desc: 'Take part in governance, referrals, and community investment programmes.' },
   ];
 
-  const gallery = [
-    lifeCodebridge1,
-    lifeCodebridge2,
-    lifeCodebridge3,
-    lifeCodebridge4,
-    lifeCodebridge5,
+  const [rotIndex, setRotIndex] = useState(0);
+  const rotImages = [img2, img3];
+  useEffect(() => {
+    const id = window.setInterval(() => setRotIndex((p) => (p + 1) % rotImages.length), 3500);
+    return () => window.clearInterval(id);
+  }, [rotImages.length]);
+
+  const selectedBusinesses = businesses.filter((b) =>
+    ['Brainiac Academy', 'Oladoja Alaso Ebi'].includes(b.businessName || b.name),
+  );
+
+  const testimonials = [
+    {
+      quote: 'CodeBridge helped me grow my farm business and gave me the support I needed to plan better, expand confidently, and improve my livelihood. It was a practical step forward for my family and my future.',
+      name: 'Emmanuel Ebuk',
+      role: 'Farmer & Member',
+      img: treasurerPhoto,
+    },
+    ...selectedBusinesses.map((b) => ({
+      quote: b.impact || 'Codebridge supported my business growth.',
+      name: b.businessName || b.name,
+      role: 'Business Owner',
+      img: b.profileImage || presidentPhoto,
+    })),
   ];
 
-  const heroGradient = `linear-gradient(150deg, ${palette.primary.dark} 0%, ${palette.primary.main} 50%, ${palette.secondary.dark} 100%)`;
-  const gold = palette.warning.dark;
+  const moments = [
+    { img: lifeCodebridge1, title: 'Members building futures together' },
+    { img: lifeCodebridge3, title: 'Celebrating milestones as one community' },
+    { img: lifeCodebridge4, title: 'Moments of shared growth and success' },
+  ];
+
+  const limeButton = {
+    background: palette.accent.main,
+    color: palette.accent.contrastText,
+    '&:hover': { background: palette.accent.dark },
+  } as const;
+
+  const forestButton = {
+    background: palette.primary.main,
+    color: '#fff',
+    '&:hover': { background: palette.primary.dark },
+  } as const;
+
+  const fadeUp = (delay = 0) => ({
+    opacity: 0,
+    animation: `homeFadeUp 0.9s cubic-bezier(0.22,1,0.36,1) ${delay}s forwards`,
+    '@keyframes homeFadeUp': {
+      from: { opacity: 0, transform: 'translateY(24px)' },
+      to: { opacity: 1, transform: 'none' },
+    },
+    '@media (prefers-reduced-motion: reduce)': { animation: 'none', opacity: 1 },
+  });
+
+  const imageTile = (src: string, alt: string, minHeight: object | number) => (
+    <Box sx={{
+      borderRadius: radius, overflow: 'hidden', position: 'relative', minHeight, height: '100%',
+      '& img': { transition: 'transform 0.8s cubic-bezier(0.22,1,0.36,1)' },
+      '&:hover img': { transform: 'scale(1.04)' },
+    }}>
+      <Box component="img" src={src} alt={alt} sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+    </Box>
+  );
+
+  const featureRow = (icon: React.ReactNode, title: string, desc: string, onDark: boolean) => (
+    <Box key={title} sx={{ display: 'grid', gridTemplateColumns: '44px 1fr', gap: { xs: 2, md: 3 }, alignItems: 'start' }}>
+      <Box sx={{
+        color: onDark ? palette.accent.main : palette.primary.main,
+        display: 'flex', pt: 0.25,
+        '& svg': { fontSize: 30, strokeWidth: 0.2 },
+      }}>
+        {icon}
+      </Box>
+      <Box>
+        <Typography variant="h6" sx={{ color: onDark ? '#fff' : palette.text.primary, mb: 0.5, fontSize: { xs: '1rem', md: '1.1rem' } }}>
+          {title}
+        </Typography>
+        <Typography variant="body2" sx={{ color: onDark ? 'rgba(255,255,255,0.72)' : 'rgba(19,42,33,0.75)', maxWidth: 440 }}>
+          {desc}
+        </Typography>
+      </Box>
+    </Box>
+  );
 
   return (
-    <Box sx={{ fontFamily: typography.fontFamily, overflowX: 'hidden', background: palette.background.paper }}>
+    <Box sx={{ background: palette.background.default, overflowX: 'hidden', pb: { xs: 1.5, md: 1.5 } }}>
+      <Box sx={{ maxWidth: 1360, mx: 'auto', px: { xs: 1.5, sm: 2, md: 3 }, display: 'flex', flexDirection: 'column', gap }}>
 
-      {/* ── HERO ──────────────────────────────────────────────── */}
-      <Box sx={{
-        position: 'relative',
-        minHeight: '100vh',
-        background: heroGradient,
-        display: 'flex',
-        alignItems: 'center',
-        overflow: 'hidden',
-        paddingBottom: { xs: 12, md: 14 },
-      }}>
-
-        <Box sx={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
-          <Box sx={{
-            position: 'absolute', top: '-120px', right: '-120px',
-            width: { xs: 340, md: 560 }, height: { xs: 340, md: 560 },
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)',
-            border: '1px solid rgba(255,255,255,0.1)',
-          }} />
-          <Box sx={{
-            position: 'absolute', bottom: '-80px', left: '-80px',
-            width: { xs: 280, md: 420 }, height: { xs: 280, md: 420 },
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%)',
-            border: '1px solid rgba(255,255,255,0.07)',
-          }} />
-          {/* Leaf blob */}
-          <Box sx={{
-            position: 'absolute', top: '25%', right: '10%',
-            width: 180, height: 180,
-            borderRadius: '70% 30% 60% 40% / 50% 60% 40% 50%',
-            background: 'rgba(255,255,255,0.04)',
-            border: '1px solid rgba(255,255,255,0.08)',
-            transform: 'rotate(25deg)',
-          }} />
-          {[...Array(6)].map((_, i) => (
-            <Box key={i} sx={{
-              position: 'absolute',
-              width: { xs: 5, md: 7 }, height: { xs: 5, md: 7 },
-              borderRadius: '50%',
-              backgroundColor: 'rgba(255,255,255,0.45)',
-              top: `${15 + i * 13}%`,
-              right: `${6 + (i % 3) * 5}%`,
-              animation: `dp${i} ${2.5 + i * 0.3}s ease-in-out ${i * 0.3}s infinite`,
-              [`@keyframes dp${i}`]: {
-                '0%,100%': { opacity: 0.2, transform: 'scale(1)' },
-                '50%': { opacity: 0.9, transform: 'scale(1.3)' },
-              },
-            }} />
-          ))}
-        </Box>
-        {/* Soft blobs */}
-        {[
-          { size: 700, top: -200, right: -200, opacity: 0.14 },
-          { size: 500, bottom: -150, left: -150, opacity: 0.12 },
-          { size: 300, top: '30%', left: '40%', opacity: 0.08 },
-        ].map((b, i) => (
-          <Box key={i} sx={{
-            position: 'absolute',
-            width: b.size, height: b.size, borderRadius: '50%',
-            background: `radial-gradient(circle, rgba(255,255,255,${b.opacity}), transparent 70%)`,
-            top: b.top, bottom: b.bottom, right: b.right, left: b.left,
-            pointerEvents: 'none',
-          }} />
-        ))}
-        {[
-          { size: 700, top: -200, right: -200, opacity: 0.14 },
-          { size: 500, bottom: -150, left: -150, opacity: 0.12 },
-          { size: 300, top: '30%', left: '40%', opacity: 0.08 },
-        ].map((b, i) => (
-          <Box key={i} sx={{
-            position: 'absolute',
-            width: b.size, height: b.size, borderRadius: '50%',
-            background: `radial-gradient(circle, rgba(255,255,255,${b.opacity}), transparent 70%)`,
-            top: b.top, bottom: b.bottom, right: b.right, left: b.left,
-            pointerEvents: 'none',
-          }} />
-        ))}
+        {/* ── HERO ─────────────────────────────────────────────── */}
         <Box sx={{
-          position: 'absolute', inset: 0, pointerEvents: 'none',
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E")`,
-          backgroundSize: '200px', opacity: 0.6,
-        }} />
-        {[...Array(8)].map((_, i) => (
-          <Box key={i} sx={{
-            position: 'absolute', width: 4, height: 4, borderRadius: '50%',
-            background: 'rgba(255,255,255,0.5)',
-            top: `${10 + i * 11}%`, right: `${4 + (i % 4) * 4}%`,
-            animation: `pulse${i} ${3 + i * 0.4}s ease-in-out ${i * 0.25}s infinite`,
-            [`@keyframes pulse${i}`]: {
-              '0%,100%': { opacity: 0.2, transform: 'scale(1)' },
-              '50%': { opacity: 1, transform: 'scale(1.6)' },
-            },
+          position: 'relative',
+          background: palette.primary.main,
+          borderRadius: radius,
+          overflow: 'hidden',
+          color: '#fff',
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr', md: '1fr 1.25fr', lg: '0.95fr 1.35fr' },
+          gap: { xs: 0, md: 1.5 },
+          p: { xs: 1, md: 1.5 },
+          minHeight: { md: 'min(74vh, 600px)' },
+        }}>
+          {/* soft glow + ring, kept to the text side */}
+          <Box aria-hidden sx={{
+            position: 'absolute', width: 520, height: 520, borderRadius: '50%',
+            left: -180, bottom: -260,
+            background: `radial-gradient(circle, ${palette.primary.light}66, transparent 70%)`,
+            pointerEvents: 'none',
           }} />
-        ))}
+          <Box aria-hidden sx={{
+            position: 'absolute', width: 300, height: 300, borderRadius: '50%',
+            left: { xs: -140, md: -90 }, top: { xs: -150, md: -110 },
+            border: '1px solid rgba(255,255,255,0.12)', pointerEvents: 'none',
+          }} />
 
-        <Container maxWidth={false} sx={{ position: 'relative', zIndex: 2, px: { xs: 3, md: 13 } }}>
+          {/* Text side */}
           <Box sx={{
-            display: 'grid',
-            gridTemplateColumns: { xs: '1fr', md: '55fr 45fr' },
-            gap: { xs: 6, md: 1 },
-            alignItems: 'center',
-            py: { xs: 12, md: 8 },
+            position: 'relative', zIndex: 1,
+            px: { xs: 2.5, sm: 3.5, md: 5 }, pt: { xs: 4.5, md: 6 }, pb: { xs: 4, md: 5 },
+            display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: { xs: 4, md: 5 },
           }}>
-            <Box sx={{
-              animation: 'fadeUp 1s cubic-bezier(0.22,1,0.36,1) forwards',
-              '@keyframes fadeUp': {
-                from: { opacity: 0, transform: 'translateY(40px)' },
-                to: { opacity: 1, transform: 'translateY(0)' },
-              },
+            <Typography sx={{
+              color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem', fontWeight: 400,
+              ...fadeUp(0),
             }}>
+              Member-owned cooperative, since 2016
+            </Typography>
 
-
+            <Box>
               <Typography variant="h1" sx={{
                 color: '#fff',
-                fontSize: { xs: '3rem', sm: '3.8rem', md: '4.8rem' },
-                mb: 3,
+                fontSize: { xs: '2.7rem', sm: '3.4rem', md: '3.2rem', lg: '3.9rem' },
+                mb: { xs: 2.5, md: 3 },
+                textWrap: 'balance',
+                ...fadeUp(0.08),
               }}>
-                Financial<br />
-                <Box component="span" sx={{
-                  fontWeight: 300, fontStyle: 'italic',
-                  background: `linear-gradient(90deg, ${palette.secondary.light}, #E8F5E9, ${palette.secondary.main})`,
-                  WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-                }}>
-                  Empowerment
-                </Box>
-                <br />Starts Here.
+                Financial{' '}
+                <Box component="span" sx={{ color: palette.accent.main }}>Empowerment</Box>{' '}
+                Starts Here.
               </Typography>
-
-              <Typography variant="subtitle1" sx={{ color: 'rgba(255,255,255,0.68)', mb: 5, maxWidth: 500, fontWeight: 300 }}>
+              <Typography sx={{
+                color: 'rgba(255,255,255,0.75)', fontWeight: 300,
+                fontSize: { xs: '1rem', md: '1.08rem' }, lineHeight: 1.7, maxWidth: 460,
+                mb: { xs: 3.5, md: 4.5 },
+                ...fadeUp(0.16),
+              }}>
                 A member-owned cooperative promoting savings, providing affordable loans,
-                and improving economic wellbeing through mutual support and responsible financial management.
+                and improving economic wellbeing through mutual support.
               </Typography>
-
-              {false && (
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mb: 5 }}>
-                  <Button
-                    component={Link} to="/apply" variant="contained" size="large"
-                    endIcon={<ArrowForwardIcon sx={{ fontSize: 18 }} />}
-                    sx={{
-                      background: '#fff', color: palette.primary.dark,
-                      boxShadow: '0 12px 40px rgba(0,0,0,0.22)',
-                      '&:hover': { background: palette.background.default, boxShadow: '0 20px 50px rgba(0,0,0,0.28)' },
-                    }}
-                  >
-                    Get Started Today
-                  </Button>
-                  <Button
-                    component={Link} to="/apply" variant="outlined" size="large"
-                    sx={{
-                      borderColor: 'rgba(255,255,255,0.35)', color: '#fff',
-                      backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.06)',
-                      '&:hover': { borderColor: 'rgba(255,255,255,0.7)', background: 'rgba(255,255,255,0.12)' },
-                    }}
-                  >
-                    Apply for a Loan
-                  </Button>
-                </Stack>
-              )}
-
-              {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, flexWrap: 'wrap' }}>
-                {[
-                  { val: '₦100M+', lab: 'Disbursed' },
-                  { val: '98%', lab: 'Approval Rate' },
-                  { val: '48h', lab: 'Loan Turnaround' },
-                ].map((item, i) => (
-                  <Box key={i} sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                    {i > 0 && <Box sx={{ width: 1, height: 28, background: 'rgba(255,255,255,0.2)' }} />}
-                    <Box>
-                      <Typography variant="h5" sx={{ color: '#fff', lineHeight: 1 }}>{item.val}</Typography>
-                      <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)', letterSpacing: '0.06em' }}>{item.lab}</Typography>
-                    </Box>
-                  </Box>
-                ))}
-              </Box> */}
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 2.5, sm: 3 }, flexWrap: 'wrap', ...fadeUp(0.24) }}>
+                <Button component={Link} to="/membership" size="large" sx={limeButton} endIcon={<ArrowOutwardIcon sx={{ fontSize: 18 }} />}>
+                  Become a member
+                </Button>
+                <Box component={Link} to="/about" sx={{
+                  color: '#fff', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 0.5,
+                  borderBottom: '1px solid rgba(255,255,255,0.3)', pb: 0.25,
+                  transition: 'color 0.2s ease, border-color 0.2s ease',
+                  '&:hover': { color: palette.accent.main, borderColor: palette.accent.main },
+                }}>
+                  Learn more
+                </Box>
+              </Box>
             </Box>
 
-            {/* Right: floating cards */}
+            {/* social proof */}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, ...fadeUp(0.32) }}>
+              <Box sx={{ display: 'flex' }}>
+                {[presidentPhoto, treasurerPhoto, lifeCodebridge4, lifeCodebridge3].map((src, i) => (
+                  <Box key={i} component="img" src={src} alt="" sx={{
+                    width: 36, height: 36, borderRadius: '50%', objectFit: 'cover',
+                    border: `2px solid ${palette.primary.main}`, ml: i ? -1.25 : 0,
+                  }} />
+                ))}
+              </Box>
+              <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.75)', lineHeight: 1.4 }}>
+                <Box component="span" sx={{ color: '#fff', fontWeight: 500 }}>30+ members</Box><br />
+                growing together
+              </Typography>
+            </Box>
+          </Box>
+
+          {/* Photo side */}
+          <Box sx={{
+            position: 'relative',
+            borderRadius: { xs: '16px', md: '20px' },
+            overflow: 'hidden',
+            minHeight: { xs: 280, sm: 380, md: 'auto' },
+            ...fadeUp(0.12),
+          }}>
+            <Box component="img" src={heroPhoto} alt="CodeBridge members together in matching attire"
+              sx={{
+                position: 'absolute', inset: 0, width: '100%', height: '100%',
+                objectFit: 'cover', objectPosition: '50% 35%',
+                animation: 'heroZoom 14s ease-out forwards',
+                '@keyframes heroZoom': { from: { transform: 'scale(1.08)' }, to: { transform: 'scale(1)' } },
+                '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
+              }} />
+            <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 60%, rgba(15,46,37,0.55) 100%)' }} />
+
+            {/* floating stat chips */}
             <Box sx={{
-              display: { xs: 'none', md: 'flex' },
-              position: 'relative', height: 520,
-              justifyContent: 'center', alignItems: 'center',
-              animation: 'fadeRight 1.2s cubic-bezier(0.22,1,0.36,1) 0.3s forwards',
-              opacity: 0,
-              '@keyframes fadeRight': {
-                from: { opacity: 0, transform: 'translateX(30px)' },
-                to: { opacity: 1, transform: 'translateX(0)' },
-              },
+              position: 'absolute', left: { xs: 12, md: 20 }, bottom: { xs: 12, md: 20 },
+              display: 'flex', gap: 1, flexWrap: 'wrap', pr: 2,
             }}>
               <Box sx={{
-                position: 'absolute', width: 300, height: 185,
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.06) 100%)',
-                backdropFilter: 'blur(24px)',
-                borderRadius: `${br * 2}px`, p: 3,
-                border: '1px solid rgba(255,255,255,0.18)',
-                boxShadow: '0 40px 100px rgba(0,0,0,0.3)',
-                top: '50%', left: '50%',
-                transform: 'translate(-50%, -58%) rotate(-5deg)',
-              }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3.5 }}>
-                  <Box>
-                    <Typography variant="overline" sx={{ color: 'rgba(255,255,255,0.55)', display: 'block', mb: 0.5 }}>Savings Balance</Typography>
-                    <Typography variant="h3" sx={{ color: '#fff', fontSize: '2rem' }}>₦ 842,500</Typography>
-                  </Box>
-                  <Box sx={{ width: 42, height: 42, borderRadius: `${br}px`, background: 'rgba(255,255,255,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <SavingsIcon sx={{ fontSize: 20, color: '#fff' }} />
-                  </Box>
-                </Box>
-                <Box sx={{ display: 'flex', gap: 0.75 }}>
-                  {[...Array(5)].map((_, i) => (
-                    <Box key={i} sx={{ height: 3, flex: 1, borderRadius: 6, background: i < 4 ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.18)' }} />
-                  ))}
-                </Box>
-              </Box>
-
-              <Box sx={{
-                position: 'absolute', top: '8%', right: '-2%',
-                background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)',
-                border: '1px solid rgba(255,255,255,0.18)', borderRadius: `${br * 1.5}px`,
-                p: 2.5, width: 160,
-                animation: 'float1 4s ease-in-out infinite',
-                '@keyframes float1': { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-12px)' } },
-              }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.75 }}>
-                  <TrendingUpIcon sx={{ fontSize: 14, color: palette.secondary.light }} />
-                  <Typography variant="caption" sx={{ color: palette.secondary.light, fontWeight: 600 }}>+12.4% growth</Typography>
-                </Box>
-                <Typography variant="h4" sx={{ color: '#fff', lineHeight: 1, fontSize: '1.7rem' }}>₦100M+</Typography>
-                <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)', display: 'block', mt: 0.3 }}>Total Disbursed</Typography>
-              </Box>
-
-              <Box sx={{
-                position: 'absolute', bottom: '12%', left: '0%',
-                background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)',
-                border: '1px solid rgba(255,255,255,0.18)', borderRadius: `${br * 1.5}px`,
-                p: 2.5, width: 150,
-                animation: 'float2 3.6s ease-in-out infinite 0.8s',
-                '@keyframes float2': { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-8px)' } },
-              }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.75 }}>
-                  <PeopleAltIcon sx={{ fontSize: 14, color: palette.info.light }} />
-                  <Typography variant="caption" sx={{ color: palette.info.light, fontWeight: 600 }}>Active Members</Typography>
-                </Box>
-                <Typography variant="h4" sx={{ color: '#fff', lineHeight: 1, fontSize: '1.7rem' }}>30</Typography>
-                <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)', display: 'block', mt: 0.3 }}>& growing</Typography>
-              </Box>
-
-              <Box sx={{
-                position: 'absolute', bottom: '2%', right: '5%',
-                width: 120, height: 120, borderRadius: '50%', overflow: 'hidden',
-                border: '3px solid rgba(255,255,255,0.22)',
-                boxShadow: '0 20px 60px rgba(0,0,0,0.35)',
-                animation: 'float3 5s ease-in-out infinite 1.4s',
-                '@keyframes float3': { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-7px)' } },
-              }}>
-                <Box component="img" src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=240&q=80" alt="Member"
-                  sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              </Box>
-
-              <Box sx={{
-                position: 'absolute', top: '40%', right: '-5%',
-                background: palette.background.paper, borderRadius: `${br}px`,
-                px: 2, py: 1.5, boxShadow: '0 16px 48px rgba(0,0,0,0.18)',
-                display: 'flex', alignItems: 'center', gap: 1.5, width: 200,
-                animation: 'float4 4.5s ease-in-out infinite 2s',
-                '@keyframes float4': { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-6px)' } },
+                background: '#fff', color: palette.text.primary, borderRadius: '14px',
+                px: 2, py: 1.25, display: 'flex', alignItems: 'center', gap: 1.25,
+                boxShadow: '0 10px 30px rgba(0,0,0,0.18)',
               }}>
                 <Box sx={{
-                  width: 32, height: 32, borderRadius: `${br - 4}px`,
-                  background: `linear-gradient(135deg, ${palette.primary.main}, ${palette.primary.dark})`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                  width: 32, height: 32, borderRadius: '50%', background: palette.accent.main, color: palette.primary.main,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}>
-                  <CheckCircleOutlineIcon sx={{ fontSize: 16, color: '#fff' }} />
+                  <AccountBalanceOutlinedIcon sx={{ fontSize: 17 }} />
                 </Box>
                 <Box>
-                  <Typography variant="caption" sx={{ fontWeight: 600, color: palette.text.primary, lineHeight: 1.2, display: 'block' }}>Loan Approved!</Typography>
-                  <Typography variant="caption" sx={{ color: '#94a3b8' }}>₦250,000 disbursed</Typography>
+                  <Typography sx={{ fontWeight: 500, fontSize: '0.95rem', lineHeight: 1.2 }}>₦100M+</Typography>
+                  <Typography variant="caption" sx={{ color: palette.text.secondary, lineHeight: 1.2, display: 'block' }}>Total disbursed</Typography>
                 </Box>
               </Box>
-            </Box>
-          </Box>
-        </Container>
-
-        <Box sx={{
-          position: 'absolute', bottom: -1, left: 0, right: 0,
-          height: { xs: 50, md: 72 },
-          background: palette.background.default,
-          clipPath: 'ellipse(58% 100% at 50% 100%)',
-        }} />
-      </Box>
-
-
-      {/* ── REAL IMPACT ───────────────────────────────────────── */}
-      {/* Replaces the old "Who We Are" section. Shows measurable proof 
-          of what the cooperative has done — numbers, faces, a quote. 
-          Unique to this page; About page covers the story/mission. */}
-      <Box sx={{ background: palette.background.default, py: { xs: 9, md: 14 } }}>
-        <Container maxWidth="lg">
-
-          {/* Top label + headline */}
-          <Box sx={{ mb: { xs: 7, md: 10 } }}>
-            <Box sx={{
-              display: 'inline-block', px: 2.5, py: 0.6,
-              background: `${palette.primary.main}12`, border: `1px solid ${palette.primary.main}25`,
-              borderRadius: '100px', mb: 2.5,
-            }}>
-              <Typography variant="overline" sx={{ color: palette.primary.main }}>Real Impact</Typography>
-            </Box>
-            <Box sx={{
-              display: 'grid',
-              gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
-              gap: { xs: 3, md: 6 },
-              alignItems: 'flex-end',
-            }}>
-              <Typography variant="h2" sx={{
-                color: palette.text.primary,
-                fontSize: { xs: '2.2rem', md: '3rem' },
-                lineHeight: 1.15,
-              }}>
-                Numbers That<br />
-                <Box component="span" sx={{ fontStyle: 'italic', fontWeight: 300, color: palette.primary.main }}>
-                  Speak for Themselves
-                </Box>
-              </Typography>
-              <Typography variant="body1" sx={{ color: palette.text.secondary, fontWeight: 300, maxWidth: 420 }}>
-                Every figure below is a real member whose life we've touched — a business funded,
-                a home purchased, a family supported through hardship.
-              </Typography>
-            </Box>
-          </Box>
-
-          {/* Impact grid — large numbers + photo mosaic side by side */}
-          <Box sx={{
-            display: 'grid',
-            gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
-            gap: { xs: 4, md: 5 },
-            alignItems: 'stretch',
-          }}>
-
-            {/* Left: impact metric cards */}
-            <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 3 }}>
-              {[
-                { num: 100, prefix: '₦', suffix: 'M+', label: 'Total Disbursed', sub: 'Across all loan categories', color: palette.primary.main, bg: '#E8F5E9', decimals: 0 },
-                { num: 30, label: 'Active Members', sub: 'And growing every month', color: palette.info.main, bg: '#E0F2F1' },
-                { num: 98, suffix: '%', label: 'Approval Rate', sub: 'Fastest in the sector', color: palette.secondary.dark, bg: '#F1F8E9' },
-                { num: 150, prefix: '₦', suffix: 'K', label: 'Avg. Loan Size', sub: 'Accessible to all members', color: palette.primary.dark, bg: '#F9FBE7' },
-              ].map((m, i) => (
-                <Box key={i} sx={{
-                  p: 3, borderRadius: `${br * 2}px`,
-                  background: palette.background.paper,
-                  border: `1px solid ${m.bg}`,
-                  transition: 'all 0.35s cubic-bezier(0.22,1,0.36,1)',
-                  '&:hover': {
-                    transform: 'translateY(-6px)',
-                    boxShadow: `0 20px 50px ${m.color}18`,
-                    background: `${m.bg}88`,
-                    borderColor: 'transparent',
-                  },
-                }}>
-                  <Box sx={{
-                    width: 10, height: 10, borderRadius: '50%',
-                    background: m.color, mb: 2,
-                    boxShadow: `0 0 0 4px ${m.color}20`,
-                  }} />
-                  <StatCounter
-                    value={m.num}
-                    prefix={m.prefix}
-                    suffix={m.suffix}
-                    decimals={m.decimals}
-                    color={palette.text.primary}
-                    variant="h3"
-                    sx={{
-                      textAlign: 'left',
-                      typography: {
-                        fontSize: { xs: '1.7rem', md: '2rem' },
-                        fontWeight: 700,
-                      }
-                    }}
-                  />
-                  <Typography variant="body2" sx={{ color: palette.text.primary, fontWeight: 600, mb: 0.5, mt: 0.75 }}>
-                    {m.label}
-                  </Typography>
-                  <Typography variant="caption" sx={{ color: palette.text.secondary, display: 'block' }}>
-                    {m.sub}
-                  </Typography>
-                </Box>
-              ))}
-            </Box>
-
-            {/* Right: stacked photos + inline quote */}
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-              {/* Photos row */}
               <Box sx={{
-                display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2,
-                flex: 1,
+                background: palette.accent.main, color: palette.accent.contrastText, borderRadius: '14px',
+                px: 2, py: 1.25, display: { xs: 'none', sm: 'flex' }, alignItems: 'center', gap: 1.25,
+                boxShadow: '0 10px 30px rgba(0,0,0,0.18)',
               }}>
-                <Box sx={{
-                  borderRadius: `${br * 2}px`, overflow: 'hidden',
-                  height: { xs: 180, md: 220 },
-                  '&:hover img': { transform: 'scale(1.05)' },
-                }}>
-                  <Box component="img"
-                    src={img1}
-                    alt="Member"
-                    sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s cubic-bezier(0.22,1,0.36,1)' }}
-                  />
-                </Box>
-                <Box sx={{
-                  borderRadius: `${br * 2}px`, overflow: 'hidden',
-                  height: { xs: 180, md: 220 },
-                  '&:hover img': { transform: 'scale(1.05)' },
-                }}>
-                  <Box component="img"
-                    src={rightImageSrc}
-                    alt="Community"
-                    sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s cubic-bezier(0.22,1,0.36,1)' }}
-                  />
-                </Box>
-              </Box>
-
-              {/* Pull quote card */}
-              <Box sx={{
-                p: 3.5,
-                background: `linear-gradient(145deg, ${palette.primary.dark}, ${palette.primary.main})`,
-                borderRadius: `${br * 2}px`,
-                position: 'relative', overflow: 'hidden',
-              }}>
-                <Box sx={{
-                  position: 'absolute', top: -20, right: -20, width: 120, height: 120,
-                  borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.1), transparent 70%)',
-                  pointerEvents: 'none',
-                }} />
-                <Typography sx={{
-                  fontFamily: typography.fontFamily,
-                  fontSize: '4rem', lineHeight: 0.6,
-                  color: 'rgba(255,255,255,0.15)',
-                  fontWeight: 700, mb: 1.5, display: 'block',
-                }}>
-                  "
-                </Typography>
-                <Typography variant="body2" sx={{
-                  color: 'rgba(255,255,255,0.88)', lineHeight: 1.85,
-                  fontStyle: 'italic', mb: 2.5, fontSize: '0.95rem',
-                }}>
-                  Six years ago we started with 2 members and a shared belief.
-                  Today, over 30 members are building better futures together.
-                </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                  <Box sx={{
-                    width: 36, height: 36, borderRadius: '50%', overflow: 'hidden',
-                    border: '2px solid rgba(255,255,255,0.3)', flexShrink: 0,
-                  }}>
-                    <Box component="img"
-                      src={presidentPhoto}
-                      alt="President"
-                      sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
-                  </Box>
-                  <Box>
-                    <Typography variant="caption" sx={{ color: '#fff', fontWeight: 600, display: 'block' }}>Edima Ben Ekpo, MBA, FCA, FCRM, CISA, PIOR, FAIAPM</Typography>
-                    <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)' }}>President, CodeBridge</Typography>
-                  </Box>
+                <ScheduleOutlinedIcon sx={{ fontSize: 20 }} />
+                <Box>
+                  <Typography sx={{ fontWeight: 500, fontSize: '0.95rem', lineHeight: 1.2 }}>48 hours</Typography>
+                  <Typography variant="caption" sx={{ lineHeight: 1.2, display: 'block', opacity: 0.75 }}>Loan decisions</Typography>
                 </Box>
               </Box>
             </Box>
           </Box>
-
-          {/* Bottom CTA row */}
-          <Box sx={{
-            mt: 6, pt: 5,
-            borderTop: `1px solid ${palette.background.default}`,
-            display: 'flex',
-            flexDirection: { xs: 'column', sm: 'row' },
-            alignItems: { xs: 'flex-start', sm: 'center' },
-            justifyContent: 'space-between',
-            gap: 3,
-          }}>
-            <Box>
-              <Typography variant="h5" sx={{ color: palette.text.primary, mb: 0.5 }}>
-                Ready to be part of the story?
-              </Typography>
-              <Typography variant="body2" sx={{ color: palette.text.secondary, fontWeight: 300 }}>
-                Join over 30 members already building financial freedom.
-              </Typography>
-            </Box>
-            <Stack direction="row" spacing={2}>
-              <Button
-                component={Link} to="/apply" variant="contained"
-                endIcon={<ArrowForwardIcon />}
-                sx={{
-                  background: `linear-gradient(135deg, ${palette.primary.main}, ${palette.primary.dark})`,
-                  boxShadow: `0 8px 24px ${palette.primary.main}35`,
-                  '&:hover': { boxShadow: `0 14px 36px ${palette.primary.main}50` },
-                }}
-              >
-                Join Today
-              </Button>
-              <Button
-                component={Link} to="/about" variant="outlined"
-                sx={{ borderColor: palette.primary.main, color: palette.primary.main }}
-              >
-                Our Story
-              </Button>
-            </Stack>
-          </Box>
-
-        </Container>
-      </Box>
-
-
-      {/* ── SERVICES ──────────────────────────────────────────── */}
-      <Box sx={{ background: palette.background.paper, py: { xs: 9, md: 14 } }}>
-        <Container maxWidth="lg">
-          <Box sx={{ textAlign: 'center', mb: 9 }}>
-            <Box sx={{
-              display: 'inline-block', px: 2.5, py: 0.6,
-              background: `${palette.primary.main}10`, border: `1px solid ${palette.primary.main}22`,
-              borderRadius: '100px', mb: 2.5,
-            }}>
-              <Typography variant="overline" sx={{ color: palette.primary.main }}>What We Offer</Typography>
-            </Box>
-            <Typography variant="h2" sx={{ color: palette.text.primary, mb: 2, fontSize: { xs: '2.2rem', md: '3rem' } }}>
-              Our Core Services
-            </Typography>
-            <Typography variant="body1" sx={{ color: palette.text.secondary, maxWidth: 520, mx: 'auto' }}>
-              Comprehensive financial services designed to empower every member and promote sustainable, shared growth.
-            </Typography>
-          </Box>
-
-          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2,1fr)', md: 'repeat(4,1fr)' }, gap: 3 }}>
-            {features.map((feature, index) => (
-              <Box key={index} sx={{
-                position: 'relative', p: 4,
-                borderRadius: `${br * 2}px`,
-                border: `1px solid ${feature.bg}`,
-                background: palette.background.paper,
-                transition: 'all 0.4s cubic-bezier(0.22,1,0.36,1)',
-                overflow: 'hidden', cursor: 'default',
-                '&:hover': {
-                  transform: 'translateY(-10px)',
-                  boxShadow: `0 30px 70px ${feature.color}18`,
-                  borderColor: 'transparent',
-                  background: `${feature.bg}88`,
-                  '& .svc-icon': { background: `linear-gradient(135deg, ${feature.color}, ${feature.accent})`, color: '#fff', transform: 'scale(1.08)' },
-                  '& .svc-arrow': { opacity: 1, transform: 'translateX(0)' },
-                },
-              }}>
-                <Box sx={{
-                  position: 'absolute', top: 0, right: 0, width: 90, height: 90,
-                  background: `radial-gradient(circle at top right, ${feature.color}10, transparent 70%)`,
-                  borderRadius: `0 ${br * 2}px 0 100%`,
-                }} />
-                <Box className="svc-icon" sx={{
-                  width: 54, height: 54, borderRadius: `${br}px`,
-                  background: `${feature.color}10`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  mb: 3, color: feature.color,
-                  transition: 'all 0.4s cubic-bezier(0.22,1,0.36,1)',
-                }}>
-                  {feature.icon}
-                </Box>
-                <Typography variant="h5" sx={{ color: palette.text.primary, mb: 1.5 }}>{feature.title}</Typography>
-                <Typography variant="body2" sx={{ color: palette.text.secondary }}>{feature.description}</Typography>
-                <Box className="svc-arrow" sx={{
-                  mt: 3, display: 'flex', alignItems: 'center', gap: 0.5,
-                  color: feature.color, opacity: 0, transform: 'translateX(-8px)',
-                  transition: 'all 0.35s cubic-bezier(0.22,1,0.36,1)',
-                }}>
-                  <Typography variant="caption" sx={{ fontWeight: 600 }}>Learn more</Typography>
-                  <ArrowForwardIcon sx={{ fontSize: 14 }} />
-                </Box>
-              </Box>
-            ))}
-          </Box>
-        </Container>
-      </Box>
-
-
-      {/* ── HOW IT WORKS ──────────────────────────────────────── */}
-      <Box sx={{ background: palette.background.default, py: { xs: 9, md: 14 } }}>
-        <Container maxWidth="lg">
-          <Box sx={{ textAlign: 'center', mb: 9 }}>
-            <Box sx={{
-              display: 'inline-block', px: 2.5, py: 0.6,
-              background: `${palette.primary.main}10`, border: `1px solid ${palette.primary.main}22`,
-              borderRadius: '100px', mb: 2.5,
-            }}>
-              <Typography variant="overline" sx={{ color: palette.primary.main }}>The Process</Typography>
-            </Box>
-            <Typography variant="h2" sx={{ color: palette.text.primary, fontSize: { xs: '2.2rem', md: '3rem' } }}>
-              How It Works
-            </Typography>
-          </Box>
-
-          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2,1fr)', md: 'repeat(4,1fr)' }, gap: 4, position: 'relative' }}>
-            <Box sx={{
-              display: { xs: 'none', md: 'block' },
-              position: 'absolute', top: 36, left: '12.5%', right: '12.5%', height: 1,
-              background: `linear-gradient(90deg, transparent, ${palette.primary.main}30, ${palette.primary.main}50, ${palette.primary.main}30, transparent)`,
-            }} />
-            {howItWorks.map((step, i) => (
-              <Box key={i} sx={{ textAlign: 'center', position: 'relative' }}>
-                <Box sx={{
-                  width: 72, height: 72, borderRadius: '50%', mx: 'auto', mb: 3,
-                  background: i === 0 ? `linear-gradient(135deg, ${palette.primary.main}, ${palette.primary.dark})` : palette.background.paper,
-                  border: `2px solid ${i === 0 ? 'transparent' : palette.primary.main + '30'}`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  boxShadow: i === 0 ? `0 12px 36px ${palette.primary.main}35` : '0 4px 20px rgba(0,0,0,0.06)',
-                  position: 'relative', zIndex: 1,
-                  transition: 'all 0.35s cubic-bezier(0.22,1,0.36,1)',
-                  '&:hover': {
-                    background: `linear-gradient(135deg, ${palette.primary.main}, ${palette.primary.dark})`,
-                    transform: 'scale(1.08)',
-                    boxShadow: `0 16px 40px ${palette.primary.main}40`,
-                  },
-                  '&:hover .step-num': { color: '#fff !important' },
-                }}>
-                  <Typography className="step-num" variant="h5" sx={{
-                    color: i === 0 ? '#fff' : palette.primary.main,
-                    transition: 'color 0.35s',
-                  }}>
-                    {step.step}
-                  </Typography>
-                </Box>
-                <Typography variant="h6" sx={{ color: palette.text.primary, mb: 1.5 }}>{step.title}</Typography>
-                <Typography variant="body2" sx={{ color: palette.text.secondary }}>{step.desc}</Typography>
-              </Box>
-            ))}
-          </Box>
-        </Container>
-      </Box>
-
-
-      {/* ── VALUES ────────────────────────────────────────────── */}
-      <Box sx={{ background: palette.background.paper, py: { xs: 9, md: 14 } }}>
-        <Container maxWidth="lg">
-          <Box sx={{
-            display: 'grid',
-            gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
-            gap: { xs: 8, md: 12 },
-            alignItems: 'center',
-          }}>
-            <Box>
-              <Box sx={{
-                display: 'inline-block', px: 2.5, py: 0.6,
-                background: `${palette.primary.main}10`, border: `1px solid ${palette.primary.main}22`,
-                borderRadius: '100px', mb: 2.5,
-              }}>
-                <Typography variant="overline" sx={{ color: palette.primary.main }}>Our Values</Typography>
-              </Box>
-              <Typography variant="h2" sx={{ color: palette.text.primary, fontSize: { xs: '2.2rem', md: '3rem' }, lineHeight: 1.15, mb: 2.5 }}>
-                Built on Principles<br />
-                <Box component="span" sx={{ fontStyle: 'italic', fontWeight: 300, color: palette.primary.main }}>
-                  That Last
-                </Box>
-              </Typography>
-              <Typography variant="body1" sx={{ color: palette.text.secondary, mb: 4 }}>
-                Our cooperative is grounded in the ICA cooperative principles — voluntary membership,
-                democratic governance, economic participation, and concern for community.
-              </Typography>
-              <Button
-                component={Link} to="/about" variant="outlined"
-                endIcon={<ArrowForwardIcon />}
-                sx={{ borderColor: palette.primary.main, color: palette.primary.main, '&:hover': { background: `${palette.primary.main}08` } }}
-              >
-                Learn Our Story
-              </Button>
-            </Box>
-
-            <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 3 }}>
-              {values.map((v, i) => (
-                <Box key={i} sx={{
-                  p: 3, borderRadius: `${br * 1.5}px`,
-                  border: `1px solid ${palette.background.default}`,
-                  background: palette.background.paper,
-                  transition: 'all 0.35s cubic-bezier(0.22,1,0.36,1)',
-                  '&:hover': {
-                    transform: 'translateY(-6px)',
-                    boxShadow: `0 20px 50px ${palette.primary.main}14`,
-                    borderColor: `${palette.primary.main}20`,
-                    background: palette.background.default,
-                  },
-                }}>
-                  <Box sx={{
-                    width: 46, height: 46, borderRadius: `${br}px`, mb: 2,
-                    background: `linear-gradient(135deg, ${palette.primary.main}18, ${palette.primary.dark}10)`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: palette.primary.main,
-                  }}>
-                    {v.icon}
-                  </Box>
-                  <Typography variant="h6" sx={{ color: palette.text.primary, mb: 1 }}>{v.title}</Typography>
-                  <Typography variant="body2" sx={{ color: palette.text.secondary }}>{v.desc}</Typography>
-                </Box>
-              ))}
-            </Box>
-          </Box>
-        </Container>
-      </Box>
-
-
-      {/* ── GALLERY ───────────────────────────────────────────── */}
-      <Box sx={{ background: palette.background.default, py: { xs: 9, md: 14 } }}>
-        <Container maxWidth="lg">
-          <Box sx={{ textAlign: 'center', mb: 7 }}>
-            <Typography variant="h2" sx={{ color: palette.text.primary, mb: 1.5, fontSize: { xs: '2.2rem', md: '3rem' } }}>
-              Life at CodeBridge
-            </Typography>
-            <Typography variant="body1" sx={{ color: palette.text.secondary }}>
-              Moments of community, growth, and shared success
-            </Typography>
-          </Box>
-
-          <Box sx={{
-            display: 'grid',
-            gridTemplateColumns: { xs: '1fr', md: '1.35fr 0.65fr' },
-            gap: 2.5,
-            alignItems: 'stretch',
-          }}>
-            <Box sx={{
-              position: 'relative',
-              borderRadius: `${br * 1.75}px`,
-              overflow: 'hidden',
-              height: { xs: 280, md: 520 },
-              boxShadow: `0 22px 60px ${palette.primary.main}18`,
-            }}>
-              <Box component="img" src={gallery[0]} alt="Life in CodeBridge highlight"
-                sx={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-            </Box>
-
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 2.5 }}>
-              {gallery.slice(1).map((img, i) => (
-                <Box key={i} sx={{
-                  borderRadius: `${br * 1.5}px`, overflow: 'hidden',
-                  height: { xs: 170, md: i === 2 ? 250 : 200 },
-                  position: 'relative',
-                  '&:hover img': { transform: 'scale(1.06)' },
-                }}>
-                  <Box component="img" src={img} alt={`Life in CodeBridge ${i + 2}`}
-                    sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s ease' }} />
-                </Box>
-              ))}
-            </Box>
-          </Box>
-        </Container>
-      </Box>
-
-
-      {/* ── TESTIMONIALS ──────────────────────────────────────── */}
-      <Box sx={{ background: palette.background.paper, py: { xs: 9, md: 14 } }}>
-        <Container maxWidth="lg">
-          <Box sx={{ textAlign: 'center', mb: 8 }}>
-            <Box sx={{
-              display: 'inline-block', px: 2.5, py: 0.6,
-              background: `${palette.primary.main}10`, border: `1px solid ${palette.primary.main}22`,
-              borderRadius: '100px', mb: 2.5,
-            }}>
-              <Typography variant="overline" sx={{ color: palette.primary.main }}>Member Stories</Typography>
-            </Box>
-            <Typography variant="h2" sx={{ color: palette.text.primary, mb: 2, fontSize: { xs: '2.2rem', md: '3rem' } }}>
-              What Our Members Say
-            </Typography>
-            <Typography variant="body1" sx={{ color: palette.text.secondary }}>
-              Real experiences from our growing community across Nigeria
-            </Typography>
-          </Box>
-
-          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(3,1fr)' }, gap: 3 }}>
-            {testimonials.map((t, i) => (
-              <Box key={i} sx={{
-                background: i === 1 ? `linear-gradient(145deg, ${palette.primary.dark}, ${palette.primary.main})` : palette.background.default,
-                borderRadius: `${br * 2}px`, p: 4,
-                border: i === 1 ? 'none' : `1px solid ${palette.background.default}`,
-                position: 'relative', overflow: 'hidden',
-                transition: 'all 0.4s cubic-bezier(0.22,1,0.36,1)',
-                '&:hover': {
-                  transform: 'translateY(-8px)',
-                  boxShadow: i === 1 ? `0 32px 80px ${palette.primary.dark}55` : `0 24px 60px ${t.color}15`,
-                },
-              }}>
-                <Typography sx={{
-                  fontFamily: typography.fontFamily, fontSize: '6rem', lineHeight: 0.5,
-                  color: i === 1 ? 'rgba(255,255,255,0.12)' : `${t.color}14`,
-                  fontWeight: 700, mb: 2.5, display: 'block',
-                }}>
-                  "
-                </Typography>
-                <Box sx={{ display: 'flex', gap: 0.3, mb: 2.5 }}>
-                  {[...Array(t.stars)].map((_, si) => (
-                    <StarIcon key={si} sx={{ fontSize: 14, color: i === 1 ? palette.warning.light : gold }} />
-                  ))}
-                </Box>
-                <Typography variant="body2" sx={{
-                  color: i === 1 ? 'rgba(255,255,255,0.85)' : palette.text.secondary,
-                  lineHeight: 1.85, mb: 3.5, fontSize: '0.95rem',
-                }}>
-                  {t.quote}
-                </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                  <Box sx={{
-                    width: 48, height: 48, borderRadius: '50%', overflow: 'hidden',
-                    border: `2px solid ${i === 1 ? 'rgba(255,255,255,0.3)' : t.color + '30'}`,
-                    flexShrink: 0,
-                  }}>
-                    <Box component="img" src={t.img} alt={t.name}
-                      sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  </Box>
-                  <Box>
-                    <Typography variant="body2" sx={{ fontWeight: 600, color: i === 1 ? '#fff' : palette.text.primary }}>{t.name}</Typography>
-                    <Typography variant="caption" sx={{ color: i === 1 ? 'rgba(255,255,255,0.55)' : '#94a3b8' }}>{t.role}</Typography>
-                  </Box>
-                </Box>
-              </Box>
-            ))}
-          </Box>
-        </Container>
-      </Box>
-
-
-      {/* ── CTA ───────────────────────────────────────────────── */}
-      <Box sx={{
-        position: 'relative',
-        background: heroGradient,
-        py: { xs: 10, md: 16 }, overflow: 'hidden',
-      }}>
-        {[{ size: 500, top: -100, right: -100 }, { size: 400, bottom: -100, left: -100 }, { size: 200, top: '20%', right: '15%' }].map((b, i) => (
-          <Box key={i} sx={{
-            position: 'absolute', width: b.size, height: b.size, borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(255,255,255,0.07), transparent 70%)',
-            top: b.top, bottom: b.bottom, right: b.right, left: b.left, pointerEvents: 'none',
-          }} />
-        ))}
-        <Box sx={{
-          position: 'absolute', right: { md: 60 }, top: '50%', transform: 'translateY(-50%)',
-          width: 280, height: 280, borderRadius: '50%', overflow: 'hidden',
-          opacity: 0.1, display: { xs: 'none', md: 'block' }, pointerEvents: 'none',
-        }}>
-          <Box component="img" src="https://images.unsplash.com/photo-1560264280-88b68371db39?w=560&q=80"
-            alt="" sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </Box>
 
-        <Container maxWidth="md" sx={{ position: 'relative', zIndex: 2 }}>
-          <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="h1" sx={{ color: '#fff', mb: 2, fontSize: { xs: '2.6rem', md: '3.8rem' } }}>
-              Get Started Today
-            </Typography>
-            <Typography variant="subtitle1" sx={{ color: 'rgba(255,255,255,0.62)', mb: 6, maxWidth: 520, mx: 'auto', fontWeight: 300 }}>
-              Become part of a financially empowered community where members support
-              one another to achieve common economic goals — together.
-            </Typography>
-            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifyContent: 'center', mb: 6 }}>
-              <Button
-                component={Link} to="/apply" variant="contained" size="large"
-                endIcon={<ArrowForwardIcon />}
+        {/* ── SERVICES BENTO ───────────────────────────────────── */}
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap }}>
+          <Box sx={{ position: 'relative', borderRadius: radius, overflow: 'hidden', minHeight: { xs: 320, md: 'auto' } }}>
+            {rotImages.map((src, i) => (
+              <Box key={i} component="img" src={src} alt="CodeBridge community"
                 sx={{
-                  background: '#fff', color: palette.primary.dark,
-                  boxShadow: '0 10px 40px rgba(0,0,0,0.22)',
-                  '&:hover': { background: palette.background.default, boxShadow: '0 18px 56px rgba(0,0,0,0.28)' },
-                }}
-              >
-                Get Started Today
-              </Button>
-              <Button
-                component={Link} to="/apply" variant="outlined" size="large"
-                sx={{
-                  borderColor: 'rgba(255,255,255,0.3)', color: '#fff',
-                  backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.07)',
-                  '&:hover': { borderColor: 'rgba(255,255,255,0.65)', background: 'rgba(255,255,255,0.14)' },
-                }}
-              >
-                Apply for Loan
-              </Button>
-            </Stack>
+                  position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover',
+                  opacity: i === rotIndex ? 1 : 0, transition: 'opacity 1s ease',
+                }} />
+            ))}
+          </Box>
 
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
-              <Box sx={{ display: 'flex' }}>
-                {[
-                  'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=60&q=80',
-                  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&q=80',
-                  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&q=80',
-                  'https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=60&q=80',
-                ].map((img, i) => (
-                  <Box key={i} sx={{
-                    width: 36, height: 36, borderRadius: '50%', overflow: 'hidden',
-                    border: '2px solid rgba(255,255,255,0.4)',
-                    ml: i > 0 ? -1.5 : 0, position: 'relative', zIndex: 4 - i,
-                  }}>
-                    <Box component="img" src={img} alt="" sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  </Box>
-                ))}
-              </Box>
-              <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.65)' }}>
-                Join{' '}
-                <Box component="span" sx={{ color: '#fff', fontWeight: 600 }}>30</Box>
-                {' '}members already growing with us
+          <Box sx={{ background: palette.primary.main, borderRadius: radius, p: { xs: 3.5, md: 5 }, color: '#fff' }}>
+            <Typography variant="h3" sx={{ color: '#fff', fontSize: { xs: '1.75rem', md: '2.2rem' }, mb: { xs: 4, md: 6 }, maxWidth: 420 }}>
+              How We Support Our Members
+            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 3, md: 3.5 } }}>
+              {services.map((s) => featureRow(s.icon, s.title, s.desc, true))}
+            </Box>
+            <Button component={Link} to="/services" sx={{ ...limeButton, mt: { xs: 4, md: 5 } }}>
+              Explore services
+            </Button>
+          </Box>
+        </Box>
+
+        {/* ── VALUES BENTO ─────────────────────────────────────── */}
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap }}>
+          <Box sx={{ background: palette.accent.main, borderRadius: radius, p: { xs: 3.5, md: 5 }, color: palette.accent.contrastText, order: { xs: 2, md: 1 } }}>
+            <Typography variant="h3" sx={{ color: palette.accent.contrastText, fontSize: { xs: '1.75rem', md: '2.2rem' }, mb: 2, maxWidth: 460 }}>
+              Built on Principles That Last
+            </Typography>
+            <Typography variant="body1" sx={{ color: 'rgba(15,46,37,0.75)', mb: { xs: 4, md: 5 }, maxWidth: 480 }}>
+              Grounded in the ICA cooperative principles: voluntary membership, democratic governance,
+              economic participation, and concern for community.
+            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 3, md: 3.5 } }}>
+              {values.map((v) => featureRow(v.icon, v.title, v.desc, false))}
+            </Box>
+            <Button component={Link} to="/about" sx={{ ...forestButton, mt: { xs: 4, md: 5 } }}>
+              Learn our story
+            </Button>
+          </Box>
+          <Box sx={{ order: { xs: 1, md: 2 } }}>
+            {imageTile(lifeCodebridge5, 'CodeBridge members at an event', { xs: 340, md: '100%' })}
+          </Box>
+        </Box>
+
+        {/* ── IMPACT ───────────────────────────────────────────── */}
+        <Box sx={{ background: '#F7F7F2', borderRadius: radius, px: { xs: 3, md: 6 }, py: { xs: 5, md: 7 } }}>
+          <Typography variant="h5" sx={{ color: palette.text.primary, mb: { xs: 4, md: 6 }, fontWeight: 400 }}>
+            Impact You Can Measure
+          </Typography>
+          <Box sx={{
+            display: 'grid',
+            gridTemplateColumns: { xs: '1fr 1fr', md: 'repeat(4, 1fr)' },
+            rowGap: 5, columnGap: 3,
+            mb: { xs: 5, md: 7 },
+          }}>
+            <BigStat value={100} prefix="₦" suffix="M+" label="Total disbursed" />
+            <BigStat value={30} suffix="+" label="Active members" />
+            <BigStat value={98} suffix="%" label="Loan approval rate" />
+            <BigStat value={150} prefix="₦" suffix="K" label="Average loan size" />
+          </Box>
+
+          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1.3fr 1fr' }, gap }}>
+            {/* President quote */}
+            <Box sx={{ background: palette.primary.main, borderRadius: '20px', p: { xs: 3, md: 4 }, color: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 3 }}>
+              <Typography sx={{ fontSize: { xs: '1.1rem', md: '1.3rem' }, fontWeight: 300, lineHeight: 1.55, letterSpacing: '-0.01em' }}>
+                “Six years ago we started with 2 members and a shared belief.
+                Today, over 30 members are building better futures together.”
               </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                <Box component="img" src={presidentPhoto} alt="Edima Ben Ekpo"
+                  sx={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover', border: `2px solid ${palette.accent.main}` }} />
+                <Box sx={{ minWidth: 0 }}>
+                  <Typography variant="body2" sx={{ color: '#fff', fontWeight: 500 }}>Edima Ben Ekpo</Typography>
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.6)' }}>President, CodeBridge</Typography>
+                </Box>
+              </Box>
+            </Box>
+
+            {/* Small facts */}
+            <Box sx={{ display: 'grid', gridTemplateRows: 'repeat(3, 1fr)', gap: 1 }}>
+              {[
+                { icon: <ScheduleOutlinedIcon />, top: '48-hour', bottom: 'Loan decisions' },
+                { icon: <GroupsOutlinedIcon />, top: 'Member-owned', bottom: 'Democratic governance' },
+                { icon: <CalendarMonthOutlinedIcon />, top: 'Since 2016', bottom: 'Serving our community' },
+              ].map((f) => (
+                <Box key={f.top} sx={{
+                  background: '#fff', borderRadius: '16px', px: 2.5, py: 2,
+                  display: 'flex', alignItems: 'center', gap: 2,
+                  border: `1px solid ${palette.divider}`,
+                }}>
+                  <Box sx={{
+                    width: 40, height: 40, borderRadius: '50%', flexShrink: 0,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    background: palette.accent.light, color: palette.primary.main,
+                    '& svg': { fontSize: 20 },
+                  }}>
+                    {f.icon}
+                  </Box>
+                  <Box>
+                    <Typography variant="body2" sx={{ color: palette.text.primary, fontWeight: 500, lineHeight: 1.3 }}>{f.top}</Typography>
+                    <Typography variant="caption" sx={{ color: palette.text.secondary }}>{f.bottom}</Typography>
+                  </Box>
+                </Box>
+              ))}
             </Box>
           </Box>
-        </Container>
-      </Box>
+        </Box>
 
+        {/* ── HOW IT WORKS ─────────────────────────────────────── */}
+        <Box sx={{ pt: { xs: 5, md: 8 }, pb: { xs: 2, md: 3 }, px: { xs: 1, md: 2 } }}>
+          <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 3, flexWrap: 'wrap', mb: { xs: 3, md: 4 } }}>
+            <Typography variant="h3" sx={{ fontSize: { xs: '1.75rem', md: '2.2rem' } }}>How It Works</Typography>
+            <Typography variant="body1" sx={{ color: palette.text.secondary, maxWidth: 420 }}>
+              Four simple steps from sign-up to growing with a community that has your back.
+            </Typography>
+          </Box>
+          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: 'repeat(4, 1fr)' }, gap }}>
+            {howItWorks.map((s, i) => (
+              <Box key={s.step} sx={{
+                background: i === 0 ? palette.primary.main : '#fff',
+                color: i === 0 ? '#fff' : palette.text.primary,
+                borderRadius: '22px', p: { xs: 3, md: 3.5 },
+                border: i === 0 ? 'none' : `1px solid ${palette.divider}`,
+                minHeight: { md: 240 },
+                display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 4,
+              }}>
+                <Box sx={{
+                  width: 44, height: 44, borderRadius: '50%',
+                  background: palette.accent.main, color: palette.accent.contrastText,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontWeight: 500, fontSize: '0.9rem', fontVariantNumeric: 'tabular-nums',
+                }}>
+                  {s.step}
+                </Box>
+                <Box>
+                  <Typography variant="h6" sx={{ color: 'inherit', mb: 0.75 }}>{s.title}</Typography>
+                  <Typography variant="body2" sx={{ color: i === 0 ? 'rgba(255,255,255,0.72)' : palette.text.secondary }}>{s.desc}</Typography>
+                </Box>
+              </Box>
+            ))}
+          </Box>
+        </Box>
+
+        {/* ── LIFE AT CODEBRIDGE ───────────────────────────────── */}
+        <Box sx={{ pt: { xs: 4, md: 6 }, px: { xs: 1, md: 2 } }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 2, mb: { xs: 3, md: 4 } }}>
+            <Typography variant="h3" sx={{ fontSize: { xs: '1.75rem', md: '2.2rem' } }}>Life at CodeBridge</Typography>
+            <Button component={Link} to="/gallery" sx={{ ...forestButton, display: { xs: 'none', sm: 'inline-flex' } }}>
+              View gallery
+            </Button>
+          </Box>
+          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' }, gap }}>
+            {moments.map((m) => (
+              <Box key={m.title} component={Link} to="/gallery" sx={{
+                position: 'relative', borderRadius: '22px', overflow: 'hidden',
+                height: { xs: 360, md: 420 }, display: 'block', textDecoration: 'none',
+                '& img': { transition: 'transform 0.8s cubic-bezier(0.22,1,0.36,1)' },
+                '&:hover img': { transform: 'scale(1.05)' },
+              }}>
+                <Box component="img" src={m.img} alt={m.title} sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 45%, rgba(15,46,37,0.9) 100%)' }} />
+                <Box sx={{ position: 'absolute', left: 0, right: 0, bottom: 0, p: 3 }}>
+                  <Typography sx={{ color: '#fff', fontWeight: 500, fontSize: '1.1rem', lineHeight: 1.35, mb: 2, maxWidth: 280 }}>
+                    {m.title}
+                  </Typography>
+                  <Box sx={{
+                    display: 'inline-flex', px: 2.25, py: 0.9, borderRadius: '100px',
+                    background: palette.accent.main, color: palette.accent.contrastText,
+                    fontSize: '0.82rem', fontWeight: 500,
+                  }}>
+                    View more
+                  </Box>
+                </Box>
+              </Box>
+            ))}
+          </Box>
+        </Box>
+
+        {/* ── TESTIMONIALS ─────────────────────────────────────── */}
+        <Box sx={{ pt: { xs: 6, md: 9 }, pb: { xs: 2, md: 3 }, px: { xs: 1, md: 2 } }}>
+          <Typography variant="h3" sx={{ fontSize: { xs: '1.75rem', md: '2.2rem' }, mb: { xs: 3, md: 4 } }}>
+            What Our Members Say
+          </Typography>
+          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: `repeat(${Math.min(testimonials.length, 3)}, 1fr)` }, gap }}>
+            {testimonials.map((t, i) => {
+              const dark = i === 1;
+              return (
+                <Box key={t.name} sx={{
+                  background: dark ? palette.primary.main : '#fff',
+                  border: dark ? 'none' : `1px solid ${palette.divider}`,
+                  borderRadius: '22px', p: { xs: 3, md: 4 },
+                  display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 4,
+                }}>
+                  <Box>
+                    <Box sx={{ display: 'flex', gap: 0.25, mb: 2.5 }}>
+                      {[...Array(5)].map((_, s) => (
+                        <StarRoundedIcon key={s} sx={{ fontSize: 18, color: dark ? palette.accent.main : palette.warning.main }} />
+                      ))}
+                    </Box>
+                    <Typography variant="body1" sx={{ color: dark ? 'rgba(255,255,255,0.86)' : palette.text.primary, fontWeight: 300 }}>
+                      {t.quote}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                    <Box component="img" src={t.img} alt={t.name}
+                      sx={{ width: 46, height: 46, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
+                    <Box sx={{ minWidth: 0 }}>
+                      <Typography variant="body2" sx={{ fontWeight: 500, color: dark ? '#fff' : palette.text.primary }}>{t.name}</Typography>
+                      <Typography variant="caption" sx={{ color: dark ? 'rgba(255,255,255,0.6)' : palette.text.secondary }}>{t.role}</Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              );
+            })}
+          </Box>
+        </Box>
+
+        {/* ── CTA ──────────────────────────────────────────────── */}
+        <Box sx={{
+          mt: { xs: 3, md: 5 },
+          background: palette.accent.main,
+          borderRadius: radius,
+          px: { xs: 3, md: 6 }, py: { xs: 6, md: 9 },
+          textAlign: 'center',
+          position: 'relative', overflow: 'hidden',
+        }}>
+          <Box aria-hidden sx={{ position: 'absolute', width: 260, height: 260, borderRadius: '50%', border: '1px solid rgba(15,46,37,0.15)', left: -90, bottom: -120 }} />
+          <Box aria-hidden sx={{ position: 'absolute', width: 260, height: 260, borderRadius: '50%', border: '1px solid rgba(15,46,37,0.15)', right: -90, top: -120 }} />
+          <Typography variant="h2" sx={{ color: palette.accent.contrastText, fontSize: { xs: '2rem', md: '2.8rem' }, mb: 2, position: 'relative' }}>
+            Ready to Make a Difference?
+          </Typography>
+          <Typography variant="body1" sx={{ color: 'rgba(15,46,37,0.75)', maxWidth: 520, mx: 'auto', mb: 4, position: 'relative' }}>
+            Become part of a financially empowered community where members support one another
+            to reach shared economic goals, together.
+          </Typography>
+          <Box sx={{ display: 'flex', gap: 1.5, justifyContent: 'center', flexWrap: 'wrap', position: 'relative' }}>
+            <Button component={Link} to="/apply" size="large" sx={forestButton}>Join today</Button>
+            <Button component={Link} to="/contact" size="large" sx={{
+              color: palette.accent.contrastText, border: '1.5px solid rgba(15,46,37,0.3)',
+              '&:hover': { background: 'rgba(15,46,37,0.06)', borderColor: palette.accent.contrastText },
+            }}>
+              Talk to us
+            </Button>
+          </Box>
+        </Box>
+
+      </Box>
     </Box>
   );
 };

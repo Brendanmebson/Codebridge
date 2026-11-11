@@ -1,164 +1,200 @@
 import { createTheme } from '@mui/material/styles';
 
-// Inject Poppins from Google Fonts
+// Lexend: wide, geometric sans that matches the bento / editorial look
 const fontLink = document.createElement('link');
 fontLink.href =
-  'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,900;1,300;1,400;1,600&display=swap';
+  'https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap';
 fontLink.rel = 'stylesheet';
-if (!document.head.querySelector('[href*="Poppins"]')) {
+if (!document.head.querySelector('[href*="Lexend"]')) {
   document.head.appendChild(fontLink);
 }
+
+// Custom "accent" palette slot for the lime highlight colour
+declare module '@mui/material/styles' {
+  interface Palette {
+    accent: Palette['primary'];
+  }
+  interface PaletteOptions {
+    accent?: PaletteOptions['primary'];
+  }
+}
+
+const FONT = '"Lexend", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif';
+
+// Core brand tokens
+export const brand = {
+  forest: '#173F33',     // deep green surfaces (cards, footer)
+  forestDeep: '#0F2E25',
+  forestSoft: '#2C6450',
+  lime: '#E8F35E',       // highlight cards + primary CTAs
+  limeDeep: '#D6E244',
+  canvas: '#EFEFE8',     // page background
+  ink: '#132A21',
+  muted: '#5A6B62',
+  line: 'rgba(19,42,33,0.08)',
+};
 
 export const theme = createTheme({
   palette: {
     mode: 'light',
 
     primary: {
-      main: '#256B2A',
-      light: '#4CAF50',
-      dark: '#1B5E20',
+      main: brand.forest,
+      light: brand.forestSoft,
+      dark: brand.forestDeep,
       contrastText: '#FFFFFF',
     },
 
     secondary: {
-      main: '#66BB6A',
-      light: '#81C784',
-      dark: '#2F7D33',
+      main: '#3F8A5F',
+      light: '#B5DA6E',
+      dark: '#245A43',
       contrastText: '#FFFFFF',
     },
 
+    accent: {
+      main: brand.lime,
+      light: '#F3F8A6',
+      dark: brand.limeDeep,
+      contrastText: brand.forestDeep,
+    },
+
     success: {
-      main: '#43A047',
-      light: '#66BB6A',
-      dark: '#2E7D32',
+      main: '#3F8A5F',
+      light: '#6FB585',
+      dark: '#245A43',
     },
 
     error: {
-      main: '#D32F2F',
-      light: '#EF5350',
-      dark: '#C62828',
+      main: '#C8423B',
+      light: '#E06A62',
+      dark: '#A2302A',
     },
 
     warning: {
-      main: '#F9A825',
-      light: '#FBC02D',
-      dark: '#F57F17',
+      main: '#E0A526',
+      light: '#F1C24E',
+      dark: '#B98111',
     },
 
     info: {
-      main: '#26A69A',
-      light: '#4DB6AC',
-      dark: '#00796B',
+      main: '#2F7F78',
+      light: '#5FA9A2',
+      dark: '#1E5C57',
     },
 
     background: {
-      default: '#F1F8E9',
+      default: brand.canvas,
       paper: '#FFFFFF',
     },
 
     text: {
-      primary: '#0D1F0E',
-      secondary: '#4F6B52',
+      primary: brand.ink,
+      secondary: brand.muted,
     },
+
+    divider: brand.line,
   },
 
   typography: {
-    fontFamily: '"Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif',
+    fontFamily: FONT,
 
     h1: {
-      fontFamily: '"Poppins", sans-serif',
+      fontFamily: FONT,
       fontSize: '3.5rem',
-      fontWeight: 700,
-      lineHeight: 1.1,
-      letterSpacing: '-0.02em',
+      fontWeight: 500,
+      lineHeight: 1.08,
+      letterSpacing: '-0.03em',
     },
 
     h2: {
-      fontFamily: '"Poppins", sans-serif',
+      fontFamily: FONT,
       fontSize: '2.8rem',
-      fontWeight: 600,
-      lineHeight: 1.15,
-      letterSpacing: '-0.015em',
+      fontWeight: 500,
+      lineHeight: 1.12,
+      letterSpacing: '-0.025em',
     },
 
     h3: {
-      fontFamily: '"Poppins", sans-serif',
+      fontFamily: FONT,
       fontSize: '2.2rem',
-      fontWeight: 600,
-      lineHeight: 1.2,
-      letterSpacing: '-0.01em',
+      fontWeight: 500,
+      lineHeight: 1.18,
+      letterSpacing: '-0.02em',
     },
 
     h4: {
-      fontFamily: '"Poppins", sans-serif',
+      fontFamily: FONT,
       fontSize: '1.6rem',
-      fontWeight: 600,
-      lineHeight: 1.3,
+      fontWeight: 500,
+      lineHeight: 1.28,
+      letterSpacing: '-0.015em',
     },
 
     h5: {
-      fontFamily: '"Poppins", sans-serif',
+      fontFamily: FONT,
       fontSize: '1.25rem',
-      fontWeight: 600,
+      fontWeight: 500,
       lineHeight: 1.4,
+      letterSpacing: '-0.01em',
     },
 
     h6: {
-      fontFamily: '"Poppins", sans-serif',
-      fontSize: '1rem',
-      fontWeight: 600,
-      lineHeight: 1.5,
+      fontFamily: FONT,
+      fontSize: '1.05rem',
+      fontWeight: 500,
+      lineHeight: 1.45,
     },
 
     body1: {
-      fontFamily: '"Poppins", sans-serif',
+      fontFamily: FONT,
       fontSize: '1rem',
-      fontWeight: 300,
-      lineHeight: 1.85,
-    },
-
-    body2: {
-      fontFamily: '"Poppins", sans-serif',
-      fontSize: '0.875rem',
       fontWeight: 300,
       lineHeight: 1.75,
     },
 
+    body2: {
+      fontFamily: FONT,
+      fontSize: '0.9rem',
+      fontWeight: 300,
+      lineHeight: 1.7,
+    },
+
     subtitle1: {
-      fontFamily: '"Poppins", sans-serif',
+      fontFamily: FONT,
       fontSize: '1.1rem',
-      fontWeight: 400,
-      lineHeight: 1.8,
+      fontWeight: 300,
+      lineHeight: 1.7,
     },
 
     subtitle2: {
-      fontFamily: '"Poppins", sans-serif',
+      fontFamily: FONT,
       fontSize: '0.85rem',
       fontWeight: 500,
       lineHeight: 1.6,
-      letterSpacing: '0.08em',
+      letterSpacing: '0.02em',
     },
 
     caption: {
-      fontFamily: '"Poppins", sans-serif',
-      fontSize: '0.75rem',
+      fontFamily: FONT,
+      fontSize: '0.78rem',
       fontWeight: 400,
       lineHeight: 1.5,
     },
 
     overline: {
-      fontFamily: '"Poppins", sans-serif',
-      fontSize: '0.72rem',
-      fontWeight: 600,
-      letterSpacing: '0.1em',
-      textTransform: 'uppercase' as const,
+      fontFamily: FONT,
+      fontSize: '0.75rem',
+      fontWeight: 500,
+      letterSpacing: '0.04em',
+      textTransform: 'none' as const,
     },
 
     button: {
-      fontFamily: '"Poppins", sans-serif',
+      fontFamily: FONT,
       textTransform: 'none' as const,
-      fontWeight: 600,
-      letterSpacing: '0.01em',
+      fontWeight: 500,
+      letterSpacing: 0,
     },
   },
 
@@ -167,25 +203,34 @@ export const theme = createTheme({
   },
 
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          backgroundColor: brand.canvas,
+          display: 'block',
+        },
+      },
+    },
+
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 14,
-          padding: '10px 28px',
+          borderRadius: 100,
+          padding: '10px 26px',
           fontSize: '0.92rem',
-          fontFamily: '"Poppins", sans-serif',
-          fontWeight: 600,
+          fontWeight: 500,
           boxShadow: 'none',
-          transition: 'all 0.3s cubic-bezier(0.22,1,0.36,1)',
+          transition: 'background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.2s ease',
           '&:hover': {
-            boxShadow: '0px 12px 32px rgba(46, 125, 50, 0.25)',
-            transform: 'translateY(-2px)',
+            boxShadow: 'none',
+          },
+          '&:active': {
+            transform: 'scale(0.97)',
           },
         },
         sizeLarge: {
-          padding: '14px 36px',
-          fontSize: '0.95rem',
-          borderRadius: 16,
+          padding: '14px 34px',
+          fontSize: '0.98rem',
         },
         sizeSmall: {
           padding: '6px 18px',
@@ -193,8 +238,12 @@ export const theme = createTheme({
         },
         contained: {
           '&:hover': {
-            boxShadow: '0px 16px 40px rgba(46, 125, 50, 0.3)',
+            boxShadow: 'none',
           },
+        },
+        outlined: {
+          borderWidth: 1.5,
+          '&:hover': { borderWidth: 1.5 },
         },
       },
     },
@@ -203,12 +252,9 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 24,
-          boxShadow: '0px 2px 12px rgba(0, 0, 0, 0.06)',
-          transition: 'all 0.35s cubic-bezier(0.22,1,0.36,1)',
-          '&:hover': {
-            boxShadow: '0px 20px 48px rgba(46, 125, 50, 0.12)',
-            transform: 'translateY(-4px)',
-          },
+          boxShadow: 'none',
+          border: `1px solid ${brand.line}`,
+          transition: 'transform 0.35s cubic-bezier(0.22,1,0.36,1)',
         },
       },
     },
@@ -218,7 +264,7 @@ export const theme = createTheme({
         root: {
           '& .MuiOutlinedInput-root': {
             borderRadius: 14,
-            fontFamily: '"Poppins", sans-serif',
+            backgroundColor: '#FFFFFF',
           },
         },
       },
@@ -228,7 +274,6 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 100,
-          fontFamily: '"Poppins", sans-serif',
           fontWeight: 500,
         },
       },

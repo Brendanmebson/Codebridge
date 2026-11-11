@@ -175,7 +175,7 @@ const Businesses: React.FC = () => {
   const theme = useTheme();
   const { palette, shape } = theme;
 
-  const heroGradient = `linear-gradient(150deg, ${palette.primary.dark} 0%, ${palette.primary.main} 50%, ${palette.secondary.dark} 100%)`;
+  const heroGradient = `linear-gradient(160deg, ${palette.primary.main} 0%, ${palette.primary.dark} 100%)`;
 
   const [openBiz, setOpenBiz] = React.useState<any>(null);
 
@@ -198,12 +198,12 @@ const Businesses: React.FC = () => {
   };
 
   return (
-    <Box sx={{ overflowX: 'hidden', background: palette.background.paper }}>
+    <Box sx={{ overflowX: 'hidden', background: palette.background.default }}>
       {/* Hero Section */}
       <Box
         sx={{
           position: 'relative',
-          background: heroGradient,
+          background: heroGradient, mx: { xs: 1.5, sm: 2, md: 3 }, borderRadius: { xs: '22px', md: '28px' }, 
           paddingTop: { xs: 10, md: 15 },
           paddingBottom: { xs: 10, md: 15 },
           textAlign: 'center',
@@ -229,11 +229,11 @@ const Businesses: React.FC = () => {
           }} />
           <Box sx={{
             position: 'absolute', inset: 0, pointerEvents: 'none',
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E")`,
+            display: 'none', backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E")`,
             backgroundSize: '200px', opacity: 0.6,
           }} />
           {[...Array(8)].map((_, i) => (
-            <Box key={i} sx={{
+            <Box key={i} sx={{ display: 'none',
               position: 'absolute', width: 4, height: 4, borderRadius: '50%',
               background: 'rgba(255,255,255,0.5)',
               top: `${10 + i * 11}%`, right: `${4 + (i % 4) * 4}%`,
@@ -278,7 +278,7 @@ const Businesses: React.FC = () => {
             right: 0,
             height: 50,
             background: palette.background.paper,
-            clipPath: 'ellipse(55% 100% at 50% 100%)',
+            display: 'none',
           }}
         />
       </Box>

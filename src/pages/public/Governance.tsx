@@ -39,7 +39,7 @@ const Governance: React.FC = () => {
   const theme = useTheme();
   const { palette, typography, shape } = theme;
   const br = shape.borderRadius as number;
-  const heroGradient = `linear-gradient(150deg, ${palette.primary.dark} 0%, ${palette.primary.main} 55%, ${palette.secondary.dark} 100%)`;
+  const heroGradient = `linear-gradient(160deg, ${palette.primary.main} 0%, ${palette.primary.dark} 100%)`;
 
   const principles = [
     { num: '01', title: 'Voluntary & Open Membership', icon: <EmojiPeopleIcon sx={{ fontSize: 22 }} />, desc: 'Cooperatives are voluntary organisations, open to all persons able to use their services without gender, social, racial, political or religious discrimination.', color: palette.primary.dark, accent: palette.primary.main },
@@ -95,12 +95,12 @@ const Governance: React.FC = () => {
   const { ref: testiRef, visible: testiVisible } = useFadeIn();
 
   return (
-    <Box sx={{ fontFamily: typography.fontFamily, overflowX: 'hidden', background: palette.background.paper }}>
+    <Box sx={{ fontFamily: typography.fontFamily, overflowX: 'hidden', background: palette.background.default }}>
 
       {/* ── HERO ──────────────────────────────────────────────── */}
       <Box sx={{
         position: 'relative',
-        background: heroGradient,
+        background: heroGradient, mx: { xs: 1.5, sm: 2, md: 3 }, borderRadius: { xs: '22px', md: '28px' }, 
                 paddingTop: { xs: 7, md: 8 },
         paddingBottom: { xs: 12, md: 20 },
         overflow: 'hidden',
@@ -118,11 +118,11 @@ const Governance: React.FC = () => {
         ))}
         <Box sx={{
           position: 'absolute', inset: 0, pointerEvents: 'none',
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E")`,
+          display: 'none', backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E")`,
           backgroundSize: '200px', opacity: 0.6,
         }} />
         {[...Array(7)].map((_, i) => (
-          <Box key={i} sx={{
+          <Box key={i} sx={{ display: 'none',
             position: 'absolute', width: 4, height: 4, borderRadius: '50%',
             background: 'rgba(255,255,255,0.5)',
             top: `${12 + i * 11}%`, right: `${5 + (i % 3) * 5}%`,
@@ -139,17 +139,7 @@ const Governance: React.FC = () => {
           <Box sx={{ display: 'flex', justifyContent: 'center', mb: 5 }}>
             <Box sx={{
               display: 'inline-flex', alignItems: 'center', gap: 1,
-              px: 2.5, py: 1,
-              border: '1px solid rgba(255,255,255,0.25)', borderRadius: '100px',
-              backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.08)',
-            }}>
-              <Box sx={{
-                width: 7, height: 7, borderRadius: '50%',
-                background: palette.secondary.light,
-                boxShadow: `0 0 8px ${palette.secondary.light}`,
-                animation: 'blink 2.5s ease infinite',
-                '@keyframes blink': { '0%,100%': { opacity: 1 }, '50%': { opacity: 0.3 } },
-              }} />
+              }}>
               <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.88)', letterSpacing: '0.06em', fontWeight: 500 }}>
                 Member-Owned · Democratically Controlled
               </Typography>
@@ -179,8 +169,7 @@ const Governance: React.FC = () => {
                 Governance<br />
                 <Box component="span" sx={{
                   fontStyle: 'italic', fontWeight: 300,
-                  background: `linear-gradient(90deg, ${palette.secondary.light}, #E8F5E9, ${palette.secondary.main})`,
-                  WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+                  color: palette.accent.main,
                 }}>
                   & Accountability
                 </Box>
@@ -196,9 +185,9 @@ const Governance: React.FC = () => {
                   component={Link} to="/apply" variant="contained" size="large"
                   endIcon={<ArrowForwardIcon sx={{ fontSize: 18 }} />}
                   sx={{
-                    background: '#fff', color: palette.primary.dark,
-                    boxShadow: '0 12px 40px rgba(0,0,0,0.22)',
-                    '&:hover': { background: palette.background.default, boxShadow: '0 20px 50px rgba(0,0,0,0.28)' },
+                    background: palette.accent.main, color: palette.accent.contrastText,
+                    boxShadow: 'none',
+                    '&:hover': { background: palette.accent.dark, boxShadow: 'none' },
                   }}
                 >
                   Get Started Today
@@ -262,7 +251,7 @@ const Governance: React.FC = () => {
           position: 'absolute', bottom: -1, left: 0, right: 0,
           height: { xs: 50, md: 72 },
           background: palette.background.default,
-          clipPath: 'ellipse(58% 100% at 50% 100%)',
+          display: 'none',
         }} />
       </Box>
 
@@ -287,9 +276,7 @@ const Governance: React.FC = () => {
               }}
             >
               <Box sx={{
-                display: 'inline-block', px: 2.5, py: 0.6,
-                background: `${palette.primary.main}10`, border: `1px solid ${palette.primary.main}22`,
-                borderRadius: '100px', mb: 2.5,
+                display: 'inline-block', mb: 2.5,
               }}>
                 <Typography variant="overline" sx={{ color: palette.primary.main }}>ICA Framework</Typography>
               </Box>
@@ -427,10 +414,10 @@ const Governance: React.FC = () => {
 
 
       {/* ── GOVERNANCE STRUCTURE ──────────────────────────────── */}
-      <Box sx={{ background: palette.background.paper, py: { xs: 9, md: 14 } }}>
+      <Box sx={{ mx: { xs: 1.5, sm: 2, md: 3 }, borderRadius: { xs: '22px', md: '28px' }, background: palette.background.paper, py: { xs: 9, md: 14 } }}>
         <Container maxWidth="lg">
           <Box sx={{ textAlign: 'center', mb: { xs: 7, md: 9 } }}>
-            <Box sx={{ display: 'inline-block', px: 2.5, py: 0.6, background: `${palette.primary.main}10`, border: `1px solid ${palette.primary.main}22`, borderRadius: '100px', mb: 2.5 }}>
+            <Box sx={{ display: 'inline-block', mb: 2.5 }}>
               <Typography variant="overline" sx={{ color: palette.primary.main }}>Structure</Typography>
             </Box>
             <Typography variant="h2" sx={{ color: palette.text.primary, fontSize: { xs: '2.2rem', md: '3rem' }, mb: 1.5 }}>
@@ -485,7 +472,7 @@ const Governance: React.FC = () => {
                   </Box>
                   <Box>
                     <Typography variant="h5" sx={{ color: palette.text.primary, fontSize: '1.05rem', mb: 0.4 }}>{c.name}</Typography>
-                    <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.75, px: 1.5, py: 0.25, background: `${c.color}0e`, border: `1px solid ${c.color}18`, borderRadius: '100px' }}>
+                    <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.75, }}>
                       <PeopleOutlineIcon sx={{ fontSize: 12, color: c.accent }} />
                       <Typography variant="caption" sx={{ color: c.color, fontWeight: 600, fontSize: '0.72rem' }}>{c.members} elected members</Typography>
                     </Box>
@@ -565,7 +552,7 @@ const Governance: React.FC = () => {
       <Box sx={{ background: palette.background.default, py: { xs: 9, md: 14 } }}>
         <Container maxWidth="lg">
           <Box sx={{ textAlign: 'center', mb: { xs: 7, md: 9 } }}>
-            <Box sx={{ display: 'inline-block', px: 2.5, py: 0.6, background: `${palette.primary.main}10`, border: `1px solid ${palette.primary.main}22`, borderRadius: '100px', mb: 2.5 }}>
+            <Box sx={{ display: 'inline-block', mb: 2.5 }}>
               <Typography variant="overline" sx={{ color: palette.primary.main }}>Elected Leadership</Typography>
             </Box>
             <Typography variant="h2" sx={{ color: palette.text.primary, fontSize: { xs: '2.2rem', md: '3rem' }, mb: 1.5 }}>
@@ -636,7 +623,7 @@ const Governance: React.FC = () => {
 
 
       {/* ── AGM TIMELINE ──────────────────────────────────────── */}
-      <Box sx={{ background: palette.background.paper, py: { xs: 9, md: 14 } }}>
+      <Box sx={{ mx: { xs: 1.5, sm: 2, md: 3 }, borderRadius: { xs: '22px', md: '28px' }, background: palette.background.paper, py: { xs: 9, md: 14 } }}>
         <Container maxWidth="lg">
           <Box sx={{
             display: 'grid',
@@ -646,7 +633,7 @@ const Governance: React.FC = () => {
           }}>
             {/* Left: headline + photo */}
             <Box>
-              <Box sx={{ display: 'inline-block', px: 2.5, py: 0.6, background: `${palette.primary.main}10`, border: `1px solid ${palette.primary.main}22`, borderRadius: '100px', mb: 2.5 }}>
+              <Box sx={{ display: 'inline-block', mb: 2.5 }}>
                 <Typography variant="overline" sx={{ color: palette.primary.main }}>AGM History</Typography>
               </Box>
               <Typography variant="h2" sx={{ color: palette.text.primary, fontSize: { xs: '2.2rem', md: '3rem' }, mb: 2, lineHeight: 1.15 }}>
@@ -738,10 +725,7 @@ const Governance: React.FC = () => {
                         </Typography>
                         <Box sx={{
                           display: 'inline-flex', alignItems: 'center', gap: 0.75,
-                          px: 1.5, py: 0.35,
-                          background: `${item.color}0e`, border: `1px solid ${item.color}18`,
-                          borderRadius: '100px',
-                        }}>
+                          }}>
                           <CheckIcon sx={{ fontSize: 11, color: item.color }} />
                           <Typography variant="caption" sx={{ color: item.color, fontWeight: 600, fontSize: '0.7rem' }}>
                             {item.outcome}
@@ -762,7 +746,7 @@ const Governance: React.FC = () => {
       <Box sx={{ background: palette.background.default, py: { xs: 9, md: 14 } }}>
         <Container maxWidth="lg">
           <Box sx={{ textAlign: 'center', mb: { xs: 7, md: 9 } }}>
-            <Box sx={{ display: 'inline-block', px: 2.5, py: 0.6, background: `${palette.primary.main}10`, border: `1px solid ${palette.primary.main}22`, borderRadius: '100px', mb: 2.5 }}>
+            <Box sx={{ display: 'inline-block', mb: 2.5 }}>
               <Typography variant="overline" sx={{ color: palette.primary.main }}>Open Books</Typography>
             </Box>
             <Typography variant="h2" sx={{ color: palette.text.primary, fontSize: { xs: '2.2rem', md: '3rem' }, mb: 1.5 }}>
@@ -865,7 +849,7 @@ const Governance: React.FC = () => {
 
 
       {/* ── TESTIMONIALS ──────────────────────────────────────── */}
-      <Box sx={{ background: palette.background.paper, py: { xs: 9, md: 14 } }}>
+      <Box sx={{ mx: { xs: 1.5, sm: 2, md: 3 }, borderRadius: { xs: '22px', md: '28px' }, background: palette.background.paper, py: { xs: 9, md: 14 } }}>
         <Container maxWidth="lg">
           <Box
             ref={testiRef}
@@ -876,7 +860,7 @@ const Governance: React.FC = () => {
             }}
           >
             <Box sx={{ textAlign: 'center', mb: 8 }}>
-              <Box sx={{ display: 'inline-block', px: 2.5, py: 0.6, background: `${palette.primary.main}10`, border: `1px solid ${palette.primary.main}22`, borderRadius: '100px', mb: 2.5 }}>
+              <Box sx={{ display: 'inline-block', mb: 2.5 }}>
                 <Typography variant="overline" sx={{ color: palette.primary.main }}>Member Voices</Typography>
               </Box>
               <Typography variant="h2" sx={{ color: palette.text.primary, fontSize: { xs: '2.2rem', md: '3rem' }, mb: 1.5 }}>
@@ -922,7 +906,7 @@ const Governance: React.FC = () => {
 
 
       {/* ── CTA ───────────────────────────────────────────────── */}
-      <Box sx={{ position: 'relative', background: heroGradient, py: { xs: 10, md: 16 }, overflow: 'hidden' }}>
+      <Box sx={{ position: 'relative', background: heroGradient, mx: { xs: 1.5, sm: 2, md: 3 }, borderRadius: { xs: '22px', md: '28px' },  py: { xs: 10, md: 16 }, overflow: 'hidden' }}>
         {[{ size: 500, top: -100, right: -100 }, { size: 400, bottom: -100, left: -100 }].map((b, i) => (
           <Box key={i} sx={{ position: 'absolute', width: b.size, height: b.size, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.07), transparent 70%)', top: b.top, bottom: b.bottom, right: b.right, left: b.left, pointerEvents: 'none' }} />
         ))}
@@ -933,7 +917,7 @@ const Governance: React.FC = () => {
           <Box sx={{ textAlign: 'center' }}>
             <Typography variant="h1" sx={{ color: '#fff', mb: 2, fontSize: { xs: '2.6rem', md: '3.8rem' } }}>
               Your Voice<br />
-              <Box component="span" sx={{ fontStyle: 'italic', fontWeight: 300, background: `linear-gradient(90deg, ${palette.secondary.light}, #E8F5E9)`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              <Box component="span" sx={{ fontStyle: 'italic', fontWeight: 300, color: palette.accent.main, }}>
                 Shapes This Cooperative
               </Box>
             </Typography>
@@ -944,7 +928,7 @@ const Governance: React.FC = () => {
             {false && (
               <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifyContent: 'center', mb: 6 }}>
                 <Button component={Link} to="/apply" variant="contained" size="large" endIcon={<ArrowForwardIcon />}
-                  sx={{ background: '#fff', color: palette.primary.dark, boxShadow: '0 10px 40px rgba(0,0,0,0.22)', '&:hover': { background: palette.background.default, boxShadow: '0 18px 56px rgba(0,0,0,0.28)' } }}>
+                  sx={{ background: palette.accent.main, color: palette.accent.contrastText, boxShadow: 'none', '&:hover': { background: palette.accent.dark, boxShadow: 'none' } }}>
                   Get Started Today
                 </Button>
                 <Button component={Link} to="/apply" variant="outlined" size="large"

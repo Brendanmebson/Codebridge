@@ -127,7 +127,7 @@ const BusinessSubmission: React.FC = () => {
     <Box sx={{ background: palette.background.default, minHeight: '100vh', py: { xs: 8, md: 12 }, px: 3 }}>
       <Container maxWidth="md">
         <Box sx={{ textAlign: 'center', mb: 6 }}>
-          <Box sx={{ display: 'inline-block', px: 2, py: 0.5, background: `${palette.primary.main}10`, border: `1px solid ${palette.primary.main}22`, borderRadius: '100px', mb: 2 }}>
+          <Box sx={{ display: 'inline-block', mb: 2 }}>
             <Typography sx={{ fontFamily: typography.fontFamily, fontSize: '0.75rem', fontWeight: 700, color: palette.primary.main, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
               Member Directory
             </Typography>

@@ -37,16 +37,16 @@ const Downloads: React.FC = () => {
   const br = shape.borderRadius as number;
 
   return (
-    <Box sx={{ background: palette.background.paper, minHeight: '100vh' }}>
+    <Box sx={{ background: palette.background.default, minHeight: '100vh' }}>
       <Box
         sx={{
-          background: `linear-gradient(150deg, ${palette.primary.dark} 0%, ${palette.primary.main} 55%, ${palette.secondary.dark} 100%)`,
+          background: `linear-gradient(160deg, ${palette.primary.main} 0%, ${palette.primary.dark} 100%)`, mx: { xs: 1.5, sm: 2, md: 3 }, borderRadius: { xs: '22px', md: '28px' }, 
           py: { xs: 8, md: 12 },
           color: '#fff',
         }}
       >
         <Container maxWidth="lg">
-          <Typography variant="h2" sx={{ fontWeight: 700, mb: 1.5 }}>
+          <Typography variant="h2" sx={{ mb: 1.5 }}>
             Downloads & Forms
           </Typography>
           <Typography variant="body1" sx={{ maxWidth: 760, color: 'rgba(255,255,255,0.82)' }}>
