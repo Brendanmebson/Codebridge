@@ -92,7 +92,7 @@ const LoanCalculator: React.FC = () => {
   const testimonials = [
     {
       quote: "Got my ₦800K business loan approved in 36 hours. The rate was genuinely competitive — 10% p.a. is hard to beat anywhere.",
-      name: 'Emeka Adeyemi', role: 'Business Owner, Lagos',
+      name: 'Emeka Adeyemi', role: 'Business Owner, Uyo',
       loan: 'Business Loan · ₦800K',
       color: palette.primary.dark,
     },

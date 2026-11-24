@@ -159,12 +159,16 @@ const Exco: React.FC = () => {
                     Read more
                   </Button>
                   <Stack direction="row" spacing={1}>
-                    <IconButton size="small" color="primary" href={member.linkedin}>
-                      <LinkedInIcon />
-                    </IconButton>
-                    <IconButton size="small" color="primary" href={member.twitter}>
-                      <TwitterIcon />
-                    </IconButton>
+                    {member.linkedin && (
+                      <IconButton size="small" color="primary" href={member.linkedin} target="_blank" rel="noopener noreferrer">
+                        <LinkedInIcon />
+                      </IconButton>
+                    )}
+                    {member.twitter && (
+                      <IconButton size="small" color="primary" href={member.twitter} target="_blank" rel="noopener noreferrer">
+                        <TwitterIcon />
+                      </IconButton>
+                    )}
                     <IconButton size="small" color="primary" href={`mailto:${member.email}`}>
                       <EmailIcon />
                     </IconButton>

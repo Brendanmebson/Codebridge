@@ -1081,9 +1081,9 @@ const About: React.FC = () => {
             gap: 3,
           }}>
             {[
-              { icon: <LocationOnIcon sx={{ fontSize: 22 }} />, label: 'Visit Us', val: '14 Cooperative Drive, Victoria Island, Lagos', color: palette.primary.main },
-              { icon: <EmailIcon sx={{ fontSize: 22 }} />, label: 'Email Us', val: 'hello@codebridgecoop.ng', color: palette.info.main },
-              { icon: <PhoneIcon sx={{ fontSize: 22 }} />, label: 'Call Us', val: '+234 815 523 0994', color: palette.secondary.dark },
+              { icon: <LocationOnIcon sx={{ fontSize: 22 }} />, label: 'Visit Us', val: '53 Dominic Utuk Avenue, Uyo', color: palette.primary.main },
+              { icon: <EmailIcon sx={{ fontSize: 22 }} />, label: 'Email Us', val: 'codebridgecoop@gmail.com', color: palette.info.main },
+              { icon: <PhoneIcon sx={{ fontSize: 22 }} />, label: 'Call Us', val: '+234 906 486 4701', color: palette.secondary.dark },
             ].map((c, i) => (
               <Box key={i} sx={{
                 p: 3.5, background: palette.background.paper,

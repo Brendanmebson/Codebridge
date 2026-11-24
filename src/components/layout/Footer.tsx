@@ -39,13 +39,15 @@ const Footer: React.FC = () => {
     { label: 'Loan Policy', to: '/loan-policy' },
   ];
 
+  // Add each real profile URL to show its icon; blank entries stay hidden.
   const socials = [
-    { icon: <FacebookIcon sx={{ fontSize: 18 }} />, href: '#', label: 'Facebook' },
-    { icon: <TwitterIcon sx={{ fontSize: 18 }} />, href: '#', label: 'Twitter' },
-    { icon: <LinkedInIcon sx={{ fontSize: 18 }} />, href: '#', label: 'LinkedIn' },
-    { icon: <InstagramIcon sx={{ fontSize: 18 }} />, href: '#', label: 'Instagram' },
-    { icon: <WhatsAppIcon sx={{ fontSize: 18 }} />, href: '#', label: 'WhatsApp' },
+    { icon: <FacebookIcon sx={{ fontSize: 18 }} />, href: '', label: 'Facebook' },
+    { icon: <TwitterIcon sx={{ fontSize: 18 }} />, href: '', label: 'Twitter' },
+    { icon: <LinkedInIcon sx={{ fontSize: 18 }} />, href: '', label: 'LinkedIn' },
+    { icon: <InstagramIcon sx={{ fontSize: 18 }} />, href: '', label: 'Instagram' },
+    { icon: <WhatsAppIcon sx={{ fontSize: 18 }} />, href: '', label: 'WhatsApp' },
   ];
+  const activeSocials = socials.filter((s) => s.href);
 
   // const stats = [
   //   { val: '1,240+', lab: 'Members' },
@@ -209,11 +211,12 @@ const Footer: React.FC = () => {
             </Box>
 
             {/* Socials */}
+            {activeSocials.length > 0 && (
             <Box sx={{ display: 'flex', gap: 1.25, flexWrap: 'wrap' }}>
-              {socials.map((s, i) => (
+              {activeSocials.map((s, i) => (
                 <Box
                   key={i}
-                  component="a" href={s.href} aria-label={s.label}
+                  component="a" href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}
                   sx={{
                     width: 38, height: 38, borderRadius: '50%',
                     background: 'rgba(255,255,255,0.07)',
@@ -234,6 +237,7 @@ const Footer: React.FC = () => {
                 </Box>
               ))}
             </Box>
+            )}
           </Box>
 
           {/* ── COL 2: Quick Links ────────────────────────── */}
@@ -291,8 +295,8 @@ const Footer: React.FC = () => {
                 fontFamily: typography.fontFamily,
                 fontSize: '0.72rem', color: 'rgba(255,255,255,0.4)', lineHeight: 1.6,
               }}>
-                CAC Reg. No. RC12345<br />
-                NCSB Certified Cooperative
+                Registered with the<br />
+                Ministry of Cooperatives
               </Typography>
             </Box>
           </Box>
@@ -314,17 +318,17 @@ const Footer: React.FC = () => {
                 {
                   icon: <LocationOnIcon sx={{ fontSize: 16 }} />,
                   label: 'Visit Us',
-                  val: '14 Cooperative Drive,\nVictoria Island, Lagos',
+                  val: '53 Dominic Utuk Avenue, Uyo\n(Registered: 105 Oron Road, Uyo)',
                 },
                 {
                   icon: <EmailIcon sx={{ fontSize: 16 }} />,
                   label: 'Email Us',
-                  val: 'hello@codebridgecoop.ng',
+                  val: 'codebridgecoop@gmail.com',
                 },
                 {
                   icon: <PhoneIcon sx={{ fontSize: 16 }} />,
                   label: 'Call Us',
-                  val: '+234 815 523 0994',
+                  val: '+234 906 486 4701',
                 },
               ].map((c, i) => (
                 <Box key={i} sx={{ display: 'flex', gap: 1.75, alignItems: 'flex-start' }}>

@@ -817,7 +817,7 @@ const Governance: React.FC = () => {
               <Box>
                 <Typography variant="h6" sx={{ color: palette.text.primary, mb: 0.75 }}>Regulatory Compliance</Typography>
                 <Typography variant="body2" sx={{ color: palette.text.secondary, lineHeight: 1.8, fontWeight: 300 }}>
-                  Registered and regulated under the Nigerian Cooperative Societies Act. Annual returns filed with the Lagos State Ministry of Commerce and Cooperatives.
+                  Registered and regulated under the Nigerian Cooperative Societies Act. Annual returns filed with the Ministry of Cooperatives.
                 </Typography>
               </Box>
             </Box>

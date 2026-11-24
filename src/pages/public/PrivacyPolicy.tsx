@@ -353,7 +353,7 @@ const PrivacyPolicy: React.FC = () => {
             </Box>
           </Box>
           <Typography variant="body2" sx={{ color: palette.text.secondary, lineHeight: 1.85, fontWeight: 300 }}>
-            If you believe a minor has submitted personal data to us without parental consent, please contact our Data Protection Officer immediately at <Box component="span" sx={{ color: palette.primary.main, fontWeight: 500 }}>dpo@codebridgecoop.ng</Box> and we will investigate and delete the data within 72 hours.
+            If you believe a minor has submitted personal data to us without parental consent, please contact our Data Protection Officer immediately at <Box component="span" sx={{ color: palette.primary.main, fontWeight: 500 }}>codebridgecoop@gmail.com</Box> and we will investigate and delete the data within 72 hours.
           </Typography>
         </Box>
       ),
@@ -414,8 +414,8 @@ const PrivacyPolicy: React.FC = () => {
           <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2, mb: 3 }}>
             {[
               { label: 'DPO Name', val: 'Dr Amaka Eze', icon: <VerifiedUserOutlinedIcon sx={{ fontSize: 18 }} /> },
-              { label: 'Email', val: 'dpo@codebridgecoop.ng', icon: <ContactMailOutlinedIcon sx={{ fontSize: 18 }} /> },
-              { label: 'Phone', val: '+234 815 523 0994', icon: <ContactMailOutlinedIcon sx={{ fontSize: 18 }} /> },
+              { label: 'Email', val: 'codebridgecoop@gmail.com', icon: <ContactMailOutlinedIcon sx={{ fontSize: 18 }} /> },
+              { label: 'Phone', val: '+234 906 486 4701', icon: <ContactMailOutlinedIcon sx={{ fontSize: 18 }} /> },
               { label: 'Response SLA', val: '72 hours maximum', icon: <UpdateOutlinedIcon sx={{ fontSize: 18 }} /> },
             ].map((c, i) => (
               <Box key={i} sx={{ p: 2.5, borderRadius: `${br * 1.5}px`, background: palette.background.default, border: `1px solid ${palette.background.default}`, display: 'flex', gap: 2, alignItems: 'center', transition: 'all 0.3s', '&:hover': { borderColor: `${palette.primary.main}15` } }}>
@@ -635,7 +635,7 @@ const PrivacyPolicy: React.FC = () => {
                   </Typography>
                   <Box
                     component="a"
-                    href="mailto:dpo@codebridgecoop.ng"
+                    href="mailto:codebridgecoop@gmail.com"
                     sx={{
                       display: 'flex', alignItems: 'center', gap: 1.25,
                       px: 2, py: 1.5,
@@ -710,8 +710,8 @@ const PrivacyPolicy: React.FC = () => {
                 </Typography>
                 <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)', lineHeight: 1.8 }}>
                   By using the CodeBridge platform, you acknowledge that you have read and understood this Privacy Policy. For questions, contact our Data Protection Officer at{' '}
-                  <Box component="a" href="mailto:dpo@codebridgecoop.ng" sx={{ color: palette.secondary.light, textDecoration: 'none', fontWeight: 500, '&:hover': { textDecoration: 'underline' } }}>
-                    dpo@codebridgecoop.ng
+                  <Box component="a" href="mailto:codebridgecoop@gmail.com" sx={{ color: palette.secondary.light, textDecoration: 'none', fontWeight: 500, '&:hover': { textDecoration: 'underline' } }}>
+                    codebridgecoop@gmail.com
                   </Box>
                 </Typography>
               </Box>
@@ -740,7 +740,7 @@ const PrivacyPolicy: React.FC = () => {
             </Typography>
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifyContent: 'center', mb: 6 }}>
               <Button
-                component="a" href="mailto:dpo@codebridgecoop.ng"
+                component="a" href="mailto:codebridgecoop@gmail.com"
                 variant="contained" size="large"
                 endIcon={<ArrowForwardIcon />}
                 sx={{ background: palette.accent.main, color: palette.accent.contrastText, boxShadow: 'none', '&:hover': { background: palette.accent.dark, boxShadow: 'none' } }}

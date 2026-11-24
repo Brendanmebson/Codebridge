@@ -36,9 +36,9 @@ With over 30 years of experience in risk management, auditing and control, banki
 He has attended courses in Environmental and Social Management Systems for Financial Institutions facilitated by AfDB and IFC, and has participated in international conferences on risk management and compliance in the USA, London, and the Netherlands. Edima facilitates trainings in Risk Management and the Basel II Accord, Compliance Management, Internal Control Management, Product Management, ISO 31000 Risk Management, and Internal Auditing Standards, and he moderates professional examinations for the Chartered Risk Management Institute of Nigeria (CRMI).
 
 Edima is a Director at Qazique Limited, a technology consulting and GRC solutions firm, and consults for Bloom Bank Africa across Liberia, Sierra Leone, and the Gambia on governance and policy development. He is also the CEO of EdimaBenEkpo Limited, a Risk, Governance, Compliance & Sustainability consulting firm in Lagos, and the Chief Promoter of ETH10k.io, a multivendor marketplace.`,
-    linkedin: '#',
-    twitter: '#',
-    email: 'edima@codebridge.coop',
+    linkedin: '',
+    twitter: '',
+    email: 'codebridgecoop@gmail.com',
   },
   {
     name: 'Lola Owoola',
@@ -47,9 +47,9 @@ Edima is a Director at Qazique Limited, a technology consulting and GRC solution
     img: vicePhoto,
     shortBio: 'Vice President supporting strategic initiatives and member engagement across the cooperative.',
     bio: 'Lola Owoola serves as Vice President, supporting strategic initiatives and member engagement across the cooperative.',
-    linkedin: '#',
-    twitter: '#',
-    email: 'lola@codebridge.coop',
+    linkedin: '',
+    twitter: '',
+    email: 'codebridgecoop@gmail.com',
   },
   {
     name: 'Ime Isang',
@@ -58,9 +58,9 @@ Edima is a Director at Qazique Limited, a technology consulting and GRC solution
     img: secretaryPhoto,
     shortBio: 'Secretary and manager focused on governance and transparent administrative processes.',
     bio: 'Expert in cooperative governance and member relations. Ime ensures that our administrative processes are transparent and that every member\'s voice is heard.',
-    linkedin: '#',
-    twitter: '#',
-    email: 'ime@codebridge.coop',
+    linkedin: '',
+    twitter: '',
+    email: 'codebridgecoop@gmail.com',
   },
   {
     name: 'Emmanuel Jackson Ebuk',
@@ -75,9 +75,9 @@ He is a serial entrepreneur passionate about youth empowerment and financial fre
 His academic qualifications include a Bachelor’s degree in Electronics Engineering from the Nigerian Defence Academy, an MBA in International Business Management, an MSc in Corporate Governance from Leeds Beckett University, UK, and a PhD in Security and Intelligence. He also holds several international certifications in Risk Management and Information Systems Controls.
 
 Emmanuel is a sought-after conference speaker and trainer, presenting on topics including risk management, information systems control, counter-terrorism, business development, and agriculture. He is a spirit-filled and led Christian, happily married, and enjoys chess, golfing, travelling, and tennis.`,
-    linkedin: '#',
-    twitter: '#',
-    email: 'ebuk@codebridge.coop',
+    linkedin: '',
+    twitter: '',
+    email: 'codebridgecoop@gmail.com',
   },
   {
     name: 'Amasua David Essien',
@@ -89,8 +89,8 @@ Emmanuel is a sought-after conference speaker and trainer, presenting on topics 
     bio: `Amasua David Essien is a seasoned senior executive, technology strategist, and business transformation professional with over two decades of progressive experience spanning Information Technology, financial services, business continuity, enterprise architecture, customer experience, digital transformation, and strategic management. Over the course of his distinguished career, he has progressed through diverse technical, managerial, and executive leadership roles, culminating in senior management positions at Assistant Vice President (AVP) and Deputy General Manager (DGM) levels, as well as serving as a Chief Technology Officer. His career reflects a rare blend of deep technological expertise, business acumen, strategic leadership, and the ability to translate complex challenges into practical solutions that deliver measurable organizational value. His accomplishments include leading major technology infrastructure transformations, developing Board-approved IT policies and business continuity frameworks, contributing to successful banking data migration and integration, transforming customer experience through technology-driven initiatives, and growing a Micro Pensions membership base from fewer than 2,000 to over 8,000 members in less than a year through strategic partnerships and collaboration.
 
 Beyond his professional accomplishments, Amasua brings to CodeBridge Multi-Purpose Cooperative Society a wealth of executive leadership experience, strategic insight, collaborative thinking, and a strong commitment to excellence. His extensive exposure to technology, management, financial services, organizational transformation, and stakeholder engagement provides a valuable perspective for advancing the Society's vision, strengthening member value, and fostering sustainable collective growth. He holds a B.Sc. in Computer Science and a Postgraduate Diploma in Management, and is a member of the Nigeria Computer Society (MNCS) and the Computer Professionals Registration Council of Nigeria (MCPN). Amasua is a strategic thinker and people-focused leader who believes in harnessing knowledge, innovation, collaboration, and purposeful leadership to create lasting value and meaningful impact.`,
-    linkedin: '#',
-    twitter: '#',
+    linkedin: '',
+    twitter: '',
     email: '',
   },
 ];

@@ -621,8 +621,8 @@ const TermsAndConditions: React.FC = () => {
                 <Clause>The Cooperative's liability to any member for any claim arising from membership services shall not exceed the total savings balance held in that member's account at the time of the claim.</Clause>
                 <Clause>The Cooperative is not liable for losses arising from a member's investment decisions, business activities, or use of loan funds outside the stated purpose.</Clause>
                 <Clause>In the event of a system outage, cybersecurity incident, or force majeure event, the Cooperative will notify affected members promptly and work to restore services, but shall not be liable for consequential losses.</Clause>
-                <Clause>All disputes must first be submitted in writing to the Disciplinary Committee. If unresolved within 30 days, either party may refer the matter to the Lagos State Cooperative Arbitration Panel or a mutually agreed arbitrator.</Clause>
-                <Clause>These terms are governed by and construed in accordance with the laws of the Federal Republic of Nigeria. The courts of Lagos State shall have exclusive jurisdiction.</Clause>
+                <Clause>All disputes must first be submitted in writing to the Disciplinary Committee. If unresolved within 30 days, either party may refer the matter to the Akwa Ibom State cooperative arbitration authorities or a mutually agreed arbitrator.</Clause>
+                <Clause>These terms are governed by and construed in accordance with the laws of the Federal Republic of Nigeria. The courts of Akwa Ibom State shall have exclusive jurisdiction.</Clause>
               </SectionBlock>
 
               {/* 8. Amendments */}
@@ -655,10 +655,10 @@ const TermsAndConditions: React.FC = () => {
                   display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2, mb: 3,
                 }}>
                   {[
-                    { icon: <EmailOutlinedIcon sx={{ fontSize: 18 }} />, label: 'General Enquiries', val: 'hello@codebridgecoop.ng', color: palette.secondary.dark },
-                    { icon: <LockOutlinedIcon sx={{ fontSize: 18 }} />, label: 'Data Protection Officer', val: 'dpo@codebridgecoop.ng', color: palette.info.dark },
-                    { icon: <GavelIcon sx={{ fontSize: 18 }} />, label: 'Legal / Complaints', val: 'legal@codebridgecoop.ng', color: palette.primary.dark },
-                    { icon: <PhoneOutlinedIcon sx={{ fontSize: 18 }} />, label: 'Phone', val: '+234 815 523 0994', color: palette.secondary.dark },
+                    { icon: <EmailOutlinedIcon sx={{ fontSize: 18 }} />, label: 'General Enquiries', val: 'codebridgecoop@gmail.com', color: palette.secondary.dark },
+                    { icon: <LockOutlinedIcon sx={{ fontSize: 18 }} />, label: 'Data Protection Officer', val: 'codebridgecoop@gmail.com', color: palette.info.dark },
+                    { icon: <GavelIcon sx={{ fontSize: 18 }} />, label: 'Legal / Complaints', val: 'codebridgecoop@gmail.com', color: palette.primary.dark },
+                    { icon: <PhoneOutlinedIcon sx={{ fontSize: 18 }} />, label: 'Phone', val: '+234 906 486 4701', color: palette.secondary.dark },
                   ].map((c, i) => (
                     <Box key={i} sx={{
                       display: 'flex', gap: 1.75, p: 2.5,
@@ -684,8 +684,8 @@ const TermsAndConditions: React.FC = () => {
                   border: `1px solid ${palette.background.default}`,
                 }}>
                   <Typography variant="caption" sx={{ color: palette.text.secondary, lineHeight: 1.7, display: 'block' }}>
-                    <strong style={{ color: palette.text.primary }}>Registered Office:</strong> 14 Cooperative Drive, Victoria Island, Lagos, Nigeria.
-                    Registered under the Lagos State Cooperative Societies Law. Registration No. LG-COOP-2016-04821.
+                    <strong style={{ color: palette.text.primary }}>Registered Office:</strong> 105 Oron Road, Uyo, Akwa Ibom State, Nigeria. <strong style={{ color: palette.text.primary }}>Operations Office:</strong> 53 Dominic Utuk Avenue, Uyo.
+                    Registered with the Ministry of Cooperatives.
                   </Typography>
                 </Box>
               </SectionBlock>
@@ -717,7 +717,7 @@ const TermsAndConditions: React.FC = () => {
               <Box>
                 <Typography variant="h6" sx={{ color: palette.text.primary, mb: 0.75 }}>Need a Copy?</Typography>
                 <Typography variant="body2" sx={{ color: palette.text.secondary, fontWeight: 300, lineHeight: 1.7, mb: 2 }}>
-                  A printed or PDF copy of these Terms and Conditions is available on request. Contact the Secretary General or email legal@codebridgecoop.ng.
+                  A printed or PDF copy of these Terms and Conditions is available on request. Contact the Secretary General or email codebridgecoop@gmail.com.
                 </Typography>
                 <Button
                   component={Link} to="/contact"

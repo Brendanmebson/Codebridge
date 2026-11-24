@@ -94,7 +94,7 @@ const Membership: React.FC = () => {
     },
     {
       quote: "I love that I can vote at AGMs and my voice actually matters. This is what a real cooperative feels like.",
-      name: "Bimpe Adeleke", role: "Nurse, Lagos",
+      name: "Bimpe Adeleke", role: "Nurse, Uyo",
       color: palette.secondary.dark,
     },
   ];

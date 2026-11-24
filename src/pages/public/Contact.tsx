@@ -36,7 +36,7 @@ const Contact: React.FC = () => {
   const br = shape.borderRadius as number;
   const heroGradient = `linear-gradient(160deg, ${palette.primary.main} 0%, ${palette.primary.dark} 100%)`;
   const contactRecipientEmail = FORM_RECIPIENT_EMAIL;
-  const officeAddress = '14 Cooperative Drive, Victoria Island, Lagos';
+  const officeAddress = '53 Dominic Utuk Avenue, Uyo';
 
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
@@ -81,17 +81,17 @@ const Contact: React.FC = () => {
     {
       icon: <PhoneIcon sx={{ fontSize: 22 }} />,
       label: 'Call Us',
-      value: '+234 815 523 0994',
+      value: '+234 906 486 4701',
       sub: 'Mon–Sat, 9am–5pm',
       color: palette.info.dark,
       accent: palette.info.main,
       bg: '#E0F2F1',
-      action: 'tel:+2348155230994',
+      action: 'tel:+2349064864701',
     },
     {
       icon: <EmailIcon sx={{ fontSize: 22 }} />,
       label: 'Email Us',
-      value: 'brendanmebson@gmail.com',
+      value: 'codebridgecoop@gmail.com',
       sub: 'We reply within 24 hours',
       color: palette.secondary.dark,
       accent: palette.secondary.main,
@@ -101,12 +101,12 @@ const Contact: React.FC = () => {
     {
       icon: <WhatsAppIcon sx={{ fontSize: 22 }} />,
       label: 'WhatsApp',
-      value: '+234 815 523 0994',
+      value: '+234 906 486 4701',
       sub: 'Quick replies, Mon–Sat',
       color: palette.info.dark,
       accent: '#00897B',
       bg: '#E0F7FA',
-      action: 'https://wa.me/2348155230994',
+      action: 'https://wa.me/2349064864701',
     },
   ];
 
@@ -119,7 +119,7 @@ const Contact: React.FC = () => {
   const faqs = [
     { q: 'How quickly will you respond?', a: 'Emails are answered within 24 hours on business days. WhatsApp typically replies within 2 hours.' },
     { q: 'Can I visit without an appointment?', a: 'Yes, walk-ins are welcome during office hours. For loan consultations, booking ahead is recommended.' },
-    { q: 'Who should I contact for loan queries?', a: 'Reach our loans desk directly at loans@codebridgecoop.ng or call the main line and ask for the loans department.' },
+    { q: 'Who should I contact for loan queries?', a: 'Reach our loans desk directly at codebridgecoop@gmail.com or call the main line and ask for the loans department.' },
   ];
 
   const { ref: formRef, visible: formVisible } = useFadeIn();
@@ -552,7 +552,7 @@ const Contact: React.FC = () => {
                 }}>
                   <LocationOnIcon sx={{ fontSize: 16, color: palette.primary.main }} />
                   <Typography variant="caption" sx={{ fontWeight: 600, color: palette.text.primary, fontFamily: typography.fontFamily }}>
-                    Victoria Island, Lagos
+                    Uyo, Akwa Ibom
                   </Typography>
                 </Box>
               </Box>
@@ -630,7 +630,7 @@ const Contact: React.FC = () => {
                     </Typography>
                     <Box
                       component="a"
-                      href="https://wa.me/2348155230994"
+                      href="https://wa.me/2349064864701"
                       target="_blank"
                       rel="noopener noreferrer"
                       sx={{
@@ -683,15 +683,16 @@ const Contact: React.FC = () => {
                 Visit Our Office
               </Typography>
               <Typography variant="body1" sx={{ color: palette.text.secondary, fontWeight: 300, mb: 4 }}>
-                We're centrally located in Victoria Island, Lagos. Walk-ins welcome during business hours — no appointment needed for general enquiries.
+                Our operations office is at 53 Dominic Utuk Avenue, Uyo, and our registered office is at 105 Oron Road, Uyo. Walk-ins welcome during business hours — no appointment needed for general enquiries.
               </Typography>
 
               {/* Address detail cards */}
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 4 }}>
                 {[
-                  { icon: <LocationOnIcon sx={{ fontSize: 18 }} />, label: 'Address', val: '14 Cooperative Drive, Victoria Island, Lagos', color: palette.primary.main },
-                  { icon: <PhoneIcon sx={{ fontSize: 18 }} />, label: 'Phone', val: '+234 815 523 0994', color: palette.info.main },
-                  { icon: <EmailIcon sx={{ fontSize: 18 }} />, label: 'Email', val: 'hello@codebridgecoop.ng', color: palette.secondary.dark },
+                  { icon: <LocationOnIcon sx={{ fontSize: 18 }} />, label: 'Operations Office', val: '53 Dominic Utuk Avenue, Uyo', color: palette.primary.main },
+                  { icon: <LocationOnIcon sx={{ fontSize: 18 }} />, label: 'Registered Office', val: '105 Oron Road, Uyo', color: palette.primary.dark },
+                  { icon: <PhoneIcon sx={{ fontSize: 18 }} />, label: 'Phone', val: '+234 906 486 4701', color: palette.info.main },
+                  { icon: <EmailIcon sx={{ fontSize: 18 }} />, label: 'Email', val: 'codebridgecoop@gmail.com', color: palette.secondary.dark },
                 ].map((d, i) => (
                   <Box key={i} sx={{
                     display: 'flex', alignItems: 'center', gap: 2,
@@ -730,14 +731,14 @@ const Contact: React.FC = () => {
               }}>
                 <Box component="iframe"
                   title="CodeBridge office location"
-                  src={`https://www.google.com/maps?q=${encodeURIComponent(officeAddress)}&output=embed`}
+                  src={`https://www.google.com/maps?q=${encodeURIComponent(`${officeAddress}, Akwa Ibom, Nigeria`)}&output=embed`}
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   sx={{ width: '100%', height: '100%', border: 0, display: 'block' }}
                 />
                 <Box
                   component="a"
-                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(officeAddress)}`}
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${officeAddress}, Akwa Ibom, Nigeria`)}`}
                   target="_blank" rel="noopener noreferrer"
                   sx={{
                     position: 'absolute', bottom: 12, left: 12,
@@ -777,7 +778,7 @@ const Contact: React.FC = () => {
                 {[
                   ...faqs,
                   { q: 'How do I check my savings or loan balance?', a: 'Contact the cooperative office by phone or email and our team will share your up-to-date savings and loan statement.' },
-                  { q: 'How do I escalate a complaint?', a: 'Use the contact form above marked "Complaint / Escalation" or email complaints@codebridgecoop.ng directly.' },
+                  { q: 'How do I escalate a complaint?', a: 'Use the contact form above marked "Complaint / Escalation" or email codebridgecoop@gmail.com directly.' },
                 ].map((faq, i) => (
                   <Box key={i} sx={{
                     p: 3, borderRadius: `${br * 1.5}px`,

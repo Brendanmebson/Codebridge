@@ -126,7 +126,7 @@ const Services: React.FC = () => {
     {
       quote: "The business loan transformed my tailoring shop. The rate was fair and the approval process was human, not bureaucratic.",
       name: "Amara Okonkwo",
-      role: "Business Owner, Lagos",
+      role: "Business Owner, Uyo",
       color: palette.primary.dark,
       loan: 'Business Loan · ₦800K',
     },
