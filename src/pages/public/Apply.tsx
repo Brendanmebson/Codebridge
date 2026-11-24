@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import {
   Box, Container, Typography, TextField, Button, Alert,
-  useTheme, Paper, Stack, IconButton, CircularProgress
+  useTheme, Paper, Stack, CircularProgress
 } from '@mui/material';
-import { supabase } from '../../config/supabase';
+import { useSearchParams } from 'react-router-dom';
+import { FORM_ENDPOINT } from '../../config/forms';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -29,9 +30,11 @@ const Apply: React.FC = () => {
     addressDoc: null as File | null,
   });
 
+  const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
+  const success = searchParams.get('submitted') === '1';
+  const returnUrl = `${window.location.origin}/apply?submitted=1`;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -43,66 +46,30 @@ const Apply: React.FC = () => {
     }
   };
 
-  const uploadFile = async (file: File): Promise<string> => {
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
-    
-    const { error: uploadError } = await supabase.storage
-      .from('member_documents')
-      .upload(fileName, file);
+  const MAX_FILE_BYTES = 5 * 1024 * 1024;
 
-    if (uploadError) throw uploadError;
-
-    const { data } = supabase.storage
-      .from('member_documents')
-      .getPublicUrl(fileName);
-
-    return data.publicUrl;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // Lets the browser POST the form (with attachments) to FormSubmit, which emails it to the cooperative.
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     setError('');
-    
-    // Validate files
+
     if (!files.idDoc || !files.photoDoc || !files.addressDoc) {
+      e.preventDefault();
       setError('Please upload all required documents (ID, Photograph, and Address Proof).');
       return;
     }
 
-    setLoading(true);
-
-    try {
-      // Upload documents sequentially to prevent browser fetch aborts
-      const idUrl = await uploadFile(files.idDoc);
-      const photoUrl = await uploadFile(files.photoDoc);
-      const addressUrl = await uploadFile(files.addressDoc);
-
-      const { error: insertError } = await supabase
-        .from('membership_applications')
-        .insert({
-          first_name: formData.firstName,
-          last_name: formData.lastName,
-          email: formData.email,
-          phone: formData.phone,
-          address: formData.address,
-          date_of_birth: formData.dateOfBirth,
-          id_url: idUrl,
-          photo_url: photoUrl,
-          address_proof_url: addressUrl
-        });
-
-      if (insertError) throw insertError;
-      setSuccess(true);
-    } catch (err: any) {
-      console.error('Submission error:', err);
-      setError(err.message || 'Failed to submit application. Please try again.');
-    } finally {
-      setLoading(false);
+    const oversized = [files.idDoc, files.photoDoc, files.addressDoc].find((file) => file.size > MAX_FILE_BYTES);
+    if (oversized) {
+      e.preventDefault();
+      setError(`"${oversized.name}" is larger than 5MB. Please upload a smaller file.`);
+      return;
     }
+
+    setLoading(true);
   };
 
-  const FileUploadButton = ({ label, file, fileKey, accept }: { label: string, file: File | null, fileKey: keyof typeof files, accept: string }) => (
+  // Called as a function (not <FileUploadButton/>) so the file inputs keep their selected files across re-renders.
+  const renderFileUpload = ({ label, file, fileKey, accept }: { label: string, file: File | null, fileKey: keyof typeof files, accept: string }) => (
     <Box sx={{
       border: `1px dashed ${file ? palette.success.main : palette.divider}`,
       borderRadius: `${br}px`,
@@ -122,6 +89,7 @@ const Apply: React.FC = () => {
         accept={accept}
         style={{ display: 'none' }}
         id={`upload-button-${fileKey}`}
+        name={label}
         type="file"
         onChange={(e) => handleFileChange(e, fileKey)}
       />
@@ -179,7 +147,7 @@ const Apply: React.FC = () => {
           </Box>
           <Typography variant="h4" sx={{ fontWeight: 700, mb: 2 }}>Application Received!</Typography>
           <Typography variant="body1" sx={{ color: palette.text.secondary, mb: 4 }}>
-            Thank you for applying to CodeBridge. Our administration team is reviewing your details and documents. We will email you with further instructions once approved.
+            Thank you for applying to CodeBridge. Your details and documents have been sent to our membership team, and we will contact you by email or phone about the next steps.
           </Typography>
           <Button variant="outlined" href="/" size="large" sx={{ borderRadius: 100, textTransform: 'none', fontWeight: 600 }}>
             Return Home
@@ -200,14 +168,19 @@ const Apply: React.FC = () => {
           </Box>
           <Typography variant="h2" sx={{ fontWeight: 700, mb: 2 }}>Membership Application</Typography>
           <Typography variant="body1" sx={{ color: palette.text.secondary, maxWidth: 600, mx: 'auto' }}>
-            Fill out the form and attach your required documents below. All uploads are securely stored and reviewed confidentially.
+            Fill out the form and attach your required documents below. Your application goes straight to our membership team and is reviewed confidentially.
           </Typography>
         </Box>
 
         <Paper sx={{ p: { xs: 3, md: 5 }, borderRadius: `${br * 2}px`, boxShadow: '0 12px 40px rgba(0,0,0,0.06)' }}>
           {error && <Alert severity="error" sx={{ mb: 4, borderRadius: `${br}px` }}>{error}</Alert>}
           
-          <Box component="form" onSubmit={handleSubmit}>
+          <Box component="form" action={FORM_ENDPOINT} method="POST" encType="multipart/form-data" onSubmit={handleSubmit}>
+            <input type="hidden" name="_subject" value={`New membership application: ${formData.firstName} ${formData.lastName}`.trim()} />
+            <input type="hidden" name="_replyto" value={formData.email} />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="_next" value={returnUrl} />
+            <input type="text" name="_honey" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
             <Stack spacing={3}>
               <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3}>
                 <TextField required fullWidth label="First Name" name="firstName" value={formData.firstName} onChange={handleChange} />
@@ -224,13 +197,13 @@ const Apply: React.FC = () => {
                 <Typography variant="h6" sx={{ mb: 3, fontWeight: 600 }}>Required Documents</Typography>
                 <Stack spacing={2} direction={{ xs: 'column', sm: 'row' }} sx={{ alignItems: 'stretch' }}>
                   <Box sx={{ flex: 1, minWidth: 0 }}>
-                    <FileUploadButton label="Valid ID (NIN/Passport)" file={files.idDoc} fileKey="idDoc" accept="image/*,.pdf" />
+                    {renderFileUpload({ label: "Valid ID (NIN/Passport)", file: files.idDoc, fileKey: "idDoc", accept: "image/*,.pdf" })}
                   </Box>
                   <Box sx={{ flex: 1, minWidth: 0 }}>
-                    <FileUploadButton label="Recent Photograph" file={files.photoDoc} fileKey="photoDoc" accept="image/*" />
+                    {renderFileUpload({ label: "Recent Photograph", file: files.photoDoc, fileKey: "photoDoc", accept: "image/*" })}
                   </Box>
                   <Box sx={{ flex: 1, minWidth: 0 }}>
-                    <FileUploadButton label="Address Proof (Utility Bill)" file={files.addressDoc} fileKey="addressDoc" accept="image/*,.pdf" />
+                    {renderFileUpload({ label: "Address Proof (Utility Bill)", file: files.addressDoc, fileKey: "addressDoc", accept: "image/*,.pdf" })}
                   </Box>
                 </Stack>
               </Box>
@@ -248,7 +221,7 @@ const Apply: React.FC = () => {
                   '&:hover': { transform: 'translateY(-2px)' }
                 }}
               >
-                {loading ? 'Processing & Uploading...' : 'Submit Application'}
+                {loading ? 'Sending application...' : 'Submit Application'}
               </Button>
             </Box>
           </Box>

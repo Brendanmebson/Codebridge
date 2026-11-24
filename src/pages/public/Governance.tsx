@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Box, Container, Typography, Button, useTheme, Stack } from '@mui/material';
-import presidentPhoto from '../../assets/members/president.jpg';
-import treasurerPhoto from '../../assets/members/Treasurer.jpg';
+import excoMembers from '../../data/excoMembers';
 import { Link } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import HowToVoteIcon from '@mui/icons-material/HowToVote';
@@ -20,6 +19,7 @@ import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 import WorkspacePremiumOutlinedIcon from '@mui/icons-material/WorkspacePremiumOutlined';
+import { memberAvatars } from '../../data/photos';
 
 function useFadeIn(threshold = 0.12) {
   const ref = useRef<HTMLDivElement>(null);
@@ -51,14 +51,13 @@ const Governance: React.FC = () => {
     { num: '07', title: 'Concern for Community', icon: <GroupsIcon sx={{ fontSize: 22 }} />, desc: 'While focusing on member needs, cooperatives work for the sustainable development of their communities through policies approved by their members.', color: palette.primary.dark, accent: palette.primary.main },
   ];
 
-  const boardMembers = [
-    { name: 'Edima Ben Ekpo', role: 'President', tenure: 'Since 2016', img: presidentPhoto, color: palette.primary.dark },
-    { name: 'Mrs Ngozi Adeleke', role: 'Vice Chairperson', tenure: 'Since 2018', img: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&q=80', color: palette.info.dark },
-    { name: 'Dr Femi Babatunde', role: 'Secretary General', tenure: 'Since 2020', img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80', color: palette.secondary.dark },
-    { name: 'Ebuk Emmanuel', role: 'Treasurer', tenure: 'Since 2019', img: treasurerPhoto, color: palette.primary.dark },
-    { name: 'Mr Tunde Oladele', role: 'Loans Committee Chair', tenure: 'Since 2021', img: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&q=80', color: palette.info.dark },
-    { name: 'Mrs Bimpe Afolabi', role: 'Welfare Officer', tenure: 'Since 2022', img: 'https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=200&q=80', color: palette.secondary.dark },
-  ];
+  const boardColors = [palette.primary.dark, palette.info.dark, palette.secondary.dark];
+  const boardMembers = excoMembers.map((member, i) => ({
+    name: member.name,
+    role: member.role,
+    img: member.img,
+    color: boardColors[i % boardColors.length],
+  }));
 
   const agmTimeline = [
     { year: '2024', event: '8th Annual General Meeting', highlight: 'Approved ₦250M loan disbursement target', outcome: '98% member approval', color: palette.primary.dark },
@@ -83,9 +82,9 @@ const Governance: React.FC = () => {
   ];
 
   const testimonials = [
-    { quote: "I voted at the AGM for the first time last year and actually saw my suggestion adopted in the minutes. This cooperative is genuinely member-run.", name: 'Emeka Adeyemi', role: 'Member since 2019', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80', color: palette.primary.dark, tag: 'Democratic Control' },
-    { quote: "The annual report is detailed, independently audited, and written in plain language. I trust where my money is and exactly what it's doing.", name: 'Adaeze Nwosu', role: 'Member since 2018', img: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=100&q=80', color: palette.info.dark, tag: 'Financial Transparency' },
-    { quote: "When I had a loan dispute, the Disciplinary Committee resolved it fairly within two weeks. The process was clear and I felt heard.", name: 'Kelechi Balogun', role: 'Member since 2021', img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80', color: palette.secondary.dark, tag: 'Fair Process' },
+    { quote: "I voted at the AGM for the first time last year and actually saw my suggestion adopted in the minutes. This cooperative is genuinely member-run.", name: 'Emeka Adeyemi', role: 'Member since 2019', color: palette.primary.dark, tag: 'Democratic Control' },
+    { quote: "The annual report is detailed, independently audited, and written in plain language. I trust where my money is and exactly what it's doing.", name: 'Adaeze Nwosu', role: 'Member since 2018', color: palette.info.dark, tag: 'Financial Transparency' },
+    { quote: "When I had a loan dispute, the Disciplinary Committee resolved it fairly within two weeks. The process was clear and I felt heard.", name: 'Kelechi Balogun', role: 'Member since 2021', color: palette.secondary.dark, tag: 'Fair Process' },
   ];
 
   const { ref: principlesRef, visible: principlesVisible } = useFadeIn(0.05);
@@ -318,8 +317,8 @@ const Governance: React.FC = () => {
                 '&:hover img': { transform: 'scale(1.04)' },
               }}>
                 <Box component="img"
-                  src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=700&q=80"
-                  alt="Cooperative governance"
+                  src={'https://images.unsplash.com/photo-1550305080-4e029753abcf?w=800&q=80&auto=format&fit=crop'}
+                  alt="Members raising hands to vote"
                   sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }}
                 />
                 <Box sx={{ position: 'absolute', inset: 0, background: `linear-gradient(135deg, ${palette.primary.dark}22, transparent 60%)` }} />
@@ -568,7 +567,7 @@ const Governance: React.FC = () => {
             ref={boardRef}
             sx={{
               display: 'grid',
-              gridTemplateColumns: { xs: '1fr 1fr', sm: 'repeat(3,1fr)', md: 'repeat(6,1fr)' },
+              gridTemplateColumns: { xs: '1fr 1fr', sm: 'repeat(3,1fr)', md: 'repeat(5,1fr)' },
               gap: 3,
               opacity: boardVisible ? 1 : 0,
               transform: boardVisible ? 'translateY(0)' : 'translateY(24px)',
@@ -612,7 +611,7 @@ const Governance: React.FC = () => {
                     {m.name}
                   </Typography>
                   <Typography variant="caption" sx={{ color: palette.text.secondary, fontSize: '0.7rem' }}>
-                    {m.tenure}
+                    Executive Committee
                   </Typography>
                 </Box>
               </Box>
@@ -650,8 +649,8 @@ const Governance: React.FC = () => {
                 '&:hover img': { transform: 'scale(1.04)' },
               }}>
                 <Box component="img"
-                  src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=700&q=80"
-                  alt="AGM meeting"
+                  src={'https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=800&q=80&auto=format&fit=crop'}
+                  alt="Annual General Meeting in session"
                   sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }}
                 />
                 <Box sx={{ position: 'absolute', inset: 0, background: `linear-gradient(135deg, ${palette.primary.dark}35, transparent 55%)` }} />
@@ -890,7 +889,9 @@ const Governance: React.FC = () => {
                   <Typography variant="body2" sx={{ color: i === 1 ? 'rgba(255,255,255,0.88)' : palette.text.secondary, lineHeight: 1.85, mb: 3.5, fontSize: '0.95rem' }}>{t.quote}</Typography>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                     <Box sx={{ width: 46, height: 46, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: `2px solid ${i === 1 ? 'rgba(255,255,255,0.3)' : t.color + '30'}` }}>
-                      <Box component="img" src={t.img} alt={t.name} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <Box sx={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: '0.9rem', background: i === 1 ? 'rgba(255,255,255,0.12)' : `${t.color}14`, color: i === 1 ? '#fff' : t.color }}>
+                      {t.name.split(' ').map((part: string) => part[0]).join('').slice(0, 2)}
+                    </Box>
                     </Box>
                     <Box>
                       <Typography variant="body2" sx={{ fontWeight: 600, color: i === 1 ? '#fff' : palette.text.primary }}>{t.name}</Typography>
@@ -911,7 +912,7 @@ const Governance: React.FC = () => {
           <Box key={i} sx={{ position: 'absolute', width: b.size, height: b.size, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.07), transparent 70%)', top: b.top, bottom: b.bottom, right: b.right, left: b.left, pointerEvents: 'none' }} />
         ))}
         <Box sx={{ position: 'absolute', right: { md: 60 }, top: '50%', transform: 'translateY(-50%)', width: 260, height: 260, borderRadius: '50%', overflow: 'hidden', opacity: 0.1, display: { xs: 'none', md: 'block' }, pointerEvents: 'none' }}>
-          <Box component="img" src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=520&q=80" alt="" sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <Box component="img" src={'https://images.unsplash.com/photo-1594122230689-45899d9e6f69?w=520&q=80&auto=format&fit=crop'} alt="" sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </Box>
         <Container maxWidth="md" sx={{ position: 'relative', zIndex: 2 }}>
           <Box sx={{ textAlign: 'center' }}>
@@ -939,12 +940,7 @@ const Governance: React.FC = () => {
             )}
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
               <Box sx={{ display: 'flex' }}>
-                {[
-                  'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=60&q=80',
-                  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&q=80',
-                  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&q=80',
-                  'https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=60&q=80',
-                ].map((img, i) => (
+                {memberAvatars.map((img, i) => (
                   <Box key={i} sx={{ width: 36, height: 36, borderRadius: '50%', overflow: 'hidden', border: '2px solid rgba(255,255,255,0.4)', ml: i > 0 ? -1.5 : 0, position: 'relative', zIndex: 4 - i }}>
                     <Box component="img" src={img} alt="" sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </Box>

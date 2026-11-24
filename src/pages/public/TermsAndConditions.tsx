@@ -17,6 +17,7 @@ import BalanceIcon from '@mui/icons-material/Balance';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
+import { memberAvatars } from '../../data/photos';
 
 function useFadeIn(threshold = 0.1) {
   const ref = useRef<HTMLDivElement>(null);
@@ -800,12 +801,7 @@ const TermsAndConditions: React.FC = () => {
             )}
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
               <Box sx={{ display: 'flex' }}>
-                {[
-                  'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=60&q=80',
-                  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&q=80',
-                  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&q=80',
-                  'https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=60&q=80',
-                ].map((img, i) => (
+                {memberAvatars.map((img, i) => (
                   <Box key={i} sx={{ width: 36, height: 36, borderRadius: '50%', overflow: 'hidden', border: '2px solid rgba(255,255,255,0.4)', ml: i > 0 ? -1.5 : 0, position: 'relative', zIndex: 4 - i }}>
                     <Box component="img" src={img} alt="" sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </Box>

@@ -11,10 +11,8 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-import LogoutIcon from '@mui/icons-material/Logout';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
+import { Link, useLocation } from 'react-router-dom';
 import logo from '../../assets/logo.jpg';
 
 type NavItem = { label: string; path: string };
@@ -27,32 +25,13 @@ const publicNavItems: NavItem[] = [
   { label: 'Downloads', path: '/downloads' },
 ];
 
-const adminNavItems: NavItem[] = [
-  { label: 'Overview', path: '/admin' },
-  { label: 'Members', path: '/admin/members' },
-  { label: 'Loans', path: '/admin/loans' },
-];
-
-const dashboardNavItems: NavItem[] = [
-  { label: 'Dashboard', path: '/dashboard' },
-  { label: 'Savings', path: '/dashboard/savings' },
-  { label: 'Loans', path: '/dashboard/loans' },
-  { label: 'Profile', path: '/dashboard/profile' },
-];
-
 const Navbar: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const theme = useTheme();
   const { palette } = theme;
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const navigate = useNavigate();
   const location = useLocation();
-  const { user, member, userRole, logout } = useAuth();
-
-  const isDashboard = location.pathname.startsWith('/dashboard');
-  const isAuthenticated = Boolean(user || member);
-  const isAdminUser = (userRole?.toLowerCase() ?? member?.role?.toLowerCase() ?? '') === 'admin';
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -63,16 +42,8 @@ const Navbar: React.FC = () => {
   const handleDrawerToggle = () => setMobileOpen((prev) => !prev);
   const handleDrawerClose = () => setMobileOpen(false);
 
-  const handleLogout = async () => {
-    await logout();
-    navigate('/');
-  };
-
-  const navItems = isAuthenticated
-    ? (isAdminUser ? adminNavItems : dashboardNavItems)
-    : publicNavItems;
-
-  const homePath = isAdminUser ? '/admin' : (isDashboard || isAuthenticated ? '/dashboard' : '/');
+  const navItems = publicNavItems;
+  const homePath = '/';
 
   const isActive = (path: string) =>
     path === '/' ? location.pathname === '/' : location.pathname.startsWith(path);
@@ -136,24 +107,9 @@ const Navbar: React.FC = () => {
       </Box>
 
       <Box sx={{ px: 3, pb: 4, pt: 3 }}>
-        {user ? (
-          <Button
-            fullWidth
-            onClick={() => { handleLogout(); handleDrawerClose(); }}
-            startIcon={<LogoutIcon sx={{ fontSize: 16 }} />}
-            sx={{
-              color: '#fff',
-              border: '1px solid rgba(255,255,255,0.2)',
-              '&:hover': { background: 'rgba(255,255,255,0.08)' },
-            }}
-          >
-            Logout
-          </Button>
-        ) : (
-          <Button fullWidth component={Link} to="/contact" onClick={handleDrawerClose} sx={{ ...limePill, py: 1.4 }}>
+                  <Button fullWidth component={Link} to="/contact" onClick={handleDrawerClose} sx={{ ...limePill, py: 1.4 }}>
             Contact us
           </Button>
-        )}
       </Box>
     </Box>
   );
@@ -238,18 +194,9 @@ const Navbar: React.FC = () => {
                 );
               })}
 
-              {user ? (
-                <Button onClick={handleLogout} startIcon={<LogoutIcon sx={{ fontSize: 15 }} />} sx={{
-                  border: `1px solid ${palette.divider}`, color: palette.text.primary, px: 2.25, py: 0.9,
-                  '&:hover': { background: 'rgba(19,42,33,0.05)' },
-                }}>
-                  Logout
-                </Button>
-              ) : (
-                <Button component={Link} to="/contact" sx={limePill}>
+                              <Button component={Link} to="/contact" sx={limePill}>
                   Contact us
                 </Button>
-              )}
             </Box>
           )}
         </Toolbar>

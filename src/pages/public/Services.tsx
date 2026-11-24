@@ -15,6 +15,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import VerifiedOutlinedIcon from '@mui/icons-material/VerifiedOutlined';
 import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined';
 import StarIcon from '@mui/icons-material/Star';
+import { memberAvatars } from '../../data/photos';
 
 function useFadeIn(threshold = 0.15) {
   const ref = useRef<HTMLDivElement>(null);
@@ -44,7 +45,7 @@ const Services: React.FC = () => {
       color: palette.primary.dark,
       accent: palette.primary.main,
       bg: '#E8F5E9',
-      img: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=600&q=80',
+      img: 'https://images.unsplash.com/photo-1768839721719-c5ed97c1fd58?w=800&q=80&auto=format&fit=crop',
       stat: { val: '₦842K', label: 'Avg. member balance' },
     },
     {
@@ -54,7 +55,7 @@ const Services: React.FC = () => {
       color: palette.info.dark,
       accent: palette.info.main,
       bg: '#E0F2F1',
-      img: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=80',
+      img: 'https://images.unsplash.com/photo-1622219999459-ab5b14e5f45a?w=800&q=80&auto=format&fit=crop',
       stat: { val: '3.2x', label: 'Faster goal achievement' },
     },
   ];
@@ -71,7 +72,7 @@ const Services: React.FC = () => {
       color: palette.primary.dark,
       accent: palette.primary.main,
       bg: '#E8F5E9',
-      img: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=400&q=80',
+      img: 'https://images.unsplash.com/photo-1577896849786-738ed6c78bd3?w=600&q=80&auto=format&fit=crop',
     },
     {
       icon: <BusinessCenterIcon sx={{ fontSize: 22 }} />,
@@ -84,7 +85,7 @@ const Services: React.FC = () => {
       color: palette.info.dark,
       accent: palette.info.main,
       bg: '#E0F2F1',
-      img: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&q=80',
+      img: 'https://images.unsplash.com/photo-1585540083814-ea6ee8af9e4f?w=600&q=80&auto=format&fit=crop',
     },
     {
       icon: <SpeedIcon sx={{ fontSize: 22 }} />,
@@ -97,7 +98,7 @@ const Services: React.FC = () => {
       color: palette.secondary.dark,
       accent: palette.secondary.main,
       bg: '#F1F8E9',
-      img: 'https://images.unsplash.com/photo-1565945887714-d5139f4eb0ce?w=400&q=80',
+      img: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=600&q=80&auto=format&fit=crop',
     },
     {
       icon: <SchoolIcon sx={{ fontSize: 22 }} />,
@@ -110,7 +111,7 @@ const Services: React.FC = () => {
       color: palette.info.dark,
       accent: '#00897B',
       bg: '#E0F7FA',
-      img: 'https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=400&q=80',
+      img: 'https://images.unsplash.com/photo-1627556704283-452301a45fd0?w=600&q=80&auto=format&fit=crop',
     },
   ];
 
@@ -126,7 +127,6 @@ const Services: React.FC = () => {
       quote: "The business loan transformed my tailoring shop. The rate was fair and the approval process was human, not bureaucratic.",
       name: "Amara Okonkwo",
       role: "Business Owner, Lagos",
-      img: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=100&q=80',
       color: palette.primary.dark,
       loan: 'Business Loan · ₦800K',
     },
@@ -134,7 +134,6 @@ const Services: React.FC = () => {
       quote: "Target savings helped me buy my first car in 18 months. Having a dedicated account with a goal made all the difference.",
       name: "Emeka Adeyemi",
       role: "Software Engineer, Abuja",
-      img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80',
       color: palette.info.dark,
       loan: 'Target Savings · 18 months',
     },
@@ -142,7 +141,6 @@ const Services: React.FC = () => {
       quote: "Emergency loan saved us when my father was hospitalised. Funds were in my account the next morning.",
       name: "Funke Balogun",
       role: "Teacher, Ibadan",
-      img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80',
       color: palette.secondary.dark,
       loan: 'Emergency Loan · ₦150K',
     },
@@ -370,8 +368,8 @@ const Services: React.FC = () => {
                 '&:hover img': { transform: 'scale(1.04)' },
               }}>
                 <Box component="img"
-                  src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=700&q=80"
-                  alt="Savings"
+                  src={'https://images.unsplash.com/photo-1633158829585-23ba8f7c8caf?w=800&q=80&auto=format&fit=crop'}
+                  alt="Stacking coins as savings grow"
                   sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }}
                 />
               </Box>
@@ -453,7 +451,8 @@ const Services: React.FC = () => {
                   overflow: 'hidden',
                   position: 'relative',
                 }}>
-                  <Box component="img"
+                  {product.img && (
+                    <Box component="img"
                     src={product.img}
                     alt={product.name}
                     sx={{
@@ -462,6 +461,7 @@ const Services: React.FC = () => {
                       transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)',
                     }}
                   />
+                  )}
                   <Box sx={{
                     position: 'absolute', inset: 0,
                     background: `linear-gradient(135deg, ${product.color}22, transparent 60%)`,
@@ -574,10 +574,12 @@ const Services: React.FC = () => {
                 },
               }}>
                 <Box sx={{ height: 150, overflow: 'hidden', position: 'relative' }}>
-                  <Box className="lp-img" component="img"
+                  {product.img && (
+                    <Box className="lp-img" component="img"
                     src={product.img} alt={product.name}
                     sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s cubic-bezier(0.22,1,0.36,1)' }}
                   />
+                  )}
                   <Box sx={{
                     position: 'absolute', inset: 0,
                     background: `linear-gradient(to bottom, transparent 30%, ${product.color}55)`,
@@ -759,8 +761,9 @@ const Services: React.FC = () => {
                     width: 46, height: 46, borderRadius: '50%', overflow: 'hidden', flexShrink: 0,
                     border: `2px solid ${i === 1 ? 'rgba(255,255,255,0.3)' : t.color + '30'}`,
                   }}>
-                    <Box component="img" src={t.img} alt={t.name}
-                      sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <Box sx={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: '0.9rem', background: i === 1 ? 'rgba(255,255,255,0.12)' : `${t.color}14`, color: i === 1 ? '#fff' : t.color }}>
+                      {t.name.split(' ').map((part: string) => part[0]).join('').slice(0, 2)}
+                    </Box>
                   </Box>
                   <Box>
                     <Typography variant="body2" sx={{ fontWeight: 600, color: i === 1 ? '#fff' : palette.text.primary }}>{t.name}</Typography>
@@ -793,7 +796,7 @@ const Services: React.FC = () => {
           opacity: 0.1, display: { xs: 'none', md: 'block' }, pointerEvents: 'none',
         }}>
           <Box component="img"
-            src="https://images.unsplash.com/photo-1560264280-88b68371db39?w=560&q=80"
+            src={'https://images.unsplash.com/photo-1758519288905-38b7b00c1023?w=560&q=80&auto=format&fit=crop'}
             alt="" sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </Box>
 
@@ -814,7 +817,7 @@ const Services: React.FC = () => {
             <Typography variant="subtitle1" sx={{
               color: 'rgba(255,255,255,0.62)', mb: 6, maxWidth: 480, mx: 'auto', fontWeight: 300,
             }}>
-              Login to access your savings dashboard or apply for a loan today.
+              Apply for membership today and start saving with a community that has your back.
               Our team is ready to guide you through every step.
             </Typography>
             {false && (
@@ -845,12 +848,7 @@ const Services: React.FC = () => {
 
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
               <Box sx={{ display: 'flex' }}>
-                {[
-                  'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=60&q=80',
-                  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&q=80',
-                  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&q=80',
-                  'https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=60&q=80',
-                ].map((img, i) => (
+                {memberAvatars.map((img, i) => (
                   <Box key={i} sx={{
                     width: 36, height: 36, borderRadius: '50%', overflow: 'hidden',
                     border: '2px solid rgba(255,255,255,0.4)',

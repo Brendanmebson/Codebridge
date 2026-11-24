@@ -28,12 +28,15 @@ function useFadeIn(threshold = 0.12) {
   return { ref, visible };
 }
 
+import { FORM_RECIPIENT_EMAIL } from '../../config/forms';
+import { photos, memberAvatars } from '../../data/photos';
 const Contact: React.FC = () => {
   const theme = useTheme();
   const { palette, typography, shape } = theme;
   const br = shape.borderRadius as number;
   const heroGradient = `linear-gradient(160deg, ${palette.primary.main} 0%, ${palette.primary.dark} 100%)`;
-  const contactRecipientEmail = 'brendanmebson@gmail.com';
+  const contactRecipientEmail = FORM_RECIPIENT_EMAIL;
+  const officeAddress = '14 Cooperative Drive, Victoria Island, Lagos';
 
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
@@ -68,7 +71,7 @@ const Contact: React.FC = () => {
     {
       icon: <LocationOnIcon sx={{ fontSize: 22 }} />,
       label: 'Visit Us',
-      value: '14 Cooperative Drive, Victoria Island, Lagos',
+      value: officeAddress,
       sub: 'Mon–Fri, 9am–5pm',
       color: palette.primary.dark,
       accent: palette.primary.main,
@@ -272,8 +275,8 @@ const Contact: React.FC = () => {
                 border: '1px solid rgba(255,255,255,0.12)',
               }}>
                 <Box component="img"
-                  src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=600&q=80"
-                  alt="Our team"
+                  src={'https://images.unsplash.com/photo-1655720357872-ce227e4164ba?w=800&q=80&auto=format&fit=crop'}
+                  alt="Our team at work"
                   sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
                 <Box sx={{
@@ -533,8 +536,8 @@ const Contact: React.FC = () => {
                 '&:hover img': { transform: 'scale(1.04)' },
               }}>
                 <Box component="img"
-                  src="https://images.unsplash.com/photo-1560264280-88b68371db39?w=700&q=80"
-                  alt="Our office"
+                  src={photos.presidentAtDesk}
+                  alt="CodeBridge President Edima Ben Ekpo at his desk"
                   sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }}
                 />
                 <Box sx={{
@@ -720,33 +723,35 @@ const Contact: React.FC = () => {
                 ))}
               </Box>
 
-              {/* Map image placeholder */}
+              {/* Office map */}
               <Box sx={{
-                borderRadius: `${br * 2}px`, overflow: 'hidden', height: 200,
-                position: 'relative',
-                '&:hover img': { transform: 'scale(1.03)' },
+                borderRadius: `${br * 2}px`, overflow: 'hidden', height: 240,
+                position: 'relative', border: `1px solid ${palette.divider}`,
               }}>
-                <Box component="img"
-                  src="https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=700&q=80"
-                  alt="Office location"
-                  sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }}
+                <Box component="iframe"
+                  title="CodeBridge office location"
+                  src={`https://www.google.com/maps?q=${encodeURIComponent(officeAddress)}&output=embed`}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  sx={{ width: '100%', height: '100%', border: 0, display: 'block' }}
                 />
-                <Box sx={{
-                  position: 'absolute', inset: 0,
-                  background: `linear-gradient(135deg, ${palette.primary.dark}30, transparent 50%)`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                }}>
-                  <Box sx={{
-                    background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(10px)',
-                    borderRadius: '100px', px: 2.5, py: 1,
+                <Box
+                  component="a"
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(officeAddress)}`}
+                  target="_blank" rel="noopener noreferrer"
+                  sx={{
+                    position: 'absolute', bottom: 12, left: 12,
+                    background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)',
+                    borderRadius: '100px', px: 2.5, py: 1, textDecoration: 'none',
                     display: 'flex', alignItems: 'center', gap: 1,
-                  }}>
-                    <LocationOnIcon sx={{ fontSize: 16, color: palette.primary.main }} />
-                    <Typography variant="caption" sx={{ fontWeight: 600, color: palette.text.primary, fontFamily: typography.fontFamily }}>
-                      View on Google Maps
-                    </Typography>
-                    <ArrowForwardIcon sx={{ fontSize: 13, color: palette.primary.main }} />
-                  </Box>
+                    boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
+                  }}
+                >
+                  <LocationOnIcon sx={{ fontSize: 16, color: palette.primary.main }} />
+                  <Typography variant="caption" sx={{ fontWeight: 600, color: palette.text.primary, fontFamily: typography.fontFamily }}>
+                    View on Google Maps
+                  </Typography>
+                  <ArrowForwardIcon sx={{ fontSize: 13, color: palette.primary.main }} />
                 </Box>
               </Box>
             </Box>
@@ -771,7 +776,7 @@ const Contact: React.FC = () => {
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 {[
                   ...faqs,
-                  { q: 'Do you have a member portal?', a: 'Yes. Active members can log in at any time to check savings, request loans, and download statements.' },
+                  { q: 'How do I check my savings or loan balance?', a: 'Contact the cooperative office by phone or email and our team will share your up-to-date savings and loan statement.' },
                   { q: 'How do I escalate a complaint?', a: 'Use the contact form above marked "Complaint / Escalation" or email complaints@codebridgecoop.ng directly.' },
                 ].map((faq, i) => (
                   <Box key={i} sx={{
@@ -874,12 +879,7 @@ const Contact: React.FC = () => {
             {/* Social proof */}
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
               <Box sx={{ display: 'flex' }}>
-                {[
-                  'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=60&q=80',
-                  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&q=80',
-                  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&q=80',
-                  'https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=60&q=80',
-                ].map((img, i) => (
+                {memberAvatars.map((img, i) => (
                   <Box key={i} sx={{
                     width: 36, height: 36, borderRadius: '50%', overflow: 'hidden',
                     border: '2px solid rgba(255,255,255,0.4)',

@@ -8,13 +8,8 @@ import {
   CardMedia,
   useTheme,
   Chip,
-  Stack,
 } from '@mui/material';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import TagIcon from '@mui/icons-material/Tag';
-import img2 from '../../assets/img2.jpg';
-import img3 from '../../assets/img3.jpg';
-import img4 from '../../assets/img4.jpg';
+import { photos } from '../../data/photos';
 
 const Gallery: React.FC = () => {
   const theme = useTheme();
@@ -24,46 +19,40 @@ const Gallery: React.FC = () => {
 
   const galleryItems = [
     {
-      title: 'Annual General Meeting 2025',
-      date: 'March 15, 2025',
-      category: 'Event',
-      img: 'https://images.unsplash.com/photo-1540575861501-7cf05a4b125a?w=600&q=80',
-      description: 'A look back at our most successful AGM yet, with over 800 members in attendance. important resolutions were passed for the coming year.',
+      title: 'One Cooperative Family',
+      category: 'Community',
+      img: photos.membersFullGroup,
+      description: 'CodeBridge members together in matching attire, celebrating the bond that holds our cooperative together.',
     },
     {
-      title: 'Member Business Workshop',
-      date: 'February 10, 2025',
-      category: 'Workshop',
-      img: img2,
-      description: 'Empowering our members with financial literacy and business management skills. A day of learning and networking.',
+      title: 'Laughter Among Members',
+      category: 'Community',
+      img: photos.membersLaughing,
+      description: 'Our members share more than savings and loans. They share friendship, support and plenty of joy.',
     },
     {
-      title: 'New Office Inauguration',
-      date: 'January 5, 2025',
-      category: 'Milestone',
-      img: img3,
-      description: 'Celebrating the opening of our new headquarters. A modern space designed to serve our growing community better.',
+      title: 'Celebrating Together',
+      category: 'Community',
+      img: photos.membersGroupOfFive,
+      description: 'Members marking a special occasion side by side, dressed as one.',
     },
     {
-      title: 'Cooperative Sports Day',
-      date: 'December 20, 2024',
+      title: 'Member Outing',
       category: 'Social',
-      img: img4,
-      description: 'Members and their families joined for a day of fun, games, and community bonding at the city stadium.',
+      img: photos.outingTable,
+      description: 'Members unwinding over a shared meal at one of our social get-togethers.',
     },
     {
-      title: 'Loan Disbursement Ceremony',
-      date: 'November 15, 2024',
-      category: 'Member Support',
-      img: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=600&q=80',
-      description: 'Over 100 members received business and welfare loans to support their various endeavors.',
+      title: 'A Member\'s Poultry Farm',
+      category: 'Member Business',
+      img: photos.poultryAisle,
+      description: 'A member-run poultry farm, one of the enterprises our members are building with the support of the cooperative.',
     },
     {
-      title: 'Member Success Story: Sarah\'s Farm',
-      date: 'October 28, 2024',
-      category: 'Success Story',
-      img: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=600&q=80',
-      description: 'How a small cooperative loan helped Sarah expand her poultry farm and create jobs in her community.',
+      title: 'Growing the Flock',
+      category: 'Member Business',
+      img: photos.poultryPen,
+      description: 'Young birds being raised on a member\'s farm as the business expands.',
     },
   ];
 
@@ -212,12 +201,6 @@ const Gallery: React.FC = () => {
                   </Box>
                 </Box>
                 <CardContent sx={{ flexGrow: 1, p: 3 }}>
-                  <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1.5, color: 'text.secondary' }}>
-                    <CalendarMonthIcon sx={{ fontSize: 16 }} />
-                    <Typography variant="caption" sx={{ fontWeight: 500 }}>
-                      {item.date}
-                    </Typography>
-                  </Stack>
                   <Typography variant="h5" sx={{ mb: 2, fontWeight: 600, color: 'text.primary' }}>
                     {item.title}
                   </Typography>

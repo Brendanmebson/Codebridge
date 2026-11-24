@@ -14,6 +14,7 @@ import VerifiedOutlinedIcon from '@mui/icons-material/VerifiedOutlined';
 import StarIcon from '@mui/icons-material/Star';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import { memberAvatars } from '../../data/photos';
 
 function useFadeIn(threshold = 0.12) {
   const ref = useRef<HTMLDivElement>(null);
@@ -82,7 +83,7 @@ const LoanCalculator: React.FC = () => {
   ];
 
   const process = [
-    { num: '01', title: 'Check Eligibility', desc: 'Log in to your dashboard to confirm your eligibility status instantly.' },
+    { num: '01', title: 'Check Eligibility', desc: 'Contact our loans desk to confirm your eligibility based on your membership and savings record.' },
     { num: '02', title: 'Submit Application', desc: 'Fill the loan form, select type and amount, and submit in under 5 minutes.' },
     { num: '03', title: 'Review & Approval', desc: 'Our loans team reviews and responds within 48 hours — often same day.' },
     { num: '04', title: 'Disbursement', desc: 'Approved funds are credited directly to your registered account.' },
@@ -92,21 +93,18 @@ const LoanCalculator: React.FC = () => {
     {
       quote: "Got my ₦800K business loan approved in 36 hours. The rate was genuinely competitive — 10% p.a. is hard to beat anywhere.",
       name: 'Emeka Adeyemi', role: 'Business Owner, Lagos',
-      img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80',
       loan: 'Business Loan · ₦800K',
       color: palette.primary.dark,
     },
     {
       quote: "Emergency loan approved the same afternoon I applied. The money hit my account before 5pm. Real cooperative spirit.",
       name: 'Funke Balogun', role: 'Nurse, Ibadan',
-      img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80',
       loan: 'Emergency Loan · ₦150K',
       color: palette.secondary.dark,
     },
     {
       quote: "The education loan covered my MBA fees entirely. 8% p.a. is lower than any bank I checked. Life-changing access.",
       name: 'Adaeze Nwosu', role: 'Graduate Student, Abuja',
-      img: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=100&q=80',
       loan: 'Education Loan · ₦600K',
       color: palette.info.dark,
     },
@@ -538,25 +536,25 @@ const LoanCalculator: React.FC = () => {
             {[
               {
                 type: loanTypes[0],
-                img: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&q=80',
+                img: 'https://images.unsplash.com/photo-1643818657367-491080baeece?w=800&q=80&auto=format&fit=crop',
                 benefits: ['Rent & housing costs', 'Medical expenses', 'Personal projects', 'Debt consolidation'],
                 maxTenure: '24 months',
               },
               {
                 type: loanTypes[1],
-                img: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=80',
+                img: 'https://images.unsplash.com/photo-1777065851469-71aef898a26f?w=800&q=80&auto=format&fit=crop',
                 benefits: ['Working capital injection', 'Equipment purchase', 'Stock & inventory', 'Business expansion'],
                 maxTenure: '36 months',
               },
               {
                 type: loanTypes[2],
-                img: 'https://images.unsplash.com/photo-1565945887714-d5139f4eb0ce?w=600&q=80',
+                img: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80&auto=format&fit=crop',
                 benefits: ['Medical emergencies', 'Urgent travel', 'Unexpected repairs', 'Family needs'],
                 maxTenure: '12 months',
               },
               {
                 type: loanTypes[3],
-                img: 'https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=600&q=80',
+                img: 'https://images.unsplash.com/photo-1740065592671-9cb593ee9b78?w=800&q=80&auto=format&fit=crop',
                 benefits: ['University tuition', 'Professional certifications', 'Skill-acquisition programs', 'Study materials'],
                 maxTenure: '30 months',
               },
@@ -635,10 +633,12 @@ const LoanCalculator: React.FC = () => {
 
                 {/* Image */}
                 <Box sx={{ order: { xs: 1, md: i % 2 === 0 ? 2 : 1 }, minHeight: { xs: 200, md: 'auto' }, overflow: 'hidden', position: 'relative' }}>
-                  <Box className="lt-img" component="img"
+                  {item.img && (
+                    <Box className="lt-img" component="img"
                     src={item.img} alt={item.type.label}
                     sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }}
                   />
+                  )}
                   <Box sx={{ position: 'absolute', inset: 0, background: `linear-gradient(135deg, ${item.type.color}25, transparent 60%)` }} />
                 </Box>
               </Box>
@@ -667,7 +667,7 @@ const LoanCalculator: React.FC = () => {
                 <Box component="span" sx={{ fontStyle: 'italic', fontWeight: 300, color: palette.primary.main }}>Apply?</Box>
               </Typography>
               <Typography variant="body1" sx={{ color: palette.text.secondary, fontWeight: 300, mb: 4 }}>
-                All active members in good standing are eligible. Check the criteria below and log in to confirm your status instantly.
+                All active members in good standing are eligible. Check the criteria below and contact our loans desk to confirm your status.
               </Typography>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 {eligibility.map((e, i) => (
@@ -692,8 +692,8 @@ const LoanCalculator: React.FC = () => {
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
               <Box sx={{ borderRadius: `${br * 2}px`, overflow: 'hidden', height: 260, position: 'relative', '&:hover img': { transform: 'scale(1.04)' } }}>
                 <Box component="img"
-                  src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=700&q=80"
-                  alt="Loan eligibility"
+                  src={'https://images.unsplash.com/photo-1521791055366-0d553872125f?w=800&q=80&auto=format&fit=crop'}
+                  alt="Member signing a loan application"
                   sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }}
                 />
                 <Box sx={{ position: 'absolute', inset: 0, background: `linear-gradient(135deg, ${palette.primary.dark}35, transparent 55%)` }} />
@@ -823,7 +823,9 @@ const LoanCalculator: React.FC = () => {
                   </Typography>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                     <Box sx={{ width: 46, height: 46, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: `2px solid ${i === 1 ? 'rgba(255,255,255,0.3)' : t.color + '30'}` }}>
-                      <Box component="img" src={t.img} alt={t.name} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <Box sx={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: '0.9rem', background: i === 1 ? 'rgba(255,255,255,0.12)' : `${t.color}14`, color: i === 1 ? '#fff' : t.color }}>
+                      {t.name.split(' ').map((part: string) => part[0]).join('').slice(0, 2)}
+                    </Box>
                     </Box>
                     <Box>
                       <Typography variant="body2" sx={{ fontWeight: 600, color: i === 1 ? '#fff' : palette.text.primary }}>{t.name}</Typography>
@@ -844,7 +846,7 @@ const LoanCalculator: React.FC = () => {
           <Box key={i} sx={{ position: 'absolute', width: b.size, height: b.size, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.07), transparent 70%)', top: b.top, bottom: b.bottom, right: b.right, left: b.left, pointerEvents: 'none' }} />
         ))}
         <Box sx={{ position: 'absolute', right: { md: 60 }, top: '50%', transform: 'translateY(-50%)', width: 260, height: 260, borderRadius: '50%', overflow: 'hidden', opacity: 0.1, display: { xs: 'none', md: 'block' }, pointerEvents: 'none' }}>
-          <Box component="img" src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=520&q=80" alt="" sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <Box component="img" src={'https://images.unsplash.com/photo-1649298173603-9c95aa950879?w=520&q=80&auto=format&fit=crop'} alt="" sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </Box>
         <Container maxWidth="md" sx={{ position: 'relative', zIndex: 2 }}>
           <Box sx={{ textAlign: 'center' }}>
@@ -855,8 +857,8 @@ const LoanCalculator: React.FC = () => {
               </Box>
             </Typography>
             <Typography variant="subtitle1" sx={{ color: 'rgba(255,255,255,0.62)', mb: 6, maxWidth: 480, mx: 'auto', fontWeight: 300 }}>
-              Log in to check your eligibility, use the calculator above to plan your repayment,
-              and submit your application in minutes.
+              Use the calculator above to plan your repayment, then contact our loans desk
+              to confirm your eligibility and apply.
             </Typography>
             {false && (
               <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifyContent: 'center', mb: 6 }}>
@@ -872,12 +874,7 @@ const LoanCalculator: React.FC = () => {
             )}
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
               <Box sx={{ display: 'flex' }}>
-                {[
-                  'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=60&q=80',
-                  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&q=80',
-                  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&q=80',
-                  'https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=60&q=80',
-                ].map((img, i) => (
+                {memberAvatars.map((img, i) => (
                   <Box key={i} sx={{ width: 36, height: 36, borderRadius: '50%', overflow: 'hidden', border: '2px solid rgba(255,255,255,0.4)', ml: i > 0 ? -1.5 : 0, position: 'relative', zIndex: 4 - i }}>
                     <Box component="img" src={img} alt="" sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </Box>

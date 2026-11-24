@@ -16,6 +16,7 @@ import StarIcon from '@mui/icons-material/Star';
 import CheckIcon from '@mui/icons-material/Check';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import GroupsIcon from '@mui/icons-material/Groups';
+import { photos, memberAvatars } from '../../data/photos';
 
 function useFadeIn(threshold = 0.12) {
   const ref = useRef<HTMLDivElement>(null);
@@ -43,7 +44,7 @@ const Membership: React.FC = () => {
     { icon: <CelebrationIcon sx={{ fontSize: 22 }} />, text: 'Welfare support in times of need', sub: 'Bereavement, medical, and celebration grants', color: palette.secondary.dark, accent: palette.secondary.main },
     { icon: <HowToVoteIcon sx={{ fontSize: 22 }} />, text: 'Democratic governance rights', sub: 'Vote and be voted for at AGMs', color: palette.primary.dark, accent: palette.primary.light },
     { icon: <SchoolIcon sx={{ fontSize: 22 }} />, text: 'Financial literacy programs', sub: 'Workshops, webinars, and monthly newsletters', color: palette.info.dark, accent: palette.info.light },
-    { icon: <LockOutlinedIcon sx={{ fontSize: 22 }} />, text: 'Secure account management', sub: 'Real-time dashboard with full transparency', color: palette.secondary.dark, accent: palette.secondary.main },
+    { icon: <LockOutlinedIcon sx={{ fontSize: 22 }} />, text: 'Secure account management', sub: 'Clear records and full transparency', color: palette.secondary.dark, accent: palette.secondary.main },
   ];
 
   const requirements = [
@@ -58,25 +59,25 @@ const Membership: React.FC = () => {
       num: '01', title: 'Gather Documents',
       desc: 'Prepare your valid ID, a passport photograph, and proof of address before starting.',
       color: palette.primary.dark, accent: palette.primary.main,
-      img: 'https://images.unsplash.com/photo-1568992688065-536aad8a12f6?w=400&q=80',
+      img: 'https://images.unsplash.com/photo-1771758249853-415175dc29b9?w=600&q=80&auto=format&fit=crop',
     },
     {
       num: '02', title: 'Complete Registration',
       desc: 'Fill out and submit the membership registration form — takes less than 10 minutes.',
       color: palette.info.dark, accent: palette.info.main,
-      img: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=400&q=80',
+      img: 'https://images.unsplash.com/photo-1562564055-71e051d33c19?w=600&q=80&auto=format&fit=crop',
     },
     {
       num: '03', title: 'Make Initial Deposit',
       desc: 'Pay the minimum ₦5,000 savings contribution to activate your member account.',
       color: palette.secondary.dark, accent: palette.secondary.main,
-      img: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&q=80',
+      img: 'https://images.unsplash.com/photo-1768839724098-d2541fe1311d?w=600&q=80&auto=format&fit=crop',
     },
     {
-      num: '04', title: 'Login & Start Saving',
-      desc: 'Access your personal dashboard, set your savings goals, and begin your journey.',
+      num: '04', title: 'Start Saving',
+      desc: 'Once approved, set your savings goals with the cooperative and begin your journey.',
       color: palette.info.dark, accent: '#00897B',
-      img: 'https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=400&q=80',
+      img: 'https://images.unsplash.com/photo-1607863680198-23d4b2565df0?w=600&q=80&auto=format&fit=crop',
     },
   ];
 
@@ -84,19 +85,16 @@ const Membership: React.FC = () => {
     {
       quote: "Joining CodeBridge was the best financial decision I've made. Within six months I had my first loan approved and doubled my business capacity.",
       name: "Adaeze Nwosu", role: "Trader, Enugu",
-      img: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=100&q=80',
       color: palette.primary.dark,
     },
     {
       quote: "The welfare support when my mother passed was extraordinary. No paperwork stress — just genuine human care from people who know you.",
       name: "Kelechi Eze", role: "Civil Servant, Abuja",
-      img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80',
       color: palette.info.dark,
     },
     {
       quote: "I love that I can vote at AGMs and my voice actually matters. This is what a real cooperative feels like.",
       name: "Bimpe Adeleke", role: "Nurse, Lagos",
-      img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80',
       color: palette.secondary.dark,
     },
   ];
@@ -323,8 +321,8 @@ const Membership: React.FC = () => {
                 '&:hover img': { transform: 'scale(1.04)' },
               }}>
                 <Box component="img"
-                  src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=700&q=80"
-                  alt="Members"
+                  src={photos.membersFullGroup}
+                  alt="CodeBridge members together"
                   sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }}
                 />
                 {/* Overlay tint */}
@@ -426,8 +424,8 @@ const Membership: React.FC = () => {
                 '&:hover img': { transform: 'scale(1.05)' },
               }}>
                 <Box component="img"
-                  src="https://images.unsplash.com/photo-1568992688065-536aad8a12f6?w=500&q=80"
-                  alt="Documents"
+                  src={'https://images.unsplash.com/photo-1627518788331-b3b7fdaa382f?w=500&q=80&auto=format&fit=crop'}
+                  alt="Signing membership documents"
                   sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }}
                 />
               </Box>
@@ -439,8 +437,8 @@ const Membership: React.FC = () => {
                 '&:hover img': { transform: 'scale(1.05)' },
               }}>
                 <Box component="img"
-                  src="https://images.unsplash.com/photo-1560264280-88b68371db39?w=400&q=80"
-                  alt="Registration"
+                  src={'https://images.unsplash.com/photo-1664463760781-f159dfe3af30?w=400&q=80&auto=format&fit=crop'}
+                  alt="Completing registration"
                   sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }}
                 />
               </Box>
@@ -560,7 +558,7 @@ const Membership: React.FC = () => {
                 How to Join
               </Typography>
               <Typography variant="body1" sx={{ color: palette.text.secondary, fontWeight: 300, maxWidth: 460, mx: 'auto' }}>
-                Four simple steps — from gathering your documents to accessing your personal dashboard.
+                Four simple steps, from gathering your documents to making your first savings contribution.
               </Typography>
             </Box>
 
@@ -628,13 +626,15 @@ const Membership: React.FC = () => {
                     minHeight: { xs: 180, md: 'auto' },
                     overflow: 'hidden', position: 'relative',
                   }}>
-                    <Box className="step-img" component="img"
+                    {step.img && (
+                      <Box className="step-img" component="img"
                       src={step.img} alt={step.title}
                       sx={{
                         width: '100%', height: '100%', objectFit: 'cover',
                         transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)',
                       }}
                     />
+                    )}
                     <Box sx={{
                       position: 'absolute', inset: 0,
                       background: `linear-gradient(135deg, ${step.color}25, transparent 60%)`,
@@ -715,8 +715,9 @@ const Membership: React.FC = () => {
                       width: 46, height: 46, borderRadius: '50%', overflow: 'hidden', flexShrink: 0,
                       border: `2px solid ${i === 1 ? 'rgba(255,255,255,0.3)' : t.color + '30'}`,
                     }}>
-                      <Box component="img" src={t.img} alt={t.name}
-                        sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <Box sx={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: '0.9rem', background: i === 1 ? 'rgba(255,255,255,0.12)' : `${t.color}14`, color: i === 1 ? '#fff' : t.color }}>
+                      {t.name.split(' ').map((part: string) => part[0]).join('').slice(0, 2)}
+                    </Box>
                     </Box>
                     <Box>
                       <Typography variant="body2" sx={{ fontWeight: 600, color: i === 1 ? '#fff' : palette.text.primary }}>{t.name}</Typography>
@@ -805,7 +806,7 @@ const Membership: React.FC = () => {
           opacity: 0.1, display: { xs: 'none', md: 'block' }, pointerEvents: 'none',
         }}>
           <Box component="img"
-            src="https://images.unsplash.com/photo-1565945887714-d5139f4eb0ce?w=520&q=80"
+            src={'https://images.unsplash.com/photo-1573164574397-dd250bc8a598?w=520&q=80&auto=format&fit=crop'}
             alt="" sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </Box>
 
@@ -858,12 +859,7 @@ const Membership: React.FC = () => {
             {/* Social proof */}
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
               <Box sx={{ display: 'flex' }}>
-                {[
-                  'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=60&q=80',
-                  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&q=80',
-                  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&q=80',
-                  'https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=60&q=80',
-                ].map((img, i) => (
+                {memberAvatars.map((img, i) => (
                   <Box key={i} sx={{
                     width: 36, height: 36, borderRadius: '50%', overflow: 'hidden',
                     border: '2px solid rgba(255,255,255,0.4)',

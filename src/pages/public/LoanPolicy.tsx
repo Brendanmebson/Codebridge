@@ -9,10 +9,8 @@ import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
 import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
-import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import HourglassTopOutlinedIcon from '@mui/icons-material/HourglassTopOutlined';
 import PercentOutlinedIcon from '@mui/icons-material/PercentOutlined';
-import BlockOutlinedIcon from '@mui/icons-material/BlockOutlined';
 import RecyclingOutlinedIcon from '@mui/icons-material/RecyclingOutlined';
 import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
@@ -21,6 +19,7 @@ import StarIcon from '@mui/icons-material/Star';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import PaymentsOutlinedIcon from '@mui/icons-material/PaymentsOutlined';
 import PriorityHighOutlinedIcon from '@mui/icons-material/PriorityHighOutlined';
+import { memberAvatars } from '../../data/photos';
 
 function useFadeIn(threshold = 0.1) {
   const ref = useRef<HTMLDivElement>(null);
@@ -57,7 +56,7 @@ const LoanPolicy: React.FC = () => {
       tenure: 'Up to 24 months',
       color: palette.primary.dark,
       accent: palette.primary.main,
-      img: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=500&q=80',
+      img: 'https://images.unsplash.com/photo-1761839258568-fd466a93f68b?w=600&q=80&auto=format&fit=crop',
       uses: ['Rent & housing', 'Medical expenses', 'Family needs', 'Debt consolidation'],
     },
     {
@@ -67,7 +66,7 @@ const LoanPolicy: React.FC = () => {
       tenure: 'Up to 36 months',
       color: palette.info.dark,
       accent: palette.info.main,
-      img: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=500&q=80',
+      img: 'https://images.unsplash.com/photo-1687422809069-0fa3546b8471?w=600&q=80&auto=format&fit=crop',
       uses: ['Working capital', 'Equipment purchase', 'Inventory & stock', 'Business growth'],
     },
     {
@@ -77,7 +76,7 @@ const LoanPolicy: React.FC = () => {
       tenure: 'Up to 12 months',
       color: palette.secondary.dark,
       accent: palette.secondary.main,
-      img: 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=500&q=80',
+      img: 'https://images.unsplash.com/photo-1761234852472-85aeea9c3eac?w=600&q=80&auto=format&fit=crop',
       uses: ['Medical emergencies', 'Urgent travel', 'Unexpected repairs', 'Family crises'],
     },
     {
@@ -87,7 +86,7 @@ const LoanPolicy: React.FC = () => {
       tenure: 'Up to 30 months',
       color: palette.info.dark,
       accent: '#00897B',
-      img: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=500&q=80',
+      img: 'https://images.unsplash.com/photo-1618355776464-8666794d2520?w=600&q=80&auto=format&fit=crop',
       uses: ['University tuition', 'Professional courses', 'Certifications', 'Study materials'],
     },
   ];
@@ -106,27 +105,27 @@ const LoanPolicy: React.FC = () => {
   const applicationSteps = [
     {
       num: '01', title: 'Submit Application',
-      desc: 'Log in to your member dashboard, select the loan product, enter the amount and duration, and submit your application form.',
+      desc: 'Contact the cooperative office or our loans desk, choose the loan product, state the amount and duration, and complete the loan application form.',
       color: palette.primary.dark, accent: palette.primary.main,
-      img: 'https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=400&q=80',
+      img: 'https://images.unsplash.com/photo-1603796846097-bee99e4a601f?w=600&q=80&auto=format&fit=crop',
     },
     {
       num: '02', title: 'Document Verification',
       desc: 'The Loans Committee verifies your identity, savings history, and existing obligations. No physical documents needed for existing members.',
       color: palette.info.dark, accent: palette.info.main,
-      img: 'https://images.unsplash.com/photo-1568992688065-536aad8a12f6?w=400&q=80',
+      img: 'https://images.unsplash.com/photo-1583521214690-73421a1829a9?w=600&q=80&auto=format&fit=crop',
     },
     {
       num: '03', title: 'Committee Review',
       desc: 'Applications are reviewed by the elected Loans Committee within 48 hours. You receive notification via SMS and email.',
       color: palette.secondary.dark, accent: palette.secondary.main,
-      img: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=400&q=80',
+      img: 'https://images.unsplash.com/photo-1573164574511-73c773193279?w=600&q=80&auto=format&fit=crop',
     },
     {
       num: '04', title: 'Disbursement',
       desc: 'Approved funds are disbursed directly to your registered bank account within 24 hours of approval confirmation.',
       color: palette.info.dark, accent: '#00897B',
-      img: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&q=80',
+      img: 'https://images.unsplash.com/photo-1512428559087-560fa5ceab42?w=600&q=80&auto=format&fit=crop',
     },
   ];
 
@@ -147,17 +146,17 @@ const LoanPolicy: React.FC = () => {
   const testimonials = [
     {
       quote: "I read the policy before applying and everything was exactly as stated. No surprise charges, no hidden terms. The transparency is what makes this cooperative trustworthy.",
-      name: 'Emeka Adeyemi', role: 'Business Loan Member', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80',
+      name: 'Emeka Adeyemi', role: 'Business Loan Member',
       tag: 'Transparency', color: palette.primary.dark,
     },
     {
       quote: "I had difficulty repaying during a hard month. The Loans Committee worked with me to restructure — no judgment, just genuine cooperative support.",
-      name: 'Adaeze Nwosu', role: 'Personal Loan Member', img: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=100&q=80',
+      name: 'Adaeze Nwosu', role: 'Personal Loan Member',
       tag: 'Member Support', color: palette.info.dark,
     },
     {
       quote: "The 8% education loan rate is unbeatable anywhere in Nigeria. I read the policy, applied within the hour, and had my funds in 48 hours. Incredible.",
-      name: 'Funke Balogun', role: 'Education Loan Member', img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80',
+      name: 'Funke Balogun', role: 'Education Loan Member',
       tag: 'Fast Disbursement', color: palette.secondary.dark,
     },
   ];
@@ -247,7 +246,7 @@ const LoanPolicy: React.FC = () => {
             {/* Photo */}
             <Box sx={{ position: 'relative', display: { xs: 'none', md: 'block' } }}>
               <Box sx={{ borderRadius: `${br * 2}px`, overflow: 'hidden', height: 420, position: 'relative', '&:hover img': { transform: 'scale(1.04)' } }}>
-                <Box component="img" src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=700&q=80" alt="Loan policy" sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }} />
+                <Box component="img" src={'https://images.unsplash.com/photo-1763729805496-b5dbf7f00c79?w=800&q=80&auto=format&fit=crop'} alt="Signing the approved loan policy" sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }} />
                 <Box sx={{ position: 'absolute', inset: 0, background: `linear-gradient(135deg, ${palette.primary.dark}25, transparent 60%)` }} />
               </Box>
               {/* Floating badge */}
@@ -261,8 +260,8 @@ const LoanPolicy: React.FC = () => {
                 </Box>
               </Box>
               {/* Second decorative image */}
-              <Box sx={{ position: 'absolute', top: 20, right: -24, width: 120, height: 120, borderRadius: `${br * 2}px`, overflow: 'hidden', border: `4px solid ${palette.background.default}`, boxShadow: '0 12px 36px rgba(0,0,0,0.12)', '&:hover img': { transform: 'scale(1.06)' } }}>
-                <Box component="img" src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=240&q=80" alt="" sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s cubic-bezier(0.22,1,0.36,1)' }} />
+              <Box sx={{ position: 'absolute', top: 20, right: -24, width: 120, height: 120, borderRadius: `${br * 2}px`, overflow: 'hidden', border: `4px solid ${palette.background.default}`, boxShadow: '0 12px 32px rgba(0,0,0,0.12)' }}>
+                <Box component="img" src={'https://images.unsplash.com/photo-1772588627373-729b0f47e5bb?w=240&q=80&auto=format&fit=crop'} alt="" sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </Box>
             </Box>
 
@@ -345,7 +344,9 @@ const LoanPolicy: React.FC = () => {
               }}>
                 {/* Image strip */}
                 <Box sx={{ height: 140, overflow: 'hidden', position: 'relative' }}>
-                  <Box className="lp-img" component="img" src={p.img} alt={p.name} sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }} />
+                  {p.img && (
+                    <Box className="lp-img" component="img" src={p.img} alt={p.name} sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }} />
+                  )}
                   <Box sx={{ position: 'absolute', inset: 0, background: `linear-gradient(135deg, ${p.color}55, transparent 60%)` }} />
                   {/* Rate badge */}
                   <Box sx={{ position: 'absolute', bottom: 12, right: 12, background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(10px)', borderRadius: `${br}px`, px: 1.5, py: 0.75, display: 'flex', alignItems: 'center', gap: 0.75 }}>
@@ -450,7 +451,7 @@ const LoanPolicy: React.FC = () => {
             <Box>
               {/* Photo */}
               <Box sx={{ borderRadius: `${br * 2}px`, overflow: 'hidden', height: 220, mb: 3, position: 'relative', '&:hover img': { transform: 'scale(1.04)' } }}>
-                <Box component="img" src="https://images.unsplash.com/photo-1560264280-88b68371db39?w=700&q=80" alt="Eligibility" sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }} />
+                <Box component="img" src={'https://images.unsplash.com/photo-1573164574572-cb89e39749b4?w=800&q=80&auto=format&fit=crop'} alt="Loans Committee reviewing eligibility" sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }} />
                 <Box sx={{ position: 'absolute', inset: 0, background: `linear-gradient(135deg, ${palette.primary.dark}35, transparent 55%)` }} />
                 <Box sx={{ position: 'absolute', bottom: 16, left: 16, background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(10px)', borderRadius: `${br}px`, px: 2, py: 1, display: 'flex', alignItems: 'center', gap: 1 }}>
                   <SecurityOutlinedIcon sx={{ fontSize: 15, color: palette.primary.main }} />
@@ -513,7 +514,7 @@ const LoanPolicy: React.FC = () => {
               <Box component="span" sx={{ fontStyle: 'italic', fontWeight: 300, color: palette.primary.main }}>to Disbursement</Box>
             </Typography>
             <Typography variant="body1" sx={{ color: palette.text.secondary, fontWeight: 300, maxWidth: 480, mx: 'auto' }}>
-              Four clearly defined steps — completed entirely online from your member dashboard.
+              Four clearly defined steps, from application to disbursement.
             </Typography>
           </Box>
 
@@ -550,7 +551,9 @@ const LoanPolicy: React.FC = () => {
                 </Box>
                 {/* Image */}
                 <Box sx={{ order: { xs: 1, md: i % 2 === 0 ? 2 : 1 }, minHeight: { xs: 180, md: 'auto' }, overflow: 'hidden', position: 'relative' }}>
-                  <Box className="as-img" component="img" src={step.img} alt={step.title} sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }} />
+                  {step.img && (
+                    <Box className="as-img" component="img" src={step.img} alt={step.title} sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }} />
+                  )}
                   <Box sx={{ position: 'absolute', inset: 0, background: `linear-gradient(135deg, ${step.color}25, transparent 60%)` }} />
                 </Box>
               </Box>
@@ -603,7 +606,7 @@ const LoanPolicy: React.FC = () => {
 
           {/* Repayment photo strip */}
           <Box sx={{ borderRadius: `${br * 2}px`, overflow: 'hidden', height: 220, position: 'relative', '&:hover img': { transform: 'scale(1.03)' } }}>
-            <Box component="img" src="https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=1200&q=80" alt="Repayment" sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }} />
+            <Box component="img" src={'https://images.unsplash.com/photo-1435527173128-983b87201f4d?w=1200&q=80&auto=format&fit=crop'} alt="Monthly repayment planner" sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }} />
             <Box sx={{ position: 'absolute', inset: 0, background: `linear-gradient(90deg, ${palette.primary.dark}80 0%, ${palette.primary.dark}20 100%)` }} />
             <Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', px: { xs: 4, md: 8 } }}>
               <Box>
@@ -678,12 +681,8 @@ const LoanPolicy: React.FC = () => {
             <Box>
               {/* Enforcement photo */}
               <Box sx={{ borderRadius: `${br * 2}px`, overflow: 'hidden', height: 240, mb: 3, position: 'relative', '&:hover img': { transform: 'scale(1.04)' } }}>
-                <Box component="img" src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=700&q=80" alt="Legal enforcement" sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }} />
+                <Box component="img" src={'https://images.unsplash.com/photo-1589391886645-d51941baf7fb?w=800&q=80&auto=format&fit=crop'} alt="Gavel representing fair enforcement" sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }} />
                 <Box sx={{ position: 'absolute', inset: 0, background: `linear-gradient(135deg, ${palette.primary.dark}35, transparent 55%)` }} />
-                <Box sx={{ position: 'absolute', bottom: 16, left: 16, background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(10px)', borderRadius: `${br}px`, px: 2, py: 1, display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <AssignmentOutlinedIcon sx={{ fontSize: 15, color: palette.primary.main }} />
-                  <Typography variant="caption" sx={{ fontWeight: 600, color: palette.text.primary, fontFamily: typography.fontFamily }}>Documented & transparent process</Typography>
-                </Box>
               </Box>
 
               {/* Appeal rights */}
@@ -776,7 +775,9 @@ const LoanPolicy: React.FC = () => {
                   <Typography variant="body2" sx={{ color: i === 1 ? 'rgba(255,255,255,0.88)' : palette.text.secondary, lineHeight: 1.85, mb: 3.5, fontSize: '0.95rem' }}>{t.quote}</Typography>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                     <Box sx={{ width: 46, height: 46, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: `2px solid ${i === 1 ? 'rgba(255,255,255,0.3)' : t.color + '30'}` }}>
-                      <Box component="img" src={t.img} alt={t.name} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <Box sx={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: '0.9rem', background: i === 1 ? 'rgba(255,255,255,0.12)' : `${t.color}14`, color: i === 1 ? '#fff' : t.color }}>
+                      {t.name.split(' ').map((part: string) => part[0]).join('').slice(0, 2)}
+                    </Box>
                     </Box>
                     <Box>
                       <Typography variant="body2" sx={{ fontWeight: 600, color: i === 1 ? '#fff' : palette.text.primary }}>{t.name}</Typography>
@@ -797,7 +798,7 @@ const LoanPolicy: React.FC = () => {
           <Box key={i} sx={{ position: 'absolute', width: b.size, height: b.size, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.07), transparent 70%)', top: b.top, bottom: b.bottom, right: b.right, left: b.left, pointerEvents: 'none' }} />
         ))}
         <Box sx={{ position: 'absolute', right: { md: 60 }, top: '50%', transform: 'translateY(-50%)', width: 260, height: 260, borderRadius: '50%', overflow: 'hidden', opacity: 0.1, display: { xs: 'none', md: 'block' }, pointerEvents: 'none' }}>
-          <Box component="img" src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=520&q=80" alt="" sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <Box component="img" src={'https://images.unsplash.com/photo-1672380135241-c024f7fbfa13?w=520&q=80&auto=format&fit=crop'} alt="" sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </Box>
         <Container maxWidth="md" sx={{ position: 'relative', zIndex: 2 }}>
           <Box sx={{ textAlign: 'center' }}>
@@ -808,7 +809,7 @@ const LoanPolicy: React.FC = () => {
               </Box>
             </Typography>
             <Typography variant="subtitle1" sx={{ color: 'rgba(255,255,255,0.62)', mb: 6, maxWidth: 520, mx: 'auto', fontWeight: 300 }}>
-              Now that you understand the policy, log in to apply. Transparent rates, clear terms,
+              Now that you understand the policy, get in touch to apply. Transparent rates, clear terms,
               and a Loans Committee that genuinely works for members.
             </Typography>
             {false && (
@@ -825,7 +826,7 @@ const LoanPolicy: React.FC = () => {
             )}
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
               <Box sx={{ display: 'flex' }}>
-                {['https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=60&q=80', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&q=80', 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&q=80', 'https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=60&q=80'].map((img, i) => (
+                {memberAvatars.map((img, i) => (
                   <Box key={i} sx={{ width: 36, height: 36, borderRadius: '50%', overflow: 'hidden', border: '2px solid rgba(255,255,255,0.4)', ml: i > 0 ? -1.5 : 0, position: 'relative', zIndex: 4 - i }}>
                     <Box component="img" src={img} alt="" sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </Box>

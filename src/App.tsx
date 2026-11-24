@@ -3,14 +3,12 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Navigate,
   useLocation,
 } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Box, CircularProgress } from '@mui/material';
 import { theme } from './theme/theme';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 // Layout
 import Navbar from './components/layout/Navbar';
@@ -29,18 +27,6 @@ const Apply = lazy(() => import('./pages/public/Apply'));
 const LoanCalculator = lazy(() => import('./pages/public/LoanCalculator'));
 const Downloads = lazy(() => import('./pages/public/Downloads'));
 const Newsletter = lazy(() => import('./pages/public/Newsletter'));
-
-// Auth Pages
-const Login = lazy(() => import('./pages/auth/Login'));
-const Register = lazy(() => import('./pages/auth/Register'));
-
-// Dashboard Pages
-const Dashboard = lazy(() => import('./pages/dashboard/Dashboard'));
-const Savings = lazy(() => import('./pages/dashboard/Savings'));
-const Loans = lazy(() => import('./pages/dashboard/Loans'));
-const LoanApplication = lazy(() => import('./pages/dashboard/LoanApplication'));
-const LoanDetails = lazy(() => import('./pages/dashboard/LoanDetails'));
-const Statements = lazy(() => import('./pages/dashboard/Statements'));
 const Governance = lazy(() => import('./pages/public/Governance'));
 const PrivacyPolicy = lazy(() => import('./pages/public/PrivacyPolicy'));
 const TermsAndConditions = lazy(() => import('./pages/public/TermsAndConditions'));
@@ -50,16 +36,6 @@ const Gallery = lazy(() => import('./pages/public/Gallery'));
 const Businesses = lazy(() => import('./pages/public/Businesses'));
 const BusinessSubmission = lazy(() => import('./pages/public/BusinessSubmission'));
 const ExcoMember = lazy(() => import('./pages/public/ExcoMember'));
-
-// Admin Pages
-const AdminDashboard = lazy(() => import('./pages/Admin/AdminDashboard'));
-const MemberManagement = lazy(() => import('./pages/Admin/MemberManagement'));
-const LoanApprovals = lazy(() => import('./pages/Admin/LoanApprovals'));
-
-// Layout wrappers
-import DashboardLayout from './components/layout/DashboardLayout';
-import AdminLayout from './components/layout/AdminLayout';
-
 
 // =============================
 // Scroll To Top Component
@@ -79,105 +55,9 @@ const ScrollToTop: React.FC = () => {
 
 
 // =============================
-// Protected Route Component
-// =============================
-const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { user, loading } = useAuth();
-
-  if (loading) {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          minHeight: '80vh',
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
-
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
-
-  return <>{children}</>;
-};
-
-
-// =============================
-// Admin Route Component
-// =============================
-const AdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { user, userRole, loading } = useAuth();
-
-  if (loading) {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          minHeight: '80vh',
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
-
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
-
-  if (userRole !== 'admin') {
-    return <Navigate to="/dashboard" replace />;
-  }
-
-  return <>{children}</>;
-};
-
-const UnauthenticatedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { user, userRole, loading } = useAuth();
-
-  if (loading) {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          minHeight: '80vh',
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
-
-  if (user) {
-    return <Navigate to={userRole === 'admin' ? '/admin' : '/dashboard'} replace />;
-  }
-
-  return <>{children}</>;
-};
-
-
-// =============================
 // Routes + Layout Wrapper
 // =============================
 const AppRoutes: React.FC = () => {
-  const location = useLocation();
-  const { userRole } = useAuth();
-
-  const hideLayout =
-  location.pathname.startsWith('/dashboard') ||
-  location.pathname.startsWith('/admin') ||
-  location.pathname === '/login' ||
-  location.pathname === '/register';
-
   const renderSuspenseFallback = () => (
     <Box
       sx={{
@@ -200,7 +80,7 @@ const AppRoutes: React.FC = () => {
       }}
     >
       <FloatingIcons />
-  {!hideLayout && <Navbar />}
+      <Navbar />
 
       <Box sx={{ flex: 1, position: 'relative', zIndex: 1 }}>
         <Suspense fallback={renderSuspenseFallback()}>
@@ -225,96 +105,13 @@ const AppRoutes: React.FC = () => {
           <Route path="/businesses" element={<Businesses />} />
           <Route path="/business-submission" element={<BusinessSubmission />} />
 
-          {/* Auth Routes */}
-          <Route path="/login" element={<UnauthenticatedRoute><Login /></UnauthenticatedRoute>} />
-          <Route path="/register" element={<UnauthenticatedRoute><Register /></UnauthenticatedRoute>} />
-
-          {/* Dashboard Routes */}
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout>
-                  {userRole === 'admin' ? <Navigate to="/admin" replace /> : <Dashboard />}
-                </DashboardLayout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/dashboard/savings"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout><Savings /></DashboardLayout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/dashboard/loans"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout><Loans /></DashboardLayout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/dashboard/loans/apply"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout><LoanApplication /></DashboardLayout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/dashboard/loans/:loanId"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout><LoanDetails /></DashboardLayout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/dashboard/statements"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout><Statements /></DashboardLayout>
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Admin Routes */}
-          <Route
-            path="/admin"
-            element={
-              <AdminRoute>
-                <AdminLayout><AdminDashboard /></AdminLayout>
-              </AdminRoute>
-            }
-          />
-          <Route
-            path="/admin/members"
-            element={
-              <AdminRoute>
-                <AdminLayout><MemberManagement /></AdminLayout>
-              </AdminRoute>
-            }
-          />
-          <Route
-            path="/admin/loans"
-            element={
-              <AdminRoute>
-                <AdminLayout><LoanApprovals /></AdminLayout>
-              </AdminRoute>
-            }
-          />
-
           {/* Catch All */}
-<Route path="*" element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
         </Suspense>
       </Box>
 
-      {/* Hide footer on dashboard, admin & login */}
-  {!hideLayout && <Box sx={{ position: 'relative', zIndex: 1 }}><Footer /></Box>}
+      <Box sx={{ position: 'relative', zIndex: 1 }}><Footer /></Box>
     </Box>
   );
 };
@@ -327,12 +124,10 @@ const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AuthProvider>
-        <Router>
-          <ScrollToTop />
-          <AppRoutes />
-        </Router>
-      </AuthProvider>
+      <Router>
+        <ScrollToTop />
+        <AppRoutes />
+      </Router>
     </ThemeProvider>
   );
 };

@@ -10,7 +10,7 @@ import lifeCodebridge1 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-41
 import heroPhoto from '../../assets/life@codebridge/PHOTO-2026-08-29-19-45-04.jpg';
 import lifeCodebridge3 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-42-28.jpg';
 import lifeCodebridge4 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-43-28.jpg';
-import lifeCodebridge5 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-44-27.jpg';
+import membersLaughing from '../../assets/life@codebridge/PHOTO-2026-08-29-19-42-06.jpg';
 import SavingsOutlinedIcon from '@mui/icons-material/SavingsOutlined';
 import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
 import VolunteerActivismOutlinedIcon from '@mui/icons-material/VolunteerActivismOutlined';
@@ -385,7 +385,7 @@ const Home: React.FC = () => {
             </Button>
           </Box>
           <Box sx={{ order: { xs: 1, md: 2 } }}>
-            {imageTile(lifeCodebridge5, 'CodeBridge members at an event', { xs: 340, md: '100%' })}
+            {imageTile(membersLaughing, 'CodeBridge members laughing together in matching attire', { xs: 340, md: '100%' })}
           </Box>
         </Box>
 

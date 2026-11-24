@@ -11,6 +11,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import { photos } from '../../data/photos';
 
 const Footer: React.FC = () => {
   const theme = useTheme();
@@ -191,9 +192,9 @@ const Footer: React.FC = () => {
             {/* Photo strip */}
             <Box sx={{ display: 'flex', mb: 4, gap: 1.5 }}>
               {[
-                'https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=120&q=80',
-                'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=120&q=80',
-                'https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=120&q=80',
+                photos.membersFullGroup,
+                photos.membersLaughing,
+                photos.twoMembers,
               ].map((img, i) => (
                 <Box key={i} sx={{
                   width: 64, height: 64, borderRadius: `${br}px`, overflow: 'hidden',

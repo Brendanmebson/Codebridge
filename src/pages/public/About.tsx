@@ -32,6 +32,7 @@ import photo8 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-45-03.jpg';
 import photo9 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-45-03_1.jpg';
 import photo10 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-45-04.jpg';
 import photo11 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-45-04_1.jpg';
+import { photos, memberAvatars } from '../../data/photos';
 
 // --- Intersection observer fade-in hook ---
 function useFadeIn() {
@@ -307,8 +308,8 @@ const About: React.FC = () => {
                 boxShadow: '0 24px 72px rgba(0,0,0,0.1)',
               }}>
                 <Box component="img"
-                  src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=600&q=80"
-                  alt="Community gathering"
+                  src={photos.membersGroupOfFive}
+                  alt="CodeBridge members together"
                   sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </Box>
@@ -319,8 +320,8 @@ const About: React.FC = () => {
                 border: `5px solid ${palette.background.default}`,
               }}>
                 <Box component="img"
-                  src="https://images.unsplash.com/photo-1560264280-88b68371db39?w=400&q=80"
-                  alt="Team working"
+                  src={'https://images.unsplash.com/photo-1509099955921-f0b4ed0c175c?w=800&q=80&auto=format&fit=crop'}
+                  alt="Women of the community together"
                   sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </Box>
@@ -332,8 +333,8 @@ const About: React.FC = () => {
                 border: `4px solid ${palette.background.default}`,
               }}>
                 <Box component="img"
-                  src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=300&q=80"
-                  alt="Financial meeting"
+                  src={'https://images.unsplash.com/photo-1739298061740-5ed03045b280?w=800&q=80&auto=format&fit=crop'}
+                  alt="Members in discussion around a meeting table"
                   sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </Box>
@@ -1134,7 +1135,7 @@ const About: React.FC = () => {
           opacity: 0.1, display: { xs: 'none', md: 'block' }, pointerEvents: 'none',
         }}>
           <Box component="img"
-            src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=520&q=80"
+            src={'https://images.unsplash.com/photo-1655720359248-eeace8c709c5?w=520&q=80&auto=format&fit=crop'}
             alt="" sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
         </Box>
@@ -1186,12 +1187,7 @@ const About: React.FC = () => {
             {/* Social proof avatars */}
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
               <Box sx={{ display: 'flex' }}>
-                {[
-                  'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=60&q=80',
-                  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&q=80',
-                  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&q=80',
-                  'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=60&q=80',
-                ].map((img, i) => (
+                {memberAvatars.map((img, i) => (
                   <Box key={i} sx={{
                     width: 36, height: 36, borderRadius: '50%', overflow: 'hidden',
                     border: '2px solid rgba(255,255,255,0.4)',
