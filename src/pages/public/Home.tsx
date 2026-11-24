@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import presidentPhoto from '../../assets/members/president.jpg';
 import treasurerPhoto from '../../assets/members/Treasurer.jpg';
 import { businesses } from './Businesses';
-import { photos, poultryVideos } from '../../data/photos';
+import { photos } from '../../data/photos';
 import lifeCodebridge1 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-41-31.jpg';
 import heroPhoto from '../../assets/life@codebridge/PHOTO-2026-08-29-19-45-04.jpg';
 import lifeCodebridge3 from '../../assets/life@codebridge/PHOTO-2026-08-29-19-42-28.jpg';
@@ -106,13 +106,6 @@ const Home: React.FC = () => {
     { step: '03', title: 'Access Benefits', desc: 'Unlock loans, dividends, and welfare support as an active member.' },
     { step: '04', title: 'Grow Together', desc: 'Take part in governance, referrals, and community investment programmes.' },
   ];
-
-  const [rotIndex, setRotIndex] = useState(0);
-  const rotImages = [photos.poultryFarm, poultryVideos[0]];
-  useEffect(() => {
-    const id = window.setInterval(() => setRotIndex((p) => (p + 1) % rotImages.length), 3500);
-    return () => window.clearInterval(id);
-  }, [rotImages.length]);
 
   const selectedBusinesses = businesses.filter((b) =>
     ['Brainiac Academy', 'Oladoja Alaso Ebi'].includes(b.businessName || b.name),
@@ -344,18 +337,8 @@ const Home: React.FC = () => {
         {/* ── SERVICES BENTO ───────────────────────────────────── */}
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap }}>
           <Box sx={{ position: 'relative', borderRadius: radius, overflow: 'hidden', minHeight: { xs: 320, md: 'auto' } }}>
-            {rotImages.map((src, i) => {
-              const mediaSx = {
-                position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover',
-                opacity: i === rotIndex ? 1 : 0, transition: 'opacity 1s ease',
-              } as const;
-              return src.endsWith('.mp4') ? (
-                <Box key={i} component="video" src={src} autoPlay muted loop playsInline
-                  aria-label="A member's poultry farm" sx={mediaSx} />
-              ) : (
-                <Box key={i} component="img" src={src} alt="A member's poultry farm" sx={mediaSx} />
-              );
-            })}
+            <Box component="img" src={photos.poultryFarm} alt="A member's poultry farm"
+              sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
           </Box>
 
           <Box sx={{ background: palette.primary.main, borderRadius: radius, p: { xs: 3.5, md: 5 }, color: '#fff' }}>
