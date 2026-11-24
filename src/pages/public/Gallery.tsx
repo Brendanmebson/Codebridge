@@ -9,7 +9,15 @@ import {
   useTheme,
   Chip,
 } from '@mui/material';
-import { photos } from '../../data/photos';
+import { photos, poultryVideos } from '../../data/photos';
+
+type GalleryItem = {
+  title: string;
+  category: string;
+  img?: string;
+  video?: string;
+  description: string;
+};
 
 const Gallery: React.FC = () => {
   const theme = useTheme();
@@ -17,7 +25,7 @@ const Gallery: React.FC = () => {
 
   const heroGradient = `linear-gradient(160deg, ${palette.primary.main} 0%, ${palette.primary.dark} 100%)`;
 
-  const galleryItems = [
+  const galleryItems: GalleryItem[] = [
     {
       title: 'One Cooperative Family',
       category: 'Community',
@@ -45,15 +53,15 @@ const Gallery: React.FC = () => {
     {
       title: 'A Member\'s Poultry Farm',
       category: 'Member Business',
-      img: photos.poultryAisle,
+      img: photos.poultryFarm,
       description: 'A member-run poultry farm, one of the enterprises our members are building with the support of the cooperative.',
     },
-    {
-      title: 'Growing the Flock',
+    ...poultryVideos.map((video, i) => ({
+      title: `On the Farm: Clip ${i + 1}`,
       category: 'Member Business',
-      img: photos.poultryPen,
-      description: 'Young birds being raised on a member\'s farm as the business expands.',
-    },
+      video,
+      description: 'A look inside a member\'s poultry farm and the work that keeps it running.',
+    })),
   ];
 
   return (
@@ -170,16 +178,34 @@ const Gallery: React.FC = () => {
                 }}
               >
                 <Box sx={{ position: 'relative', overflow: 'hidden' }}>
-                  <CardMedia
-                    component="img"
-                    height="240"
-                    image={item.img}
-                    alt={item.title}
-                    sx={{
-                      transition: 'transform 0.5s ease',
-                      objectFit: 'cover',
-                    }}
-                  />
+                  {item.video ? (
+                    <CardMedia
+                      component="video"
+                      src={item.video}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                      aria-label={item.title}
+                      sx={{
+                        height: 240,
+                        transition: 'transform 0.5s ease',
+                        objectFit: 'cover',
+                      }}
+                    />
+                  ) : (
+                    <CardMedia
+                      component="img"
+                      height="240"
+                      image={item.img}
+                      alt={item.title}
+                      sx={{
+                        transition: 'transform 0.5s ease',
+                        objectFit: 'cover',
+                      }}
+                    />
+                  )}
                   <Box
                     sx={{
                       position: 'absolute',
